@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+	<metadata>
+		<id>SeetaFace6Sharp.model.fas_second</id>
+		<version>0.0.0</version>
+		<authors>SeetaFace6Sharp, View, SeetaTech</authors>
+		<owners>SeetaFace6Sharp</owners>
+		<requireLicenseAcceptance>true</requireLicenseAcceptance>
+		<license type="file">SeetaFace_LICENSE</license>
+		<icon>Logo.png</icon>
+		<description>SeetaFace model 'fas_second' for SeetaFace6Sharp</description>
+	</metadata>
+	<files>
+		<file src="fas_second.csta" target="build\runtimes\models\fas_second.csta" />
+		<file src="SeetaFace6Sharp.model.fas_second.targets" target="build\SeetaFace6Sharp.model.fas_second.targets" />
+		<file src="..\..\..\..\assets\logos\Logo.png" target="Logo.png" />
+		<file src="..\..\..\..\SeetaFace_LICENSE" target="SeetaFace_LICENSE" />
+	</files>
+</package>

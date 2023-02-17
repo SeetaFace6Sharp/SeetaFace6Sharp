@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<!--Library Info-->
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.0;netcoreapp3.1;net5.0;net6.0;net7.0</TargetFrameworks>
+		<Platforms>AnyCPU;x86;x64</Platforms>
+		<Authors>SeetaFace6Sharp, View</Authors>
+		<Version>1.0.1</Version>
+		<OutputType>Library</OutputType>
+		<LangVersion>latest</LangVersion>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	</PropertyGroup>
+
+	<!--Package Info-->
+	<ItemGroup>
+		<None Include="..\..\..\LICENSE" Pack="true" PackagePath="" />
+		<None Include="README.md" Pack="true" PackagePath="" />
+		<None Include="..\..\..\assets\logos\Logo.png" Pack="true" PackagePath="" />
+	</ItemGroup>
+
+	<PropertyGroup>
+		<PackageId>SeetaFace6Sharp</PackageId>
+		<Authors>SeetaFace6Sharp</Authors>
+		<PackageTags>seetaface face-identification face-recognition 人脸识别</PackageTags>
+		<PackageVersion>$(Version)</PackageVersion>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+		<PackageIcon>Logo.png</PackageIcon>
+		<PackageProjectUrl>https://github.com/SeetaFace6Sharp/SeetaFace6Sharp</PackageProjectUrl>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<Description>一个基于 SeetaFace6 实现的 .NET 平台的人脸识别库。支持 Windows(x64/x86)、Linux(arm/arm64/x64)。</Description>
+		<PackageReleaseNotes></PackageReleaseNotes>
+
+	</PropertyGroup>
+
+</Project>
+

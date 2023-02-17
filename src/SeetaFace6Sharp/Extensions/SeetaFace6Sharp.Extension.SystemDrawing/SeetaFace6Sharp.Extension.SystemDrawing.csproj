@@ -1,0 +1,49 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<!--Library Info-->
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<Authors>SeetaFace6Sharp, View</Authors>
+		<Version>1.0.1</Version>
+		<OutputType>Library</OutputType>
+		<LangVersion>latest</LangVersion>
+		<Platforms>AnyCPU;x64;x86</Platforms>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)'=='Release'">
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	</PropertyGroup>
+
+	<!--Package Reference-->
+	<ItemGroup>
+		<PackageReference Include="System.Drawing.Common" Version="5.0.3" />
+	</ItemGroup>
+
+	<!--Project Reference-->
+	<ItemGroup>
+		<ProjectReference Include="..\..\SeetaFace6Sharp\SeetaFace6Sharp.csproj" />
+	</ItemGroup>
+
+	<!--Package Info-->
+	<ItemGroup>
+		<None Include="..\..\..\..\assets\logos\Logo.png" Link="Logo.png">
+			<PackagePath></PackagePath>
+			<Pack>true</Pack>
+		</None>
+		<None Include="..\..\..\..\LICENSE" Pack="true" PackagePath="" />
+	</ItemGroup>
+
+	<PropertyGroup>
+		<PackageId>SeetaFace6Sharp.Extension.SystemDrawing</PackageId>
+		<Authors>SeetaFace6Sharp, View</Authors>
+		<PackageTags>seetaface face-identification face-recognition 人脸识别</PackageTags>
+		<PackageVersion>$(Version)</PackageVersion>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+		<PackageIcon>Logo.png</PackageIcon>
+		<PackageProjectUrl>https://github.com/SeetaFace6Sharp/SeetaFace6Sharp</PackageProjectUrl>
+		<Description>SeetaFace6Sharp 的 System.Drawing 实现。</Description>
+		<PackageReleaseNotes></PackageReleaseNotes>
+	</PropertyGroup>
+
+</Project>

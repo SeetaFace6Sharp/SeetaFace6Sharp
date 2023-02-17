@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+	<metadata>
+		<id>SeetaFace6Sharp.model.gender_predictor</id>
+		<version>0.0.0</version>
+		<authors>SeetaFace6Sharp, View, SeetaTech</authors>
+		<owners>SeetaFace6Sharp</owners>
+		<requireLicenseAcceptance>true</requireLicenseAcceptance>
+		<license type="file">SeetaFace_LICENSE</license>
+		<icon>Logo.png</icon>
+		<description>SeetaFace model 'gender_predictor' for SeetaFace6Sharp</description>
+	</metadata>
+	<files>
+		<file src="gender_predictor.csta" target="build\runtimes\models\gender_predictor.csta" />
+		<file src="SeetaFace6Sharp.model.gender_predictor.targets" target="build\SeetaFace6Sharp.model.gender_predictor.targets" />
+		<file src="..\..\..\..\assets\logos\Logo.png" target="Logo.png" />
+		<file src="..\..\..\..\SeetaFace_LICENSE" target="SeetaFace_LICENSE" />
+	</files>
+</package>

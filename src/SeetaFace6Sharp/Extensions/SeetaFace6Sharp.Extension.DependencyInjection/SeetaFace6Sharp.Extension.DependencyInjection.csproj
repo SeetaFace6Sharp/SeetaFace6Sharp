@@ -1,0 +1,53 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<Authors>SeetaFace6Sharp</Authors>
+		<Version>1.0.1</Version>
+		<OutputType>Library</OutputType>
+		<LangVersion>latest</LangVersion>
+		<Platforms>AnyCPU;x64;x86</Platforms>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)'=='Release'">
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="7.0.0">
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="7.0.2">
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0">
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.Extensions.Options" Version="7.0.0">
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+	</ItemGroup>
+
+	<!--Package Info-->
+	<ItemGroup>
+		<None Include="..\..\..\..\LICENSE" Pack="true" PackagePath="" />
+		<None Include="..\..\..\..\assets\logos\Logo.png" Pack="true" PackagePath="" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\SeetaFace6Sharp\SeetaFace6Sharp.csproj" />
+	</ItemGroup>
+
+	<PropertyGroup>
+		<PackageId>SeetaFace6Sharp.Extension.DependencyInjection</PackageId>
+		<Authors>SeetaFace6Sharp</Authors>
+		<PackageTags>seetaface face-identification face-recognition 人脸识别</PackageTags>
+		<PackageVersion>$(Version)</PackageVersion>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+		<PackageIcon>Logo.png</PackageIcon>
+		<PackageProjectUrl>https://github.com/SeetaFace6Sharp/SeetaFace6Sharp</PackageProjectUrl>
+		<Description>SeetaFace6Sharp 的依赖注入扩展。</Description>
+		<PackageReleaseNotes></PackageReleaseNotes>
+	</PropertyGroup>
+
+</Project>

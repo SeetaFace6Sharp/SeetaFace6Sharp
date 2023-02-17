@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+	<metadata>
+		<id>SeetaFace6Sharp.model.all</id>
+		<version>0.0.0</version>
+		<authors>SeetaFace6Sharp, View, SeetaTech</authors>
+		<owners>SeetaFace6Sharp</owners>
+		<requireLicenseAcceptance>true</requireLicenseAcceptance>
+		<license type="file">SeetaFace_LICENSE</license>
+		<icon>Logo.png</icon>
+		<description>SeetaFace all model for SeetaFace6Sharp</description>
+		<dependencies>
+			<dependency id="SeetaFace6Sharp.model.age_predictor" version="$version$" exclude="Analyzers" />
+			<dependency id="SeetaFace6Sharp.model.eye_state" version="$version$" exclude="Analyzers" />
+			<dependency id="SeetaFace6Sharp.model.face_detector" version="$version$" exclude="Analyzers" />
+			<dependency id="SeetaFace6Sharp.model.face_landmarker_mask_pts5" version="$version$" exclude="Analyzers" />
+			<dependency id="SeetaFace6Sharp.model.face_landmarker_pts5" version="$version$" exclude="Analyzers" />
+			<dependency id="SeetaFace6Sharp.model.face_landmarker_pts68" version="$version$" exclude="Analyzers" />
+			<dependency id="SeetaFace6Sharp.model.face_recognizer" version="$version$" exclude="Analyzers" />
+			<dependency id="SeetaFace6Sharp.model.face_recognizer_light" version="$version$" exclude="Analyzers" />
+			<dependency id="SeetaFace6Sharp.model.face_recognizer_mask" version="$version$" exclude="Analyzers" />
+			<dependency id="SeetaFace6Sharp.model.fas_first" version="$version$" exclude="Analyzers" />
+			<dependency id="SeetaFace6Sharp.model.fas_second" version="$version$" exclude="Analyzers" />
+			<dependency id="SeetaFace6Sharp.model.gender_predictor" version="$version$" exclude="Analyzers" />
+			<dependency id="SeetaFace6Sharp.model.mask_detector" version="$version$" exclude="Analyzers" />
+			<dependency id="SeetaFace6Sharp.model.pose_estimation" version="$version$" exclude="Analyzers" />
+			<dependency id="SeetaFace6Sharp.model.quality_lbn" version="$version$" exclude="Analyzers" />
+		</dependencies>
+	</metadata>
+	<files>
+		<file src="..\..\..\..\assets\logos\Logo.png" target="Logo.png" />
+		<file src="..\..\..\..\SeetaFace_LICENSE" target="SeetaFace_LICENSE" />
+	</files>
+</package>

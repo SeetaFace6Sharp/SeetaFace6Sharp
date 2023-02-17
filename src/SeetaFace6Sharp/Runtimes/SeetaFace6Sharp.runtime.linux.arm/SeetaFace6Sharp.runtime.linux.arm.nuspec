@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+	<metadata>
+		<id>SeetaFace6Sharp.runtime.linux.arm</id>
+		<version>0.0.0</version>
+		<authors>SeetaFace6Sharp, SeetaTech</authors>
+		<owners>SeetaFace6Sharp</owners>
+		<requireLicenseAcceptance>true</requireLicenseAcceptance>
+		<license type="file">SeetaFace_LICENSE</license>
+		<icon>Logo.png</icon>
+		<description>SeetaFace6Sharp Native libraries for Linux-arm</description>
+	</metadata>
+	<files>
+		<file src="..\..\Bridges\Linux\SeetaFace6Bridge\bin\Release\ARM\libSeetaFace6Bridge.so" target="build\runtimes\linux-arm\native\libSeetaFace6Bridge.so" />
+
+		<file src="..\..\..\SeetaFace\index\build\lib\arm\libtennis.so" target="build\runtimes\linux-arm\native\libtennis.so" />
+		<file src="..\..\..\SeetaFace\index\build\lib\arm\libSeetaAgePredictor600.so" target="build\runtimes\linux-arm\native\libSeetaAgePredictor600.so" />
+		<file src="..\..\..\SeetaFace\index\build\lib\arm\libSeetaAuthorize.so" target="build\runtimes\linux-arm\native\libSeetaAuthorize.so" />
+		<file src="..\..\..\SeetaFace\index\build\lib\arm\libSeetaEyeStateDetector200.so" target="build\runtimes\linux-arm\native\libSeetaEyeStateDetector200.so" />
+		<file src="..\..\..\SeetaFace\index\build\lib\arm\libSeetaFaceAntiSpoofingX600.so" target="build\runtimes\linux-arm\native\libSeetaFaceAntiSpoofingX600.so" />
+		<file src="..\..\..\SeetaFace\index\build\lib\arm\libSeetaFaceDetector600.so" target="build\runtimes\linux-arm\native\libSeetaFaceDetector600.so" />
+		<file src="..\..\..\SeetaFace\index\build\lib\arm\libSeetaFaceLandmarker600.so" target="build\runtimes\linux-arm\native\libSeetaFaceLandmarker600.so" />
+		<file src="..\..\..\SeetaFace\index\build\lib\arm\libSeetaFaceRecognizer610.so" target="build\runtimes\linux-arm\native\libSeetaFaceRecognizer610.so" />
+		<file src="..\..\..\SeetaFace\index\build\lib\arm\libSeetaFaceTracking600.so" target="build\runtimes\linux-arm\native\libSeetaFaceTracking600.so" />
+		<file src="..\..\..\SeetaFace\index\build\lib\arm\libSeetaGenderPredictor600.so" target="build\runtimes\linux-arm\native\libSeetaGenderPredictor600.so" />
+		<file src="..\..\..\SeetaFace\index\build\lib\arm\libSeetaMaskDetector200.so" target="build\runtimes\linux-arm\native\libSeetaMaskDetector200.so" />
+		<file src="..\..\..\SeetaFace\index\build\lib\arm\libSeetaPoseEstimation600.so" target="build\runtimes\linux-arm\native\libSeetaPoseEstimation600.so" />
+		<file src="..\..\..\SeetaFace\index\build\lib\arm\libSeetaQualityAssessor300.so" target="build\runtimes\linux-arm\native\libSeetaQualityAssessor300.so" />
+
+		<file src="SeetaFace6Sharp.runtime.linux.arm.targets" target="build\SeetaFace6Sharp.runtime.linux.arm.targets" />
+		<file src="..\..\..\..\assets\logos\Logo.png" target="Logo.png" />
+		<file src="..\..\..\..\SeetaFace_LICENSE" target="SeetaFace_LICENSE" />
+	</files>
+</package>

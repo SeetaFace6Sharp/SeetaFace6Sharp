@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+	</PropertyGroup>
+
+	<!--项目引用方式-->
+	<ItemGroup>
+		<None Include="..\..\Bridges\Linux\SeetaFace6Bridge\bin\$(Configuration)\ARM\libSeetaFace6Bridge.so" Link="runtimes\linux-arm\native\libSeetaFace6Bridge.so" CopyToOutputDirectory="PreserveNewest" />
+		
+		<None Include="..\..\..\SeetaFace\index\build\lib\arm\libtennis.so" Link="runtimes\linux-arm\native\libtennis.so" CopyToOutputDirectory="PreserveNewest" />
+		<None Include="..\..\..\SeetaFace\index\build\lib\arm\libSeetaAgePredictor600.so" Link="runtimes\linux-arm\native\libSeetaAgePredictor600.so" CopyToOutputDirectory="PreserveNewest" />
+		<None Include="..\..\..\SeetaFace\index\build\lib\arm\libSeetaAuthorize.so" Link="runtimes\linux-arm\native\libSeetaAuthorize.so" CopyToOutputDirectory="PreserveNewest" />
+		<None Include="..\..\..\SeetaFace\index\build\lib\arm\libSeetaEyeStateDetector200.so" Link="runtimes\linux-arm\native\libSeetaEyeStateDetector200.so" CopyToOutputDirectory="PreserveNewest" />
+		<None Include="..\..\..\SeetaFace\index\build\lib\arm\libSeetaFaceAntiSpoofingX600.so" Link="runtimes\linux-arm\native\libSeetaFaceAntiSpoofingX600.so" CopyToOutputDirectory="PreserveNewest" />
+		<None Include="..\..\..\SeetaFace\index\build\lib\arm\libSeetaFaceDetector600.so" Link="runtimes\linux-arm\native\libSeetaFaceDetector600.so" CopyToOutputDirectory="PreserveNewest" />
+		<None Include="..\..\..\SeetaFace\index\build\lib\arm\libSeetaFaceLandmarker600.so" Link="runtimes\linux-arm\native\libSeetaFaceLandmarker600.so" CopyToOutputDirectory="PreserveNewest" />
+		<None Include="..\..\..\SeetaFace\index\build\lib\arm\libSeetaFaceRecognizer610.so" Link="runtimes\linux-arm\native\libSeetaFaceRecognizer610.so" CopyToOutputDirectory="PreserveNewest" />
+		<None Include="..\..\..\SeetaFace\index\build\lib\arm\libSeetaFaceTracking600.so" Link="runtimes\linux-arm\native\libSeetaFaceTracking600.so" CopyToOutputDirectory="PreserveNewest" />
+		<None Include="..\..\..\SeetaFace\index\build\lib\arm\libSeetaGenderPredictor600.so" Link="runtimes\linux-arm\native\libSeetaGenderPredictor600.so" CopyToOutputDirectory="PreserveNewest" />
+		<None Include="..\..\..\SeetaFace\index\build\lib\arm\libSeetaMaskDetector200.so" Link="runtimes\linux-arm\native\libSeetaMaskDetector200.so" CopyToOutputDirectory="PreserveNewest" />
+		<None Include="..\..\..\SeetaFace\index\build\lib\arm\libSeetaPoseEstimation600.so" Link="runtimes\linux-arm\native\libSeetaPoseEstimation600.so" CopyToOutputDirectory="PreserveNewest" />
+		<None Include="..\..\..\SeetaFace\index\build\lib\arm\libSeetaQualityAssessor300.so" Link="runtimes\linux-arm\native\libSeetaQualityAssessor300.so" CopyToOutputDirectory="PreserveNewest" />
+	</ItemGroup>
+
+</Project>

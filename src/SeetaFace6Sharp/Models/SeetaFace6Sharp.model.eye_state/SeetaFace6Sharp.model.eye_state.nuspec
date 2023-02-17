@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+	<metadata>
+		<id>SeetaFace6Sharp.model.eye_state</id>
+		<version>0.0.0</version>
+		<authors>SeetaFace6Sharp, View, SeetaTech</authors>
+		<owners>SeetaFace6Sharp</owners>
+		<requireLicenseAcceptance>true</requireLicenseAcceptance>
+		<license type="file">SeetaFace_LICENSE</license>
+		<icon>Logo.png</icon>
+		<description>SeetaFace model 'eye_state' for SeetaFace6Sharp</description>
+	</metadata>
+	<files>
+		<file src="eye_state.csta" target="build\runtimes\models\eye_state.csta" />
+		<file src="SeetaFace6Sharp.model.eye_state.targets" target="build\SeetaFace6Sharp.model.eye_state.targets" />
+		<file src="..\..\..\..\assets\logos\Logo.png" target="Logo.png" />
+		<file src="..\..\..\..\SeetaFace_LICENSE" target="SeetaFace_LICENSE" />
+	</files>
+</package>
