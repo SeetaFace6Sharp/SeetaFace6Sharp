@@ -90,7 +90,7 @@ src
      在 `SeetaFace6Sharp` 目录下启动终端
 
      ```shell
-     cd src/SeetaFace                                                  #进入 SeetaFace 根目录
+     cd cd SeetaFace6Sharp/src/SeetaFace                               #进入 SeetaFace 根目录
      git clone --recursive https://github.com/SeetaFace6Sharp/index    #下载源码
      ```
   
