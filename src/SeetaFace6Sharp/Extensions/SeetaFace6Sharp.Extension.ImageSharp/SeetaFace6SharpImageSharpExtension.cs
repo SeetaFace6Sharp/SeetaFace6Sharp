@@ -1,8 +1,8 @@
-﻿using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
-using System;
+﻿using System;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 
 namespace SeetaFace6Sharp
 {

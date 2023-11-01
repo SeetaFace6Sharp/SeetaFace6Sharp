@@ -14,12 +14,6 @@
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
 
-	<ItemGroup>
-		<PackageReference Include="SixLabors.ImageSharp" Version="2.1.3" >
-			<PrivateAssets>all</PrivateAssets>
-		</PackageReference>
-	</ItemGroup>
-
 	<!--Project Reference-->
 	<ItemGroup>
 		<ProjectReference Include="..\..\SeetaFace6Sharp\SeetaFace6Sharp.csproj" />
@@ -32,6 +26,9 @@
 			<Pack>true</Pack>
 		</None>
 		<None Include="..\..\..\..\LICENSE" Pack="true" PackagePath="" />
+	</ItemGroup>
+	<ItemGroup>
+	  <PackageReference Include="SixLabors.ImageSharp" Version="2.1.6" />
 	</ItemGroup>
 
 	<PropertyGroup>
