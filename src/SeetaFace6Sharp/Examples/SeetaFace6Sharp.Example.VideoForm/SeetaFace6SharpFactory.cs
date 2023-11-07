@@ -61,7 +61,7 @@ namespace SeetaFace6Sharp.Example.VideoForm
                             {
                                 Threshold = 0.7f
                             };
-                            _faceRecognizer = new FaceRecognizer();
+                            _faceRecognizer = new FaceRecognizer(config);
                         }
                         return _faceRecognizer as T;
                     }

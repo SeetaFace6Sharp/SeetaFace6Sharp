@@ -1,5 +1,6 @@
 ﻿using SeetaFace6Sharp.Native;
 using System;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 
@@ -11,6 +12,7 @@ namespace SeetaFace6Sharp
     public sealed class FaceRecognizer : BaseSeetaFace6<FaceRecognizeConfig>
     {
         private readonly IntPtr _handle = IntPtr.Zero;
+        private readonly IntPtr _model = IntPtr.Zero;
         private readonly static object _locker = new object();
 
         /// <summary>
@@ -25,7 +27,15 @@ namespace SeetaFace6Sharp
         /// <exception cref="ModuleInitializeException"></exception>
         public FaceRecognizer(FaceRecognizeConfig config = null) : base(config ?? new FaceRecognizeConfig())
         {
-            if ((_handle = SeetaFace6Native.GetFaceRecognizerHandler((int)Config.FaceType, (int)Config.DeviceType)) == IntPtr.Zero)
+            string model = Config.FaceType switch
+            {
+                FaceType.Normal => "face_recognizer.csta",
+                FaceType.Mask => "face_recognizer_mask.csta",
+                FaceType.Light => "face_recognizer_light.csta",
+                _ => throw new NotSupportedException($"Not support face type: {Config.FaceType}."),
+            };
+            _model = GetModel(model);
+            if ((_handle = SeetaFace6Native.GetFaceRecognizerHandler(_model)) == IntPtr.Zero)
             {
                 throw new ModuleInitializeException(nameof(FaceRecognizer), "Get face recognizer handle failed.");
             }
@@ -44,18 +54,21 @@ namespace SeetaFace6Sharp
                 if (disposedValue)
                     throw new ObjectDisposedException(nameof(FaceRecognizer));
 
-                int size = 0;
-                var ptr = SeetaFace6Native.FaceRecognizerExtract(_handle, ref image, points, ref size);
-                if (ptr == IntPtr.Zero) return new float[0];
+                int size = SeetaFace6Native.GetExtractFeatureSize(_handle);
+                if (size <= 0) 
+                    throw new Exception("Can not get face recognizer extract size.");
+
+                IntPtr buffer = Marshal.AllocHGlobal(size * sizeof(float));
+                SeetaFace6Native.GetExtractFeature(_handle, ref image, points, size, buffer);
                 try
                 {
                     float[] result = new float[size];
-                    Marshal.Copy(ptr, result, 0, size);
+                    Marshal.Copy(buffer, result, 0, size);
                     return result;
                 }
                 finally
                 {
-                    SeetaFace6Native.Free(ptr);
+                    Marshal.FreeHGlobal(buffer);
                 }
             }
         }
@@ -118,12 +131,10 @@ namespace SeetaFace6Sharp
 
             lock (_locker)
             {
-                if (disposedValue)
-                    return;
+                if (disposedValue) return;
                 disposedValue = true;
-                if (_handle == IntPtr.Zero)
-                    return;
-                SeetaFace6Native.DisposeFaceRecognizer(_handle);
+                if (_handle != IntPtr.Zero) SeetaFace6Native.DisposeFaceRecognizer(_handle);
+                if (_model != IntPtr.Zero) SeetaFace6Native.DisposeModel(_model);
             }
         }
     }

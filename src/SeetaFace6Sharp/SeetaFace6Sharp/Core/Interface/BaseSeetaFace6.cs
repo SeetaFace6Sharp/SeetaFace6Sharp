@@ -1,6 +1,7 @@
 ﻿using SeetaFace6Sharp.Native;
 using System;
 using System.Globalization;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
 
@@ -14,12 +15,34 @@ namespace SeetaFace6Sharp
         /// <summary>
         /// 获取模型路径
         /// </summary>
-        public string ModelPath { get => SeetaFace6Native.GetModelPath(); }
+        public string ModelPath => GlobalConfig.GetPathResolver().GetModelsPath();
 
         /// <summary>
         /// 获取库路径
         /// </summary>
-        public string LibraryPath { get => SeetaFace6Native.GetLibraryPath(); }
+        public string LibraryPath => GlobalConfig.GetPathResolver().GetLibraryPath();
+
+        /// <summary>
+        /// 获取Model
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        /// <exception cref="FileNotFoundException"></exception>
+        /// <exception cref="ModuleInitializeException"></exception>
+        protected IntPtr GetModel(string model)
+        {
+            model = Path.Combine(this.ModelPath, model);
+            if (!File.Exists(model))
+            {
+                throw new FileNotFoundException($"The model file '{model}' not found.");
+            }
+            IntPtr modelPtr = IntPtr.Zero;
+            if ((modelPtr = SeetaFace6Native.GetModel(model, (int)Config.DeviceType)) == IntPtr.Zero)
+            {
+                throw new ModuleInitializeException(nameof(FaceRecognizer), "Get face recognizer model failed.");
+            }
+            return modelPtr;
+        }
 
         /// <summary>
         /// 初始化

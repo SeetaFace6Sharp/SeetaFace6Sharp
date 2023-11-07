@@ -52,7 +52,7 @@ namespace SeetaFace6Sharp
                 }
                 finally
                 {
-                    SeetaFace6Native.Free(ptr);
+                    SeetaFace6Native.FreeMemory(ptr);
                 }
             }
         }

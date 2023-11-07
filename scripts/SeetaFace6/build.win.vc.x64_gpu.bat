@@ -5,7 +5,7 @@ CHCP 65001 > nul
 color 0f
 
 rem 设置vcvarsall.bat位置
-set VCVARSALL_DIR="C:\Program Files (x86)\Microsoft Visual Studio\2019\BuildTools\VC\Auxiliary\Build\vcvarsall.bat"
+set VCVARSALL_DIR="C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat"
 rem 设置源码位置
 set "BASE_DIR=%~dp0..\..\src\SeetaFace\index"
 rem 设置编译结果位置

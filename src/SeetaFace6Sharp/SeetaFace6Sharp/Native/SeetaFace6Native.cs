@@ -34,6 +34,15 @@ namespace SeetaFace6Sharp.Native
 
         #region Common
 
+        [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "GetModel", CallingConvention = CallingConvention.Cdecl)]
+        internal extern static IntPtr GetModel(string model, int deviceType = 0);
+
+        [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "DisposeModel", CallingConvention = CallingConvention.Cdecl)]
+        internal extern static void DisposeModel(IntPtr handler);
+
+        [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "DisposeExtractSharedPtr", CallingConvention = CallingConvention.Cdecl)]
+        internal extern static void DisposeExtractSharedPtr(IntPtr features);
+
         /// <summary>
         /// 设置人脸模型的目录（Windows）
         /// </summary>
@@ -77,8 +86,8 @@ namespace SeetaFace6Sharp.Native
         /// 释放本机代码中由 malloc 分配的内存。
         /// </summary>
         /// <param name="address"></param>
-        [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "Free", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void Free(IntPtr address);
+        [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "FreeMemory", CallingConvention = CallingConvention.Cdecl)]
+        internal static extern void FreeMemory(IntPtr address);
 
         #endregion
 
@@ -154,7 +163,7 @@ namespace SeetaFace6Sharp.Native
 
         /// <summary>
         /// 获取人脸关键点
-        /// <para>需要 <see cref="Free(IntPtr)"/></para>
+        /// <para>需要 <see cref="FreeMemory(IntPtr)"/></para>
         /// </summary>
         /// <param name="handler">句柄</param>
         /// <param name="img">图像信息</param>
@@ -172,19 +181,13 @@ namespace SeetaFace6Sharp.Native
         #region FaceRecognizer
 
         [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "GetFaceRecognizerHandler", CallingConvention = CallingConvention.Cdecl)]
-        internal extern static IntPtr GetFaceRecognizerHandler(int type = 0, int deviceType = 0);
+        internal extern static IntPtr GetFaceRecognizerHandler(IntPtr model);
 
-        /// <summary>
-        /// 提取人脸特征值
-        /// <para>需要 <see cref="Free(IntPtr)"/></para>
-        /// </summary>
-        /// <param name="handler">句柄</param>
-        /// <param name="img">图像信息</param>
-        /// <param name="size">检测到的人脸数量</param>
-        /// <param name="points">人脸关键点 数组</param>
-        /// <returns></returns>
-        [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "FaceRecognizerExtract", CallingConvention = CallingConvention.Cdecl)]
-        internal extern static IntPtr FaceRecognizerExtract(IntPtr handler, ref FaceImage img, FaceMarkPoint[] points, ref int size);
+        [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "GetExtractFeatureSize", CallingConvention = CallingConvention.Cdecl)]
+        internal extern static int GetExtractFeatureSize(IntPtr handler);
+
+        [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "GetExtractFeature", CallingConvention = CallingConvention.Cdecl)]
+        internal extern static void GetExtractFeature(IntPtr handler, ref FaceImage img, FaceMarkPoint[] points, int size, IntPtr buffer);
 
         [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "DisposeFaceRecognizer", CallingConvention = CallingConvention.Cdecl)]
         internal extern static void DisposeFaceRecognizer(IntPtr handler);
