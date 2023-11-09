@@ -1,5 +1,4 @@
 #include "bridge.h"
-#include "common/str.h"
 #include "common/common.h"
 
 using namespace std;
@@ -7,47 +6,47 @@ using namespace seeta;
 
 #pragma region Common
 
-#if WINDOWS
-
-// 设置人脸模型目录
-EXPORTAPI void SetModelPath(const wchar_t* path)
-{
-	wstring wstrModelPath(path);
-	modelPath = str::wstr_to_str(wstrModelPath);
-}
-
-// 获取人脸模型目录
-EXPORTAPI void GetModelPath(wchar_t* outPath, int* size)
-{
-	wstring path = str::str_to_wstr(modelPath);
-	*size = path.length();
-	if (*size > 1024)
-	{
-		return;
-	}
-	wcscpy(outPath, path.c_str());
-}
-
-#elif LINUX
-
-// 设置人脸模型目录
-EXPORTAPI void SetModelPath(const char* path)
-{
-	modelPath = path;
-}
-
-// 获取人脸模型目录
-EXPORTAPI void GetModelPath(char* outPath, int* size)
-{
-	*size = modelPath.length();
-	if (*size > 1024)
-	{
-		return;
-	}
-	strcpy(outPath, modelPath.c_str());
-}
-
-#endif
+//#if WINDOWS
+//
+//// 设置人脸模型目录
+//EXPORTAPI void SetModelPath(const wchar_t* path)
+//{
+//	wstring wstrModelPath(path);
+//	modelPath = str::wstr_to_str(wstrModelPath);
+//}
+//
+//// 获取人脸模型目录
+//EXPORTAPI void GetModelPath(wchar_t* outPath, int* size)
+//{
+//	wstring path = str::str_to_wstr(modelPath);
+//	*size = path.length();
+//	if (*size > 1024)
+//	{
+//		return;
+//	}
+//	wcscpy(outPath, path.c_str());
+//}
+//
+//#elif LINUX
+//
+//// 设置人脸模型目录
+//EXPORTAPI void SetModelPath(const char* path)
+//{
+//	modelPath = path;
+//}
+//
+//// 获取人脸模型目录
+//EXPORTAPI void GetModelPath(char* outPath, int* size)
+//{
+//	*size = modelPath.length();
+//	if (*size > 1024)
+//	{
+//		return;
+//	}
+//	strcpy(outPath, modelPath.c_str());
+//}
+//
+//#endif
 
 // 释放由 malloc 分配的内存
 EXPORTAPI void FreeMemory(void* address)
@@ -61,12 +60,12 @@ EXPORTAPI void FreeMemory(void* address)
 	}
 }
 
-EXPORTAPI seeta::ModelSetting* GetModel(const char* model, const char* extModel, const SeetaDevice deviceType = SEETA_DEVICE_AUTO) {
-	ModelSetting* newModel = new ModelSetting(model, deviceType);
-	if (extModel != nullptr && strlen(extModel) > 0) {
-		newModel->append(extModel);
-	}
-	return newModel;
+EXPORTAPI seeta::ModelSetting* GetModel(const char* model, const SeetaDevice deviceType = SEETA_DEVICE_AUTO) {
+	return new ModelSetting(model, deviceType);
+}
+
+EXPORTAPI void Append(seeta::ModelSetting& model, const char* extModel) {
+	model.append(std::string(extModel));
 }
 
 EXPORTAPI void DisposeModel(seeta::ModelSetting* model) {
@@ -86,7 +85,7 @@ EXPORTAPI void DisposeModel(seeta::ModelSetting* model) {
 /// <param name="maxWidth"></param>
 /// <param name="maxHeight"></param>
 /// <returns></returns>
-EXPORTAPI seeta::v6::FaceDetector* GetFaceDetectorHandler(const ModelSetting &model, const double faceSize = 20, const double threshold = 0.9, const double maxWidth = 2000, const double maxHeight = 2000)
+EXPORTAPI seeta::v6::FaceDetector* GetFaceDetectorHandler(const ModelSetting& model, const double faceSize = 20, const double threshold = 0.9, const double maxWidth = 2000, const double maxHeight = 2000)
 {
 	seeta::v6::FaceDetector* faceDetector = new seeta::v6::FaceDetector(model);
 	faceDetector->set(FaceDetector::Property::PROPERTY_MIN_FACE_SIZE, faceSize);
@@ -236,7 +235,7 @@ EXPORTAPI void DisposeFaceLandmarker(seeta::v6::FaceLandmarker* handler)
 /// </summary>
 /// <param name="type"></param>
 /// <returns></returns>
-EXPORTAPI seeta::v6::FaceRecognizer* GetFaceRecognizerHandler(const ModelSetting &model)
+EXPORTAPI seeta::v6::FaceRecognizer* GetFaceRecognizerHandler(const ModelSetting& model)
 {
 	return new seeta::v6::FaceRecognizer(model);
 }
@@ -287,7 +286,7 @@ EXPORTAPI float Compare(const float* lhs, const float* rhs, int size)
 
 #pragma region FaceAntiSpoofing
 
-EXPORTAPI seeta::v6::FaceAntiSpoofing* GetFaceAntiSpoofingHandler(const ModelSetting& model, const int videoFrameCount = 10, const float boxThresh = 0.8, const float clarity = 0.3, const float reality = 0.8, const bool global = false)
+EXPORTAPI seeta::v6::FaceAntiSpoofing* GetFaceAntiSpoofingHandler(const ModelSetting& model, const int videoFrameCount = 10, const float boxThresh = 0.8, const float clarity = 0.3, const float reality = 0.8)
 {
 	seeta::v6::FaceAntiSpoofing* faceAntiSpoofing = new seeta::v6::FaceAntiSpoofing(model);
 	faceAntiSpoofing->SetVideoFrameCount(videoFrameCount);
@@ -496,16 +495,18 @@ EXPORTAPI void Quality_PoseEx(const ModelSetting& model, const SeetaImageData& i
 // 分辨率评估
 EXPORTAPI void Quality_Resolution(const SeetaImageData& img, const SeetaRect faceRect, const SeetaPointF* points, const int pointsLength, int* level, float* score, const float low = 80, const float high = 120)
 {
-	seeta::v3::QualityOfResolution quality_Resolution(low, high);
-	auto result = quality_Resolution.check(img, faceRect, points, pointsLength);
+	seeta::v3::QualityOfResolution* quality_Resolution = new seeta::v3::QualityOfResolution(low, high);
+	auto result = quality_Resolution->check(img, faceRect, points, pointsLength);
 
 	*level = result.level;
 	*score = result.score;
+
+	delete quality_Resolution;
 }
 
-EXPORTAPI seeta::QualityOfClarityEx* GetQualityOfClarityExHandler(const float blur_thresh = 0.8f, const SeetaDevice deviceType = SEETA_DEVICE_AUTO)
+EXPORTAPI seeta::QualityOfClarityEx* GetQualityOfClarityExHandler(const ModelSetting& qualityModel, const ModelSetting& landmarkerPts68Model, const float blur_thresh = 0.8f)
 {
-	return new seeta::QualityOfClarityEx(blur_thresh, modelPath, deviceType);
+	return new seeta::QualityOfClarityEx(blur_thresh, qualityModel, landmarkerPts68Model);
 }
 
 // 清晰度 (深度)评估
@@ -522,9 +523,9 @@ EXPORTAPI void DisposeQualityOfClarityEx(seeta::QualityOfClarityEx* handler)
 	_dispose(handler);
 }
 
-EXPORTAPI seeta::QualityOfNoMask* GetQualityOfNoMaskHandler(const SeetaDevice deviceType = SEETA_DEVICE_AUTO)
+EXPORTAPI seeta::QualityOfNoMask* GetQualityOfNoMaskHandler(const ModelSetting& landmarkerPts5Model)
 {
-	return new seeta::QualityOfNoMask(modelPath, deviceType);
+	return new seeta::QualityOfNoMask(landmarkerPts5Model);
 }
 
 // 遮挡评估
@@ -551,9 +552,9 @@ EXPORTAPI void DisposeQualityOfNoMask(seeta::QualityOfNoMask* handler)
 /// 获取年龄预测句柄
 /// </summary>
 /// <returns></returns>
-EXPORTAPI seeta::v6::AgePredictor* GetAgePredictorHandler(const SeetaDevice deviceType = SEETA_DEVICE_AUTO)
+EXPORTAPI seeta::v6::AgePredictor* GetAgePredictorHandler(const ModelSetting& model)
 {
-	return new seeta::v6::AgePredictor(ModelSetting(modelPath + "age_predictor.csta", deviceType));
+	return new seeta::v6::AgePredictor(model);
 }
 
 /// <summary>
@@ -622,9 +623,9 @@ EXPORTAPI void DisposeAgePredictor(seeta::v6::AgePredictor* handler)
 /// 获取性别预测句柄
 /// </summary>
 /// <returns></returns>
-EXPORTAPI seeta::v6::GenderPredictor* GetGenderPredictorHandler(const SeetaDevice deviceType = SEETA_DEVICE_AUTO)
+EXPORTAPI seeta::v6::GenderPredictor* GetGenderPredictorHandler(const ModelSetting& model)
 {
-	return new seeta::v6::GenderPredictor(ModelSetting(modelPath + "gender_predictor.csta", deviceType));
+	return new seeta::v6::GenderPredictor(model);
 }
 
 /// <summary>
@@ -693,9 +694,9 @@ EXPORTAPI void DisposeGenderPredictor(seeta::v6::GenderPredictor* handler)
 /// 获取眼睛状态检测句柄
 /// </summary>
 /// <returns></returns>
-EXPORTAPI seeta::v6::EyeStateDetector* GetEyeStateDetectorHandler(const SeetaDevice deviceType = SEETA_DEVICE_AUTO)
+EXPORTAPI seeta::v6::EyeStateDetector* GetEyeStateDetectorHandler(const ModelSetting& model)
 {
-	return new seeta::v6::EyeStateDetector(ModelSetting(modelPath + "eye_state.csta", deviceType));
+	return new seeta::v6::EyeStateDetector(model);
 }
 
 /// <summary>

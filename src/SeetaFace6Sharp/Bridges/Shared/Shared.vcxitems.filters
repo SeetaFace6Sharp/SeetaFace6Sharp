@@ -16,17 +16,11 @@
       <Filter>seetaEx</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)bridge.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)common\str.h">
-      <Filter>common</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)common\common.h">
       <Filter>common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)bridge.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)common\str.cpp">
-      <Filter>common</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>

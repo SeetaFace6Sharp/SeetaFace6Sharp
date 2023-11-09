@@ -10,9 +10,9 @@ namespace seeta
 	class QualityOfNoMask : public QualityRule
 	{
 	public:
-		QualityOfNoMask(const std::string modelPath, const SeetaDevice deviceType)
+		QualityOfNoMask(const ModelSetting& landmarkerPts5Model)
 		{
-			m_marker = std::make_shared<seeta::FaceLandmarker>(ModelSetting(modelPath + "face_landmarker_mask_pts5.csta", deviceType));
+			m_marker = std::make_shared<seeta::FaceLandmarker>(landmarkerPts5Model);
 		}
 		QualityResult check(const SeetaImageData &image, const SeetaRect &face, const SeetaPointF *points, int32_t N) override
 		{

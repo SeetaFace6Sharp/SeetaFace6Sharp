@@ -1,4 +1,5 @@
-﻿using SeetaFace6Sharp.Native;
+﻿using SeetaFace6Sharp.Models;
+using SeetaFace6Sharp.Native;
 using System;
 
 namespace SeetaFace6Sharp
@@ -11,12 +12,21 @@ namespace SeetaFace6Sharp
         private readonly IntPtr _handle = IntPtr.Zero;
         private readonly static object _locker = new object();
 
+        /// <summary>
+        /// 活体检测所需Model（fas_first.csta），全局检测需增加fas_second.csta
+        /// </summary>
+        public override Model Model { get; }
+
         /// <inheritdoc/>
         /// <exception cref="ModuleInitializeException"></exception>
         public FaceAntiSpoofing(FaceAntiSpoofingConfig config = null) : base(config ?? new FaceAntiSpoofingConfig())
         {
-            _handle = SeetaFace6Native.GetFaceAntiSpoofingHandler(Config.VideoFrameCount, Config.BoxThresh, Config.Threshold.Clarity, Config.Threshold.Reality, Config.Global
-                , (int)this.Config.DeviceType);
+            this.Model = new Model("fas_first.csta", this.Config.DeviceType);
+            if (this.Config.Global)
+            {
+                this.Model.Append("fas_second.csta");
+            }
+            _handle = SeetaFace6Native.GetFaceAntiSpoofingHandler(this.Model.Ptr, this.Config.VideoFrameCount, this.Config.BoxThresh, this.Config.Threshold.Clarity, this.Config.Threshold.Reality);
             if (_handle == IntPtr.Zero)
             {
                 throw new ModuleInitializeException(nameof(FaceAntiSpoofing), "Get face anti spoofing handle failed.");
@@ -69,17 +79,15 @@ namespace SeetaFace6Sharp
         /// </summary>
         public override void Dispose()
         {
-            if (disposedValue)
-                return;
+            if (disposedValue) return;
 
             lock (_locker)
             {
-                if (disposedValue)
-                    return;
+                if (disposedValue) return;
                 disposedValue = true;
-                if (_handle == IntPtr.Zero)
-                    return;
+                if (_handle == IntPtr.Zero) return;
                 SeetaFace6Native.DisposeFaceAntiSpoofing(_handle);
+                this.Model?.Dispose();
             }
         }
     }

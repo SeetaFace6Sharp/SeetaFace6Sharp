@@ -52,6 +52,35 @@ namespace SeetaFace6Sharp.Models
             }
         }
 
+        /// <summary>
+        /// Append model
+        /// </summary>
+        /// <param name="extModel"></param>
+        /// <exception cref="FileNotFoundException"></exception>
+        public void Append(string extModel)
+        {
+            if (File.Exists(extModel))
+            {
+                extModel = System.IO.Path.GetFullPath(extModel);
+            }
+            else
+            {
+                extModel = System.IO.Path.Combine(GlobalConfig.GetPathResolver().GetModelsPath(), extModel);
+                if (!File.Exists(extModel))
+                {
+                    throw new FileNotFoundException($"The model file '{this.Path}' not found.");
+                }
+            }
+
+            if (disposedValue) return;
+
+            lock (_locker)
+            {
+                if (disposedValue) return;
+                SeetaFace6Native.Append(this.Ptr, extModel);
+            }
+        }
+
         public void Dispose()
         {
             if (disposedValue)

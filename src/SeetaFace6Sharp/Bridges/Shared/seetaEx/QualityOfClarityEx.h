@@ -10,10 +10,10 @@ namespace seeta
 	class QualityOfClarityEx : public QualityRule
 	{
 	public:
-		QualityOfClarityEx(const float blur_thresh, const std::string modelPath, const SeetaDevice deviceType)
+		QualityOfClarityEx(const float blur_thresh, const ModelSetting& qualityModel, const ModelSetting& landmarkerPts68Model)
 		{
-			m_lbn = std::make_shared<QualityOfLBN>(ModelSetting(modelPath + "quality_lbn.csta", deviceType));
-			m_marker = std::make_shared<FaceLandmarker>(ModelSetting(modelPath + "face_landmarker_pts68.csta", deviceType));
+			m_lbn = std::make_shared<QualityOfLBN>(qualityModel);
+			m_marker = std::make_shared<FaceLandmarker>(landmarkerPts68Model);
 			m_lbn->set(QualityOfLBN::PROPERTY_BLUR_THRESH, blur_thresh);
 		}
 		QualityResult check(const SeetaImageData &image, const SeetaRect &face, const SeetaPointF *points, int32_t N) override

@@ -1,4 +1,5 @@
-﻿using SeetaFace6Sharp.Native;
+﻿using SeetaFace6Sharp.Models;
+using SeetaFace6Sharp.Native;
 using System;
 using System.Runtime.InteropServices;
 
@@ -12,11 +13,24 @@ namespace SeetaFace6Sharp
         private readonly IntPtr _handle = IntPtr.Zero;
         private readonly static object _locker = new object();
 
+        /// <summary>
+        /// 人脸识别所需model
+        /// </summary>
+        public override Model Model { get; }
+
         /// <inheritdoc/>
         /// <exception cref="ModuleInitializeException"></exception>
         public FaceLandmarker(FaceLandmarkConfig config = null) : base(config ?? new FaceLandmarkConfig())
         {
-            _handle = SeetaFace6Native.GetFaceLandmarkerHandler((int)this.Config.MarkType, (int)this.Config.DeviceType);
+            string model = this.Config.MarkType switch
+            {
+                MarkType.Normal => "face_landmarker_pts68.csta",
+                MarkType.Mask => "face_landmarker_mask_pts5.csta",
+                MarkType.Light => "face_landmarker_pts5.csta",
+                _ => throw new NotSupportedException($"Not support face type: {this.Config.MarkType}."),
+            };
+            this.Model = new Model(model, this.Config.DeviceType);
+            _handle = SeetaFace6Native.GetFaceLandmarkerHandler(this.Model.Ptr);
             if (_handle == IntPtr.Zero)
             {
                 throw new ModuleInitializeException(nameof(FaceLandmarker), "Get face landmarker handle failed.");
@@ -60,17 +74,15 @@ namespace SeetaFace6Sharp
         /// <inheritdoc/>
         public override void Dispose()
         {
-            if (disposedValue)
-                return;
+            if (disposedValue) return;
 
             lock (_locker)
             {
-                if (disposedValue)
-                    return;
+                if (disposedValue) return;
                 disposedValue = true;
-                if (_handle == IntPtr.Zero)
-                    return;
+                if (_handle == IntPtr.Zero) return;
                 SeetaFace6Native.DisposeFaceLandmarker(_handle);
+                this.Model?.Dispose();
             }
         }
     }

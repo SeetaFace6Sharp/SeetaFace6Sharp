@@ -35,7 +35,10 @@ namespace SeetaFace6Sharp.Native
         #region Common
 
         [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "GetModel", CallingConvention = CallingConvention.Cdecl)]
-        internal extern static IntPtr GetModel(string model, string extModel = "", int deviceType = 0);
+        internal extern static IntPtr GetModel(string model, int deviceType = 0);
+
+        [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "Append", CallingConvention = CallingConvention.Cdecl)]
+        internal extern static void Append(IntPtr model, string extModel);
 
         [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "DisposeModel", CallingConvention = CallingConvention.Cdecl)]
         internal extern static void DisposeModel(IntPtr handler);
@@ -227,8 +230,7 @@ namespace SeetaFace6Sharp.Native
             , int videoFrameCount = 10
             , float boxThresh = 0.8f
             , float clarity = 0.3f
-            , float reality = 0.8f
-            , bool global = false);
+            , float reality = 0.8f);
 
         /// <summary>
         /// 活体检测器
@@ -453,13 +455,15 @@ namespace SeetaFace6Sharp.Native
 
         /// <summary>
         /// 获取清晰度 (深度)评估句柄
+        /// <param name="qualityModel">检测所需模型</param>
+        /// <param name="landmarkerPts68Model">检测所需模型</param>
         /// <para><see langword="{blur_thresh}"/> 的默认值为 <see langword="{0.8}"/></para>
         /// </summary>
+        /// 
         /// <param name="blur_thresh">清晰度阈值，默认值：0.8</param>
-        /// <param name="deviceType"></param>
         /// <returns></returns>
         [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "GetQualityOfClarityExHandler", CallingConvention = CallingConvention.Cdecl)]
-        internal extern static IntPtr GetQualityOfClarityExHandler(float blur_thresh = 0.8f, int deviceType = 0);
+        internal extern static IntPtr GetQualityOfClarityExHandler(IntPtr qualityModel,  IntPtr landmarkerPts68Model, float blur_thresh = 0.8f);
 
         /// <summary>
         /// 清晰度 (深度)评估。
@@ -490,7 +494,7 @@ namespace SeetaFace6Sharp.Native
         #region 遮挡评估
 
         [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "GetQualityOfNoMaskHandler", CallingConvention = CallingConvention.Cdecl)]
-        internal extern static IntPtr GetQualityOfNoMaskHandler(int deviceType = 0);
+        internal extern static IntPtr GetQualityOfNoMaskHandler(IntPtr landmarkerPts5Model);
 
         /// <summary>
         /// 遮挡评估。
@@ -518,7 +522,7 @@ namespace SeetaFace6Sharp.Native
         #region 年龄预测
 
         [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "GetAgePredictorHandler", CallingConvention = CallingConvention.Cdecl)]
-        internal extern static IntPtr GetAgePredictorHandler(int deviceType = 0);
+        internal extern static IntPtr GetAgePredictorHandler(IntPtr model);
 
         /// <summary>
         /// 人脸年龄预测
@@ -547,7 +551,7 @@ namespace SeetaFace6Sharp.Native
         #region 性别预测
 
         [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "GetGenderPredictorHandler", CallingConvention = CallingConvention.Cdecl)]
-        internal extern static IntPtr GetGenderPredictorHandler(int deviceType = 0);
+        internal extern static IntPtr GetGenderPredictorHandler(IntPtr model);
 
         /// <summary>
         /// 人脸性别预测
@@ -576,7 +580,7 @@ namespace SeetaFace6Sharp.Native
         #region 眼睛状态检测
 
         [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "GetEyeStateDetectorHandler", CallingConvention = CallingConvention.Cdecl)]
-        internal extern static IntPtr GetEyeStateDetectorHandler(int deviceType = 0);
+        internal extern static IntPtr GetEyeStateDetectorHandler(IntPtr model);
 
         /// <summary>
         /// 眼睛状态检测。

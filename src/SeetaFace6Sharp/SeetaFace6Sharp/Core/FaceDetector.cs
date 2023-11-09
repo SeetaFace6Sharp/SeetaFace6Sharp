@@ -1,4 +1,5 @@
-﻿using SeetaFace6Sharp.Native;
+﻿using SeetaFace6Sharp.Models;
+using SeetaFace6Sharp.Native;
 using System;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -13,11 +14,17 @@ namespace SeetaFace6Sharp
         private readonly IntPtr _handle = IntPtr.Zero;
         private readonly static object _locker = new object();
 
+        /// <summary>
+        /// 人脸识别所需model
+        /// </summary>
+        public override Model Model { get; }
+
         /// <inheritdoc/>
         /// <exception cref="ModuleInitializeException"></exception>
         public FaceDetector(FaceDetectConfig config = null) : base(config ?? new FaceDetectConfig())
         {
-            _handle = SeetaFace6Native.GetFaceDetectorHandler(this.Config.FaceSize, this.Config.Threshold, this.Config.MaxWidth, this.Config.MaxHeight, (int)this.Config.DeviceType);
+            this.Model = new Model("face_detector.csta", this.Config.DeviceType);
+            _handle = SeetaFace6Native.GetFaceDetectorHandler(this.Model.Ptr, this.Config.FaceSize, this.Config.Threshold, this.Config.MaxWidth, this.Config.MaxHeight);
             if (_handle == IntPtr.Zero)
             {
                 throw new ModuleInitializeException(nameof(FaceDetector), "Get face detector handle failed.");
@@ -64,17 +71,15 @@ namespace SeetaFace6Sharp
         /// </summary>
         public override void Dispose()
         {
-            if (disposedValue)
-                return;
+            if (disposedValue) return;
 
             lock (_locker)
             {
-                if (disposedValue)
-                    return;
+                if (disposedValue) return;
                 disposedValue = true;
-                if (_handle == IntPtr.Zero)
-                    return;
+                if (_handle == IntPtr.Zero) return;
                 SeetaFace6Native.DisposeFaceDetector(_handle);
+                this.Model?.Dispose();
             }
         }
     }
