@@ -61,8 +61,12 @@ EXPORTAPI void FreeMemory(void* address)
 	}
 }
 
-EXPORTAPI seeta::ModelSetting* GetModel(const char* model, const SeetaDevice deviceType = SEETA_DEVICE_AUTO) {
-	return new ModelSetting(model, deviceType);
+EXPORTAPI seeta::ModelSetting* GetModel(const char* model, const char* extModel, const SeetaDevice deviceType = SEETA_DEVICE_AUTO) {
+	ModelSetting* newModel = new ModelSetting(model, deviceType);
+	if (extModel != nullptr && strlen(extModel) > 0) {
+		newModel->append(extModel);
+	}
+	return newModel;
 }
 
 EXPORTAPI void DisposeModel(seeta::ModelSetting* model) {
@@ -82,9 +86,9 @@ EXPORTAPI void DisposeModel(seeta::ModelSetting* model) {
 /// <param name="maxWidth"></param>
 /// <param name="maxHeight"></param>
 /// <returns></returns>
-EXPORTAPI seeta::v6::FaceDetector* GetFaceDetectorHandler(const double faceSize = 20, const double threshold = 0.9, const double maxWidth = 2000, const double maxHeight = 2000, const SeetaDevice deviceType = SEETA_DEVICE_AUTO)
+EXPORTAPI seeta::v6::FaceDetector* GetFaceDetectorHandler(const ModelSetting &model, const double faceSize = 20, const double threshold = 0.9, const double maxWidth = 2000, const double maxHeight = 2000)
 {
-	seeta::v6::FaceDetector* faceDetector = new seeta::v6::FaceDetector(ModelSetting(modelPath + "face_detector.csta", deviceType));
+	seeta::v6::FaceDetector* faceDetector = new seeta::v6::FaceDetector(model);
 	faceDetector->set(FaceDetector::Property::PROPERTY_MIN_FACE_SIZE, faceSize);
 	faceDetector->set(FaceDetector::Property::PROPERTY_THRESHOLD, threshold);
 	faceDetector->set(FaceDetector::Property::PROPERTY_MAX_IMAGE_WIDTH, maxWidth);
@@ -141,9 +145,9 @@ EXPORTAPI void DisposeFaceDetector(seeta::v6::FaceDetector* handler)
 /// </summary>
 /// <param name="deviceType"></param>
 /// <returns></returns>
-EXPORTAPI seeta::v2::MaskDetector* GetMaskDetectorHandler(const SeetaDevice deviceType = SEETA_DEVICE_AUTO)
+EXPORTAPI seeta::v2::MaskDetector* GetMaskDetectorHandler(const ModelSetting& model)
 {
-	return new seeta::v2::MaskDetector(ModelSetting(modelPath + "mask_detector.csta", deviceType));
+	return new seeta::v2::MaskDetector(model);
 }
 
 /// <summary>
@@ -182,19 +186,9 @@ EXPORTAPI void DisposeMaskDetector(seeta::v2::MaskDetector* handler)
 /// </summary>
 /// <param name="type"></param>
 /// <returns></returns>
-EXPORTAPI seeta::v6::FaceLandmarker* GetFaceLandmarkerHandler(const int type = 0, const SeetaDevice deviceType = SEETA_DEVICE_AUTO)
+EXPORTAPI seeta::v6::FaceLandmarker* GetFaceLandmarkerHandler(const ModelSetting& model, const int type = 0)
 {
-	switch (type)
-	{
-	case 0:
-		return new seeta::v6::FaceLandmarker(ModelSetting(modelPath + "face_landmarker_pts68.csta", deviceType));
-	case 1:
-		return new seeta::v6::FaceLandmarker(ModelSetting(modelPath + "face_landmarker_mask_pts5.csta", deviceType));
-	case 2:
-		return new seeta::v6::FaceLandmarker(ModelSetting(modelPath + "face_landmarker_pts5.csta", deviceType));
-	default:
-		throw "Unsupport type.";
-	}
+	return new seeta::v6::FaceLandmarker(model);
 }
 
 /// <summary>
@@ -242,7 +236,7 @@ EXPORTAPI void DisposeFaceLandmarker(seeta::v6::FaceLandmarker* handler)
 /// </summary>
 /// <param name="type"></param>
 /// <returns></returns>
-EXPORTAPI seeta::v6::FaceRecognizer* GetFaceRecognizerHandler(seeta::ModelSetting model)
+EXPORTAPI seeta::v6::FaceRecognizer* GetFaceRecognizerHandler(const ModelSetting &model)
 {
 	return new seeta::v6::FaceRecognizer(model);
 }
@@ -293,14 +287,9 @@ EXPORTAPI float Compare(const float* lhs, const float* rhs, int size)
 
 #pragma region FaceAntiSpoofing
 
-EXPORTAPI seeta::v6::FaceAntiSpoofing* GetFaceAntiSpoofingHandler(const int videoFrameCount = 10, const float boxThresh = 0.8, const float clarity = 0.3, const float reality = 0.8, const bool global = false, const SeetaDevice deviceType = SEETA_DEVICE_AUTO)
+EXPORTAPI seeta::v6::FaceAntiSpoofing* GetFaceAntiSpoofingHandler(const ModelSetting& model, const int videoFrameCount = 10, const float boxThresh = 0.8, const float clarity = 0.3, const float reality = 0.8, const bool global = false)
 {
-	ModelSetting setting(modelPath + "fas_first.csta", deviceType);
-	if (global)
-	{
-		setting.append(modelPath + "fas_second.csta");
-	}
-	seeta::v6::FaceAntiSpoofing* faceAntiSpoofing = new seeta::v6::FaceAntiSpoofing(setting);
+	seeta::v6::FaceAntiSpoofing* faceAntiSpoofing = new seeta::v6::FaceAntiSpoofing(model);
 	faceAntiSpoofing->SetVideoFrameCount(videoFrameCount);
 	faceAntiSpoofing->SetBoxThresh(boxThresh);
 	faceAntiSpoofing->SetThreshold(clarity, reality);
@@ -369,9 +358,9 @@ EXPORTAPI void DisposeFaceAntiSpoofing(seeta::v6::FaceAntiSpoofing* handler)
 /// <param name="faceSize"></param>
 /// <param name="threshold"></param>
 /// <returns></returns>
-EXPORTAPI seeta::v6::FaceTracker* GetFaceTrackerHandler(const int width, const int height, const bool stable = false, const int interval = 10, const int faceSize = 20, const float threshold = 0.9, const SeetaDevice deviceType = SEETA_DEVICE_AUTO)
+EXPORTAPI seeta::v6::FaceTracker* GetFaceTrackerHandler(const ModelSetting& model, const int width, const int height, const bool stable = false, const int interval = 10, const int faceSize = 20, const float threshold = 0.9)
 {
-	seeta::v6::FaceTracker* faceTracker = new seeta::v6::FaceTracker(ModelSetting(modelPath + "face_detector.csta", deviceType), width, height);
+	seeta::v6::FaceTracker* faceTracker = new seeta::v6::FaceTracker(model, width, height);
 	faceTracker->SetVideoStable(stable);
 	faceTracker->SetMinFaceSize(faceSize);
 	faceTracker->SetThreshold(threshold);
@@ -441,48 +430,56 @@ EXPORTAPI void DisposeFaceTracker(seeta::v6::FaceTracker* handler)
 // 亮度评估
 EXPORTAPI void Quality_Brightness(const SeetaImageData& img, const SeetaRect faceRect, const SeetaPointF* points, const int pointsLength, int* level, float* score, const float v0 = 70, const float v1 = 100, const float v2 = 210, const float v3 = 230)
 {
-	seeta::v3::QualityOfBrightness quality_Brightness(v0, v1, v2, v3);
-	auto result = quality_Brightness.check(img, faceRect, points, pointsLength);
+	seeta::v3::QualityOfBrightness* quality_Brightness = new seeta::v3::QualityOfBrightness(v0, v1, v2, v3);
+	auto result = quality_Brightness->check(img, faceRect, points, pointsLength);
 
 	*level = result.level;
 	*score = result.score;
+
+	delete quality_Brightness;
 }
 
 // 清晰度评估
 EXPORTAPI void Quality_Clarity(const SeetaImageData& img, const SeetaRect faceRect, const SeetaPointF* points, const int pointsLength, int* level, float* score, const float low = 0.1f, const float high = 0.2f)
 {
-	seeta::v3::QualityOfClarity quality_Clarity(low, high);
-	auto result = quality_Clarity.check(img, faceRect, points, pointsLength);
+	seeta::v3::QualityOfClarity* quality_Clarity = new seeta::v3::QualityOfClarity(low, high);
+	auto result = quality_Clarity->check(img, faceRect, points, pointsLength);
 
 	*level = result.level;
 	*score = result.score;
+
+	delete quality_Clarity;
 }
 
 // 完整度评估
 EXPORTAPI void Quality_Integrity(const SeetaImageData& img, const SeetaRect faceRect, const SeetaPointF* points, const int pointsLength, int* level, float* score, const float low = 10, const float high = 1.5f)
 {
-	seeta::v3::QualityOfIntegrity quality_Integrity(low, high);
-	auto result = quality_Integrity.check(img, faceRect, points, pointsLength);
+	seeta::v3::QualityOfIntegrity* quality_Integrity = new seeta::v3::QualityOfIntegrity(low, high);
+	auto result = quality_Integrity->check(img, faceRect, points, pointsLength);
 
 	*level = result.level;
 	*score = result.score;
+
+	delete quality_Integrity;
 }
 
 // 姿态评估
 EXPORTAPI void Quality_Pose(const SeetaImageData& img, const SeetaRect faceRect, const SeetaPointF* points, const int pointsLength, int* level, float* score)
 {
-	seeta::v3::QualityOfPose quality_Pose;
-	auto result = quality_Pose.check(img, faceRect, points, pointsLength);
+	seeta::v3::QualityOfPose* quality_Pose = new seeta::v3::QualityOfPose();
+	auto result = quality_Pose->check(img, faceRect, points, pointsLength);
 
 	*level = result.level;
 	*score = result.score;
+
+	delete quality_Pose;
 }
 
 // 姿态 (深度)评估
-EXPORTAPI void Quality_PoseEx(const SeetaImageData& img, const SeetaRect faceRect, const SeetaPointF* points, const int pointsLength, int* level, float* score,
+EXPORTAPI void Quality_PoseEx(const ModelSetting& model, const SeetaImageData& img, const SeetaRect faceRect, const SeetaPointF* points, const int pointsLength, int* level, float* score,
 	const float yawLow = 25, const float yawHigh = 10, const float pitchLow = 20, const float pitchHigh = 10, const float rollLow = 33.33f, const float rollHigh = 16.67f)
 {
-	seeta::v3::QualityOfPoseEx quality_PoseEx(ModelSetting(modelPath + "pose_estimation.csta"));
+	seeta::v3::QualityOfPoseEx quality_PoseEx(model);
 	quality_PoseEx.set(QualityOfPoseEx::YAW_LOW_THRESHOLD, yawLow);
 	quality_PoseEx.set(QualityOfPoseEx::YAW_HIGH_THRESHOLD, yawHigh);
 	quality_PoseEx.set(QualityOfPoseEx::PITCH_LOW_THRESHOLD, pitchLow);

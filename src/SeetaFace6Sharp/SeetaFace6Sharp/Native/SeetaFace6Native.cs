@@ -35,7 +35,7 @@ namespace SeetaFace6Sharp.Native
         #region Common
 
         [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "GetModel", CallingConvention = CallingConvention.Cdecl)]
-        internal extern static IntPtr GetModel(string model, int deviceType = 0);
+        internal extern static IntPtr GetModel(string model, string extModel = "", int deviceType = 0);
 
         [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "DisposeModel", CallingConvention = CallingConvention.Cdecl)]
         internal extern static void DisposeModel(IntPtr handler);
@@ -96,16 +96,16 @@ namespace SeetaFace6Sharp.Native
         /// <summary>
         /// 获取人脸检测句柄
         /// </summary>
+        /// <param name="model">检测所需模型</param>
         /// <param name="faceSize">最小人脸是人脸检测器常用的一个概念，默认值为20，单位像素。
         /// <para>最小人脸和检测器性能息息相关。主要方面是速度，使用建议上，我们建议在应用范围内，这个值设定的越大越好。SeetaFace采用的是BindingBox Regresion的方式训练的检测器。如果最小人脸参数设置为80的话，从检测能力上，可以将原图缩小的原来的1/4，这样从计算复杂度上，能够比最小人脸设置为20时，提速到16倍。</para>
         /// </param>
         /// <param name="threshold">检测器阈值默认值是0.9，合理范围为[0, 1]。这个值一般不进行调整，除了用来处理一些极端情况。这个值设置的越小，漏检的概率越小，同时误检的概率会提高</param>
         /// <param name="maxWidth">可检测的图像最大宽度。默认值2000。</param>
         /// <param name="maxHeight">可检测的图像最大高度。默认值2000。</param>
-        /// <param name="deviceType">设备类型</param>
         /// <returns></returns>
         [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "GetFaceDetectorHandler", CallingConvention = CallingConvention.Cdecl)]
-        internal extern static IntPtr GetFaceDetectorHandler(double faceSize = 20, double threshold = 0.9, double maxWidth = 2000, double maxHeight = 2000, int deviceType = 0);
+        internal extern static IntPtr GetFaceDetectorHandler(IntPtr model, double faceSize = 20, double threshold = 0.9, double maxWidth = 2000, double maxHeight = 2000);
 
         /// <summary>
         /// 人脸检测器
@@ -131,10 +131,10 @@ namespace SeetaFace6Sharp.Native
         /// <summary>
         /// 获取口罩识别句柄
         /// </summary>
-        /// <param name="deviceType">设备类型</param>
+        /// <param name="model">检测所需模型</param>
         /// <returns></returns>
         [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "GetMaskDetectorHandler", CallingConvention = CallingConvention.Cdecl)]
-        internal extern static IntPtr GetMaskDetectorHandler(int deviceType = 0);
+        internal extern static IntPtr GetMaskDetectorHandler(IntPtr model);
 
         /// <summary>
         /// 口罩检测
@@ -158,8 +158,14 @@ namespace SeetaFace6Sharp.Native
 
         #region FaceMark
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model">检测所需模型</param>
+        /// <param name="type"></param>
+        /// <returns></returns>
         [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "GetFaceLandmarkerHandler", CallingConvention = CallingConvention.Cdecl)]
-        internal extern static IntPtr GetFaceLandmarkerHandler(int type = 0, int deviceType = 0);
+        internal extern static IntPtr GetFaceLandmarkerHandler(IntPtr model, int type = 0);
 
         /// <summary>
         /// 获取人脸关键点
@@ -209,20 +215,20 @@ namespace SeetaFace6Sharp.Native
         /// <summary>
         /// 获取活体检测器句柄
         /// </summary>
+        /// <param name="model">检测所需模型</param>
         /// <param name="videoFrameCount">视频帧数</param>
         /// <param name="boxThresh"></param>
         /// <param name="clarity"></param>
         /// <param name="reality"></param>
         /// <param name="global"></param>
-        /// <param name="deviceType"></param>
         /// <returns></returns>
         [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "GetFaceAntiSpoofingHandler", CallingConvention = CallingConvention.Cdecl)]
-        internal extern static IntPtr GetFaceAntiSpoofingHandler(int videoFrameCount = 10
+        internal extern static IntPtr GetFaceAntiSpoofingHandler(IntPtr model
+            , int videoFrameCount = 10
             , float boxThresh = 0.8f
             , float clarity = 0.3f
             , float reality = 0.8f
-            , bool global = false
-            , int deviceType = 0);
+            , bool global = false);
 
         /// <summary>
         /// 活体检测器
@@ -267,16 +273,16 @@ namespace SeetaFace6Sharp.Native
         /// <summary>
         /// 获取人脸跟踪句柄
         /// </summary>
+        /// <param name="model">检测所需模型</param>
         /// <param name="width">图像宽度</param>
         /// <param name="height">图像高度</param>
         /// <param name="stable"></param>
         /// <param name="interval"></param>
         /// <param name="faceSize"></param>
         /// <param name="threshold"></param>
-        /// <param name="deviceType">计算设备类型</param>
         /// <returns></returns>
         [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "GetFaceTrackerHandler", CallingConvention = CallingConvention.Cdecl)]
-        internal extern static IntPtr GetFaceTrackerHandler(int width, int height, bool stable = false, int interval = 10, int faceSize = 20, float threshold = 0.9f, int deviceType = 0);
+        internal extern static IntPtr GetFaceTrackerHandler(IntPtr model, int width, int height, bool stable = false, int interval = 10, int faceSize = 20, float threshold = 0.9f);
 
         /// <summary>
         /// 人脸跟踪信息
@@ -396,6 +402,7 @@ namespace SeetaFace6Sharp.Native
 
         /// <summary>
         /// 姿态评估 (深度)。
+        /// <param name="model">检测所需模型</param>
         /// <para>此姿态评估器是深度学习方式，通过回归人头部在yaw、pitch、roll三个方向的偏转角度来评估人脸是否是正面。</para>
         /// <para>
         /// 需要模型 <see langword="pose_estimation.csta"/> 
@@ -415,7 +422,7 @@ namespace SeetaFace6Sharp.Native
         /// <param name="rollHigh">roll 方向高分数阈值</param>
         /// <returns></returns>
         [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "Quality_PoseEx", CallingConvention = CallingConvention.Cdecl)]
-        internal extern static void QualityOfPoseEx(ref FaceImage img, FaceRect faceRect, FaceMarkPoint[] points, int pointsLength, ref int level, ref float score,
+        internal extern static void QualityOfPoseEx(IntPtr model, ref FaceImage img, FaceRect faceRect, FaceMarkPoint[] points, int pointsLength, ref int level, ref float score,
             float yawLow = 25, float yawHigh = 10, float pitchLow = 20, float pitchHigh = 10, float rollLow = 33.33f, float rollHigh = 16.67f);
 
         /// <summary>
