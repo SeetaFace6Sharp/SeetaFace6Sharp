@@ -1,4 +1,5 @@
-﻿using SeetaFace6Sharp.Native;
+﻿using SeetaFace6Sharp.Models;
+using SeetaFace6Sharp.Native;
 using System;
 using System.Globalization;
 using System.IO;
@@ -13,36 +14,14 @@ namespace SeetaFace6Sharp
     public abstract class BaseSeetaFace6<T> : ISeetaFace6, IFormattable where T : BaseConfig
     {
         /// <summary>
-        /// 获取模型路径
-        /// </summary>
-        public string ModelPath => GlobalConfig.GetPathResolver().GetModelsPath();
-
-        /// <summary>
         /// 获取库路径
         /// </summary>
         public string LibraryPath => GlobalConfig.GetPathResolver().GetLibraryPath();
 
         /// <summary>
-        /// 获取Model
+        /// 所需模型
         /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        /// <exception cref="FileNotFoundException"></exception>
-        /// <exception cref="ModuleInitializeException"></exception>
-        protected IntPtr GetModel(string model)
-        {
-            model = Path.Combine(this.ModelPath, model);
-            if (!File.Exists(model))
-            {
-                throw new FileNotFoundException($"The model file '{model}' not found.");
-            }
-            IntPtr modelPtr = IntPtr.Zero;
-            if ((modelPtr = SeetaFace6Native.GetModel(model, (int)Config.DeviceType)) == IntPtr.Zero)
-            {
-                throw new ModuleInitializeException(nameof(FaceRecognizer), "Get face recognizer model failed.");
-            }
-            return modelPtr;
-        }
+        public abstract Model Model { get; }
 
         /// <summary>
         /// 初始化
@@ -58,7 +37,7 @@ namespace SeetaFace6Sharp
         /// <summary>
         /// 释放标识
         /// </summary>
-        protected bool disposedValue { get; set; } = false;
+        protected bool disposedValue = false;
 
         /// <summary>
         /// Dispose
@@ -88,7 +67,7 @@ namespace SeetaFace6Sharp
         /// <returns></returns>
         public string ToString(string format, IFormatProvider formatProvider)
         {
-            string ntips = "CurrentModule", mtips = nameof(ModelPath), otips = "OperatingSystem", atips = "ProcessArchitecture", ltips = "LibraryPath";
+            string ntips = "CurrentModule", mtips = this.Model.Path, otips = "OperatingSystem", atips = "ProcessArchitecture", ltips = "LibraryPath";
             if ((formatProvider ?? Thread.CurrentThread.CurrentCulture) is CultureInfo cultureInfo && cultureInfo.Name.StartsWith("zh"))
             {
                 ntips = "当前模块";
@@ -97,7 +76,7 @@ namespace SeetaFace6Sharp
                 atips = "进程架构";
                 ltips = "库路径";
             }
-            return $"{{{ntips}:{this.GetType().Name}, {otips}:{RuntimeInformation.OSDescription}, {atips}:{RuntimeInformation.ProcessArchitecture}, {mtips}:{ModelPath}, {ltips}:{LibraryPath}}}";
+            return $"{{{ntips}:{this.GetType().Name}, {otips}:{RuntimeInformation.OSDescription}, {atips}:{RuntimeInformation.ProcessArchitecture}, {mtips}:{this.Model.Path}, {ltips}:{LibraryPath}}}";
         }
 
         #endregion

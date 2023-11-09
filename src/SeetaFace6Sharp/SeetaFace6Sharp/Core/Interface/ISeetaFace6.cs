@@ -1,4 +1,5 @@
 ﻿using System;
+using SeetaFace6Sharp.Models;
 
 namespace SeetaFace6Sharp
 {
@@ -8,13 +9,13 @@ namespace SeetaFace6Sharp
     public interface ISeetaFace6 : IDisposable
     {
         /// <summary>
-        /// 获取模型路径
-        /// </summary>
-        public string ModelPath { get; }
-
-        /// <summary>
         /// 获取库路径
         /// </summary>
-        public string LibraryPath { get; }
+        string LibraryPath { get; }
+
+        /// <summary>
+        /// 所需模型
+        /// </summary>
+        Model Model { get; }
     }
 }

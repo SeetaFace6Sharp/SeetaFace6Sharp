@@ -1,4 +1,5 @@
-﻿using SeetaFace6Sharp.Native;
+﻿using SeetaFace6Sharp.Models;
+using SeetaFace6Sharp.Native;
 using System;
 
 namespace SeetaFace6Sharp;
@@ -10,6 +11,8 @@ public sealed class AgePredictor : BasePredictor<AgePredictConfig>
 {
     private readonly IntPtr _handle = IntPtr.Zero;
     private readonly static object _locker = new object();
+
+    public override Model Model { get; }
 
     /// <inheritdoc/>
     /// <exception cref="ModuleInitializeException"></exception>

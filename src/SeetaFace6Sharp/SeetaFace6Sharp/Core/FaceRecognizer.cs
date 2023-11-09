@@ -1,4 +1,5 @@
-﻿using SeetaFace6Sharp.Native;
+﻿using SeetaFace6Sharp.Models;
+using SeetaFace6Sharp.Native;
 using System;
 using System.IO;
 using System.Linq;
@@ -12,8 +13,12 @@ namespace SeetaFace6Sharp
     public sealed class FaceRecognizer : BaseSeetaFace6<FaceRecognizeConfig>
     {
         private readonly IntPtr _handle = IntPtr.Zero;
-        private readonly IntPtr _model = IntPtr.Zero;
         private readonly static object _locker = new object();
+
+        /// <summary>
+        /// 所需模型
+        /// </summary>
+        public override Model Model { get; }
 
         /// <summary>
         /// 
@@ -27,15 +32,16 @@ namespace SeetaFace6Sharp
         /// <exception cref="ModuleInitializeException"></exception>
         public FaceRecognizer(FaceRecognizeConfig config = null) : base(config ?? new FaceRecognizeConfig())
         {
-            string model = Config.FaceType switch
+            string model = this.Config.FaceType switch
             {
                 FaceType.Normal => "face_recognizer.csta",
                 FaceType.Mask => "face_recognizer_mask.csta",
                 FaceType.Light => "face_recognizer_light.csta",
-                _ => throw new NotSupportedException($"Not support face type: {Config.FaceType}."),
+                _ => throw new NotSupportedException($"Not support face type: {this.Config.FaceType}."),
             };
-            _model = GetModel(model);
-            if ((_handle = SeetaFace6Native.GetFaceRecognizerHandler(_model)) == IntPtr.Zero)
+            this.Model = new Model(model, this.Config.DeviceType);
+
+            if ((_handle = SeetaFace6Native.GetFaceRecognizerHandler(this.Model.Ptr)) == IntPtr.Zero)
             {
                 throw new ModuleInitializeException(nameof(FaceRecognizer), "Get face recognizer handle failed.");
             }
@@ -55,7 +61,7 @@ namespace SeetaFace6Sharp
                     throw new ObjectDisposedException(nameof(FaceRecognizer));
 
                 int size = SeetaFace6Native.GetExtractFeatureSize(_handle);
-                if (size <= 0) 
+                if (size <= 0)
                     throw new Exception("Can not get face recognizer extract size.");
 
                 IntPtr buffer = Marshal.AllocHGlobal(size * sizeof(float));
@@ -134,7 +140,7 @@ namespace SeetaFace6Sharp
                 if (disposedValue) return;
                 disposedValue = true;
                 if (_handle != IntPtr.Zero) SeetaFace6Native.DisposeFaceRecognizer(_handle);
-                if (_model != IntPtr.Zero) SeetaFace6Native.DisposeModel(_model);
+                this.Model?.Dispose();
             }
         }
     }
