@@ -81,6 +81,7 @@ namespace SeetaFace6Sharp.Models
             }
         }
 
+        /// <inheritdoc/>
         public void Dispose()
         {
             if (disposedValue)

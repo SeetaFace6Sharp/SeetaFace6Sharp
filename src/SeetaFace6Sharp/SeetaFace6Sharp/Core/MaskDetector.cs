@@ -1,4 +1,5 @@
-﻿using SeetaFace6Sharp.Native;
+﻿using SeetaFace6Sharp.Models;
+using SeetaFace6Sharp.Native;
 using System;
 
 namespace SeetaFace6Sharp
@@ -12,13 +13,20 @@ namespace SeetaFace6Sharp
         private readonly static object _locker = new object();
 
         /// <summary>
+        /// 所需模型(mask_detector.csta)
+        /// </summary>
+        public override Model Model { get; }
+
+        /// <summary>
         /// 口罩人脸识别
         /// </summary>
         /// <param name="config"></param>
         /// <exception cref="ModuleInitializeException"></exception>
         public MaskDetector(MaskDetectConfig config = null) : base(config ?? new MaskDetectConfig())
         {
-            if ((_handle = SeetaFace6Native.GetMaskDetectorHandler((int)Config.DeviceType)) == IntPtr.Zero)
+            this.Model = new Model("", this.Config.DeviceType);
+
+            if ((_handle = SeetaFace6Native.GetMaskDetectorHandler(this.Model.Ptr)) == IntPtr.Zero)
             {
                 throw new ModuleInitializeException(nameof(FaceLandmarker), "Get mask detector handle failed.");
             }
@@ -57,6 +65,7 @@ namespace SeetaFace6Sharp
                 if (_handle == IntPtr.Zero)
                     return;
                 SeetaFace6Native.DisposeMaskDetector(_handle);
+                this.Model.Dispose();
             }
         }
     }

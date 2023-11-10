@@ -1,4 +1,5 @@
-﻿using SeetaFace6Sharp.Native;
+﻿using SeetaFace6Sharp.Models;
+using SeetaFace6Sharp.Native;
 using System;
 using System.Runtime.InteropServices;
 
@@ -13,6 +14,11 @@ namespace SeetaFace6Sharp
         private readonly static object _locker = new object();
 
         /// <summary>
+        /// 人脸识别所需model（face_detector）
+        /// </summary>
+        public override Model Model { get; }
+
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="config"></param>
@@ -20,7 +26,9 @@ namespace SeetaFace6Sharp
         /// <exception cref="ModuleInitializeException"></exception>
         public FaceTracker(FaceTrackerConfig config) : base(config ?? throw new ArgumentNullException(nameof(config), $"Param '{nameof(config)}' can not null."))
         {
-            _handle = SeetaFace6Native.GetFaceTrackerHandler(config.Width, config.Height, config.Stable, config.Interval, config.MinFaceSize, config.Threshold, (int)config.DeviceType);
+            this.Model = new Model("face_detector.csta", this.Config.DeviceType);
+
+            _handle = SeetaFace6Native.GetFaceTrackerHandler(this.Model.Ptr, this.Config.Width, this.Config.Height, this.Config.Stable, this.Config.Interval, this.Config.MinFaceSize, this.Config.Threshold);
             if (_handle == IntPtr.Zero)
             {
                 throw new ModuleInitializeException(nameof(FaceLandmarker), "Get face track handle failed.");
@@ -92,6 +100,7 @@ namespace SeetaFace6Sharp
                 if (_handle == IntPtr.Zero)
                     return;
                 SeetaFace6Native.DisposeFaceTracker(_handle);
+                this.Model.Dispose();
             }
         }
     }

@@ -16,7 +16,7 @@ namespace SeetaFace6Sharp
         private readonly static object _locker = new object();
 
         /// <summary>
-        /// 所需模型
+        /// 所需模型(face_recognizer/face_recognizer_mask/face_recognizer_light)
         /// </summary>
         public override Model Model { get; }
 

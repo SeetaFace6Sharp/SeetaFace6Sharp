@@ -1,4 +1,5 @@
-﻿using SeetaFace6Sharp.Native;
+﻿using SeetaFace6Sharp.Models;
+using SeetaFace6Sharp.Native;
 using System;
 
 namespace SeetaFace6Sharp;
@@ -13,11 +14,17 @@ public sealed class EyeStateDetector : BasePredictor<EyeStateDetectConfig>
     private readonly IntPtr _handle = IntPtr.Zero;
     private readonly static object _locker = new object();
 
+    /// <summary>
+    /// 所需模型：eye_state.csta
+    /// </summary>
+    public override Model Model { get; }
+
     /// <inheritdoc/>
     /// <exception cref="ModuleInitializeException"></exception>
     public EyeStateDetector(EyeStateDetectConfig config = null) : base(config ?? new EyeStateDetectConfig())
     {
-        if ((_handle = SeetaFace6Native.GetEyeStateDetectorHandler((int)Config.DeviceType)) == IntPtr.Zero)
+        this.Model = new Model("eye_state.csta", this.Config.DeviceType);
+        if ((_handle = SeetaFace6Native.GetEyeStateDetectorHandler(this.Model.Ptr)) == IntPtr.Zero)
         {
             throw new ModuleInitializeException(nameof(EyeStateDetector), "Get eye state detector handle failed.");
         }
@@ -49,10 +56,15 @@ public sealed class EyeStateDetector : BasePredictor<EyeStateDetectConfig>
     /// <inheritdoc/>
     public override void Dispose()
     {
+        if (disposedValue) return;
+
         lock (_locker)
         {
+            if (disposedValue) return;
             disposedValue = true;
+            if (_handle == IntPtr.Zero) return;
             SeetaFace6Native.DisposeEyeStateDetector(_handle);
+            this.Model.Dispose();
         }
     }
 }

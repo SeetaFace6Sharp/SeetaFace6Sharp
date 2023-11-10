@@ -43,9 +43,6 @@ namespace SeetaFace6Sharp.Native
         [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "DisposeModel", CallingConvention = CallingConvention.Cdecl)]
         internal extern static void DisposeModel(IntPtr handler);
 
-        [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "DisposeExtractSharedPtr", CallingConvention = CallingConvention.Cdecl)]
-        internal extern static void DisposeExtractSharedPtr(IntPtr features);
-
         /// <summary>
         /// 设置人脸模型的目录（Windows）
         /// </summary>
@@ -223,7 +220,6 @@ namespace SeetaFace6Sharp.Native
         /// <param name="boxThresh"></param>
         /// <param name="clarity"></param>
         /// <param name="reality"></param>
-        /// <param name="global"></param>
         /// <returns></returns>
         [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "GetFaceAntiSpoofingHandler", CallingConvention = CallingConvention.Cdecl)]
         internal extern static IntPtr GetFaceAntiSpoofingHandler(IntPtr model

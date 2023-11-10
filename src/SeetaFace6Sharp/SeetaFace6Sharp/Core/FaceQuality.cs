@@ -1,4 +1,5 @@
-﻿using SeetaFace6Sharp.Native;
+﻿using SeetaFace6Sharp.Models;
+using SeetaFace6Sharp.Native;
 using System;
 
 namespace SeetaFace6Sharp
@@ -16,20 +17,45 @@ namespace SeetaFace6Sharp
 
         private readonly static object _disposeLocker = new object();
 
+        /// <summary>
+        /// 人脸识别所需model（quality_lbn）
+        /// </summary>
+        public override Model Model { get; }
+
+        /// <summary>
+        /// 模型：face_landmarker_pts68
+        /// </summary>
+        public Model LandmarkerPts68Model { get; }
+
+        /// <summary>
+        /// 模型：face_landmarker_mask_pts5
+        /// </summary>
+        public Model LandmarkerMaskPts5Model { get; }
+
+        /// <summary>
+        /// 模型：pose_estimation
+        /// </summary>
+        public Model PoseEstimationModel { get; }
+
         /// <inheritdoc/>
         public FaceQuality(QualityConfig config = null) : base(config ?? new QualityConfig())
         {
-            _clarityHandle = SeetaFace6Native.GetQualityOfClarityExHandler(this.Config.ClarityEx.BlurThresh, (int)this.Config.DeviceType);
+            this.Model = new Model("quality_lbn.csta", this.Config.DeviceType);
+            this.LandmarkerPts68Model = new Model("face_landmarker_pts68.csta", this.Config.DeviceType);
+            _clarityHandle = SeetaFace6Native.GetQualityOfClarityExHandler(this.Model.Ptr, this.LandmarkerPts68Model.Ptr);
             if (_clarityHandle == IntPtr.Zero)
             {
                 throw new ModuleInitializeException(nameof(FaceQuality), "Get quality of clarityEx handle failed.");
             }
 
-            _maskHandle = SeetaFace6Native.GetQualityOfNoMaskHandler((int)this.Config.DeviceType);
+            this.LandmarkerMaskPts5Model = new Model("face_landmarker_mask_pts5.csta", this.Config.DeviceType);
+            _maskHandle = SeetaFace6Native.GetQualityOfNoMaskHandler(this.LandmarkerMaskPts5Model.Ptr);
             if (_maskHandle == IntPtr.Zero)
             {
                 throw new ModuleInitializeException(nameof(FaceQuality), "Get quality of nomask handle failed.");
             }
+
+            this.PoseEstimationModel = new Model("pose_estimation.csta", this.Config.DeviceType);
         }
 
         /// <summary>
@@ -65,10 +91,8 @@ namespace SeetaFace6Sharp
                     SeetaFace6Native.QualityOfPose(ref image, info.Location, points, points.Length, ref level, ref score);
                     break;
                 case QualityType.PoseEx:
-                    SeetaFace6Native.QualityOfPoseEx(ref image, info.Location, points, points.Length, ref level, ref score,
-                       this.Config.PoseEx.YawLow, this.Config.PoseEx.YawHigh,
-                       this.Config.PoseEx.PitchLow, this.Config.PoseEx.PitchHigh,
-                       this.Config.PoseEx.RollLow, this.Config.PoseEx.RollHigh);
+                    SeetaFace6Native.QualityOfPoseEx(this.PoseEstimationModel.Ptr, ref image, info.Location, points, points.Length, ref level, ref score,
+                       this.Config.PoseEx.YawLow, this.Config.PoseEx.YawHigh, this.Config.PoseEx.PitchLow, this.Config.PoseEx.PitchHigh, this.Config.PoseEx.RollLow, this.Config.PoseEx.RollHigh);
                     break;
                 case QualityType.Resolution:
                     SeetaFace6Native.QualityOfResolution(ref image, info.Location, points, points.Length, ref level, ref score, this.Config.Resolution.Low, this.Config.Resolution.High);
@@ -112,6 +136,9 @@ namespace SeetaFace6Sharp
                 if (_clarityHandle == IntPtr.Zero)
                     return;
                 SeetaFace6Native.DisposeQualityOfClarityEx(_clarityHandle);
+
+                this.Model.Dispose();
+                this.LandmarkerPts68Model.Dispose();
             }
 
             lock (_maskLocker)
@@ -119,7 +146,11 @@ namespace SeetaFace6Sharp
                 if (_maskHandle == IntPtr.Zero)
                     return;
                 SeetaFace6Native.DisposeQualityOfNoMask(_maskHandle);
+
+                this.LandmarkerMaskPts5Model.Dispose();
             }
+
+            this.PoseEstimationModel.Dispose();
         }
     }
 }
