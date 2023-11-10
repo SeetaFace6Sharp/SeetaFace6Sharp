@@ -13,7 +13,7 @@ namespace SeetaFace6Sharp
         private readonly static object _locker = new object();
 
         /// <summary>
-        /// 所需模型(mask_detector.csta)
+        /// 所需模型：mask_detector.csta
         /// </summary>
         public override Model Model { get; }
 
@@ -24,7 +24,7 @@ namespace SeetaFace6Sharp
         /// <exception cref="ModuleInitializeException"></exception>
         public MaskDetector(MaskDetectConfig config = null) : base(config ?? new MaskDetectConfig())
         {
-            this.Model = new Model("", this.Config.DeviceType);
+            this.Model = new Model("mask_detector.csta", this.Config.DeviceType);
 
             if ((_handle = SeetaFace6Native.GetMaskDetectorHandler(this.Model.Ptr)) == IntPtr.Zero)
             {

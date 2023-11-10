@@ -62,8 +62,7 @@ namespace SeetaFace6Sharp.Native.LibraryLoader.Interface
         /// </summary>
         protected virtual void AfterLoad()
         {
-            string defaultModelsPath = PathResolver.GetModelsPath();
-            SetModelsPath(defaultModelsPath);
+            
         }
 
         /// <summary>
@@ -72,7 +71,7 @@ namespace SeetaFace6Sharp.Native.LibraryLoader.Interface
         public virtual void Load()
         {
             BeforeLoad();
-            Loading();
+            LoadLibrary();
             AfterLoad();
         }
 
@@ -110,12 +109,6 @@ namespace SeetaFace6Sharp.Native.LibraryLoader.Interface
         #region Abstract
 
         /// <summary>
-        /// 设置模型路径
-        /// </summary>
-        /// <param name="path"></param>
-        protected abstract void SetModelsPath(string path);
-
-        /// <summary>
         /// 设置支持的指令集
         /// </summary>
         protected abstract void SetInstructionSupport();
@@ -123,7 +116,7 @@ namespace SeetaFace6Sharp.Native.LibraryLoader.Interface
         /// <summary>
         /// 加载静态库
         /// </summary>
-        protected abstract void Loading();
+        protected abstract void LoadLibrary();
 
         /// <summary>
         /// Dispose

@@ -30,34 +30,34 @@ namespace SeetaFace6Sharp.ConsoleTest
                 try
                 {
                     //口罩识别测试
-                    MaskDetectorTest();
+                    //MaskDetectorTest();
 
-                    //人脸识别和标记测试，开始：2022/07/30 00:12:51，结束：2022/07/30 09:04:30，结果：通过
-                    FaceDetectorAndFaceMarkTest();
+                    ////人脸识别和标记测试，开始：2022/07/30 00:12:51，结束：2022/07/30 09:04:30，结果：通过
+                    //FaceDetectorAndFaceMarkTest();
 
-                    //活体检测测试，通过24h测试，20220728
-                    AntiSpoofingTest();
+                    ////活体检测测试，通过24h测试，20220728
+                    //AntiSpoofingTest();
 
-                    //质量评估测试，开始：2022 - 07 - 28 09:57，结束：,结果：通过
+                    ////质量评估测试，开始：2022 - 07 - 28 09:57，结束：,结果：通过
                     FaceQualityTest();
 
-                    //人脸追踪测试，开始：2022/07/29 16:45:18，结束：2022/07/29 17:50:01,结果：通过
-                    FaceTrackTest();
+                    ////人脸追踪测试，开始：2022/07/29 16:45:18，结束：2022/07/29 17:50:01,结果：通过
+                    //FaceTrackTest();
 
-                    //人脸特征值测试，开始：2022/07/30 00:12:51，结束：2022/07/30 09:04:30，结果：通过
-                    ExtractTest();
+                    ////人脸特征值测试，开始：2022/07/30 00:12:51，结束：2022/07/30 09:04:30，结果：通过
+                    //ExtractTest();
 
-                    //年龄预测测试
-                    FaceAgePredictorTest();
+                    ////年龄预测测试
+                    //FaceAgePredictorTest();
 
-                    //性别预测测试
-                    FaceGenderPredictorTest();
+                    ////性别预测测试
+                    //FaceGenderPredictorTest();
 
-                    //眼睛状态检测测试
-                    FaceEyeStateDetectorTest();
+                    ////眼睛状态检测测试
+                    //FaceEyeStateDetectorTest();
 
-                    //人脸对比测试，开始：2022 / 07 / 30 00:12:51，结束：2022 / 07 / 30 09:04:30，结果：通过
-                    CompareTest();
+                    ////人脸对比测试，开始：2022 / 07 / 30 00:12:51，结束：2022 / 07 / 30 09:04:30，结果：通过
+                    //CompareTest();
                 }
                 catch (Exception ex)
                 {
@@ -97,26 +97,26 @@ namespace SeetaFace6Sharp.ConsoleTest
                 var brightnessResult = faceQuality.Detect(bitmap, info, markPoints, QualityType.Brightness);
                 logger.Info($"第{i + 1}次{QualityType.Brightness}评估，结果：{brightnessResult}，耗时：{sw.ElapsedMilliseconds}ms");
                 sw.Restart();
-                var resolutionResult = faceQuality.Detect(bitmap, info, markPoints, QualityType.Resolution);
-                logger.Info($"第{i + 1}次{QualityType.Resolution}评估，结果：{resolutionResult}，耗时：{sw.ElapsedMilliseconds}ms");
-                sw.Restart();
-                var clarityResult = faceQuality.Detect(bitmap, info, markPoints, QualityType.Clarity);
-                logger.Info($"第{i + 1}次{QualityType.Clarity}评估，结果：{clarityResult}，耗时：{sw.ElapsedMilliseconds}ms");
-                sw.Restart();
-                var clarityExResult = faceQuality.Detect(bitmap, info, markPoints, QualityType.ClarityEx);
-                logger.Info($"第{i + 1}次{QualityType.ClarityEx}评估，结果：{clarityExResult}，耗时：{sw.ElapsedMilliseconds}ms");
-                sw.Restart();
-                var integrityExResult = faceQuality.Detect(bitmap, info, markPoints, QualityType.Integrity);
-                logger.Info($"第{i + 1}次{QualityType.Integrity}评估，结果：{integrityExResult}，耗时：{sw.ElapsedMilliseconds}ms");
-                sw.Restart();
-                var structureeResult = faceQuality.Detect(bitmap, info, markPoints, QualityType.Structure);
-                logger.Info($"第{i + 1}次{QualityType.Structure}评估，结果：{structureeResult}，耗时：{sw.ElapsedMilliseconds}ms");
-                sw.Restart();
-                var poseResult = faceQuality.Detect(bitmap, info, markPoints, QualityType.Pose);
-                logger.Info($"第{i + 1}次{QualityType.Pose}评估，结果：{poseResult}，耗时：{sw.ElapsedMilliseconds}ms");
-                sw.Restart();
-                var poseExeResult = faceQuality.Detect(bitmap, info, markPoints, QualityType.PoseEx);
-                logger.Info($"第{i + 1}次{QualityType.PoseEx}评估，结果：{poseExeResult}，耗时：{sw.ElapsedMilliseconds}ms");
+                //var resolutionResult = faceQuality.Detect(bitmap, info, markPoints, QualityType.Resolution);
+                //logger.Info($"第{i + 1}次{QualityType.Resolution}评估，结果：{resolutionResult}，耗时：{sw.ElapsedMilliseconds}ms");
+                //sw.Restart();
+                //var clarityResult = faceQuality.Detect(bitmap, info, markPoints, QualityType.Clarity);
+                //logger.Info($"第{i + 1}次{QualityType.Clarity}评估，结果：{clarityResult}，耗时：{sw.ElapsedMilliseconds}ms");
+                //sw.Restart();
+                //var clarityExResult = faceQuality.Detect(bitmap, info, markPoints, QualityType.ClarityEx);
+                //logger.Info($"第{i + 1}次{QualityType.ClarityEx}评估，结果：{clarityExResult}，耗时：{sw.ElapsedMilliseconds}ms");
+                //sw.Restart();
+                //var integrityExResult = faceQuality.Detect(bitmap, info, markPoints, QualityType.Integrity);
+                //logger.Info($"第{i + 1}次{QualityType.Integrity}评估，结果：{integrityExResult}，耗时：{sw.ElapsedMilliseconds}ms");
+                //sw.Restart();
+                //var structureeResult = faceQuality.Detect(bitmap, info, markPoints, QualityType.Structure);
+                //logger.Info($"第{i + 1}次{QualityType.Structure}评估，结果：{structureeResult}，耗时：{sw.ElapsedMilliseconds}ms");
+                //sw.Restart();
+                //var poseResult = faceQuality.Detect(bitmap, info, markPoints, QualityType.Pose);
+                //logger.Info($"第{i + 1}次{QualityType.Pose}评估，结果：{poseResult}，耗时：{sw.ElapsedMilliseconds}ms");
+                //sw.Restart();
+                //var poseExeResult = faceQuality.Detect(bitmap, info, markPoints, QualityType.PoseEx);
+                //logger.Info($"第{i + 1}次{QualityType.PoseEx}评估，结果：{poseExeResult}，耗时：{sw.ElapsedMilliseconds}ms");
 
             });
         }

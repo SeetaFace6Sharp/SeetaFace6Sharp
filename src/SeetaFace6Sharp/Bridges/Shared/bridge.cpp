@@ -6,6 +6,12 @@ using namespace seeta;
 
 #pragma region Common
 
+template< class T > void SafeDelete(T*& pVal)
+{
+	delete pVal;
+	pVal = NULL;
+}
+
 //#if WINDOWS
 //
 //// 设置人脸模型目录
@@ -429,13 +435,19 @@ EXPORTAPI void DisposeFaceTracker(seeta::v6::FaceTracker* handler)
 // 亮度评估
 EXPORTAPI void Quality_Brightness(const SeetaImageData& img, const SeetaRect faceRect, const SeetaPointF* points, const int pointsLength, int* level, float* score, const float v0 = 70, const float v1 = 100, const float v2 = 210, const float v3 = 230)
 {
-	seeta::v3::QualityOfBrightness* quality_Brightness = new seeta::v3::QualityOfBrightness(v0, v1, v2, v3);
-	auto result = quality_Brightness->check(img, faceRect, points, pointsLength);
+	try {
+		seeta::v3::QualityOfBrightness* quality_Brightness = new seeta::v3::QualityOfBrightness(v0, v1, v2, v3);
+		auto result = quality_Brightness->check(img, faceRect, points, pointsLength);
 
-	*level = result.level;
-	*score = result.score;
+		*level = result.level;
+		*score = result.score;
 
-	delete quality_Brightness;
+		SafeDelete(quality_Brightness);
+	}
+	catch (const exception& e) {
+
+		throw;
+	}
 }
 
 // 清晰度评估
@@ -447,7 +459,7 @@ EXPORTAPI void Quality_Clarity(const SeetaImageData& img, const SeetaRect faceRe
 	*level = result.level;
 	*score = result.score;
 
-	delete quality_Clarity;
+	SafeDelete(quality_Clarity);
 }
 
 // 完整度评估
@@ -459,7 +471,7 @@ EXPORTAPI void Quality_Integrity(const SeetaImageData& img, const SeetaRect face
 	*level = result.level;
 	*score = result.score;
 
-	delete quality_Integrity;
+	SafeDelete(quality_Integrity);
 }
 
 // 姿态评估
@@ -471,25 +483,27 @@ EXPORTAPI void Quality_Pose(const SeetaImageData& img, const SeetaRect faceRect,
 	*level = result.level;
 	*score = result.score;
 
-	delete quality_Pose;
+	SafeDelete(quality_Pose);
 }
 
 // 姿态 (深度)评估
 EXPORTAPI void Quality_PoseEx(const ModelSetting& model, const SeetaImageData& img, const SeetaRect faceRect, const SeetaPointF* points, const int pointsLength, int* level, float* score,
 	const float yawLow = 25, const float yawHigh = 10, const float pitchLow = 20, const float pitchHigh = 10, const float rollLow = 33.33f, const float rollHigh = 16.67f)
 {
-	seeta::v3::QualityOfPoseEx quality_PoseEx(model);
-	quality_PoseEx.set(QualityOfPoseEx::YAW_LOW_THRESHOLD, yawLow);
-	quality_PoseEx.set(QualityOfPoseEx::YAW_HIGH_THRESHOLD, yawHigh);
-	quality_PoseEx.set(QualityOfPoseEx::PITCH_LOW_THRESHOLD, pitchLow);
-	quality_PoseEx.set(QualityOfPoseEx::PITCH_HIGH_THRESHOLD, pitchHigh);
-	quality_PoseEx.set(QualityOfPoseEx::ROLL_LOW_THRESHOLD, rollLow);
-	quality_PoseEx.set(QualityOfPoseEx::ROLL_HIGH_THRESHOLD, rollHigh);
+	seeta::v3::QualityOfPoseEx* quality_PoseEx = new seeta::v3::QualityOfPoseEx(model);
+	quality_PoseEx->set(QualityOfPoseEx::YAW_LOW_THRESHOLD, yawLow);
+	quality_PoseEx->set(QualityOfPoseEx::YAW_HIGH_THRESHOLD, yawHigh);
+	quality_PoseEx->set(QualityOfPoseEx::PITCH_LOW_THRESHOLD, pitchLow);
+	quality_PoseEx->set(QualityOfPoseEx::PITCH_HIGH_THRESHOLD, pitchHigh);
+	quality_PoseEx->set(QualityOfPoseEx::ROLL_LOW_THRESHOLD, rollLow);
+	quality_PoseEx->set(QualityOfPoseEx::ROLL_HIGH_THRESHOLD, rollHigh);
 
-	auto result = quality_PoseEx.check(img, faceRect, points, pointsLength);
+	auto result = quality_PoseEx->check(img, faceRect, points, pointsLength);
 
 	*level = result.level;
 	*score = result.score;
+
+	SafeDelete(quality_PoseEx);
 }
 
 // 分辨率评估
@@ -501,7 +515,7 @@ EXPORTAPI void Quality_Resolution(const SeetaImageData& img, const SeetaRect fac
 	*level = result.level;
 	*score = result.score;
 
-	delete quality_Resolution;
+	SafeDelete(quality_Resolution);
 }
 
 EXPORTAPI seeta::QualityOfClarityEx* GetQualityOfClarityExHandler(const ModelSetting& qualityModel, const ModelSetting& landmarkerPts68Model, const float blur_thresh = 0.8f)

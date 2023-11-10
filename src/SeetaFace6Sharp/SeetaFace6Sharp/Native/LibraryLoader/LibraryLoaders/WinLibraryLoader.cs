@@ -107,30 +107,7 @@ namespace SeetaFace6Sharp.Native.LibraryLoader.LibraryLoaders
 #endif
         }
 
-        protected override void SetModelsPath(string path)
-        {
-            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                throw new PlatformNotSupportedException($"Unsupported system type: {RuntimeInformation.OSDescription}");
-            }
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                throw new ArgumentNullException(nameof(path), "Model path can not null.");
-            }
-            GlobalConfig.WriteLog($"Loading models from {path}");
-            byte[] pathUtf8Bytes = Encoding.Convert(Encoding.Default, Encoding.UTF8, Encoding.Default.GetBytes(path));
-            if (pathUtf8Bytes.Length > SeetaFace6Native.MAX_PATH_LENGTH)
-            {
-                throw new NotSupportedException($"The path is too long, not support path more than {SeetaFace6Native.MAX_PATH_LENGTH} byte.");
-            }
-            SeetaFace6Native.SetModelPathWindows(Encoding.UTF8.GetString(pathUtf8Bytes));
-            if (!path.Equals(SeetaFace6Native.GetModelPath()))
-            {
-                throw new LoadModelException($"Set model path to '{path}' failed, failed to verify this path.");
-            }
-        }
-
-        protected override void Loading()
+        protected override void LoadLibrary()
         {
             GlobalConfig.WriteLog($"Loading library from {PathResolver.GetLibraryPath()}");
             foreach (var library in LibraryNameContainer)
