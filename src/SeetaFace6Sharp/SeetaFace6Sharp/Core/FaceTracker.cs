@@ -43,31 +43,40 @@ namespace SeetaFace6Sharp
         /// </para>
         /// </summary>
         /// <param name="image">人脸图像信息</param>
+        /// <param name="maxFaceCount">单张图片中最多人脸数量（预分配内存）</param>
         /// <returns>人脸信息集合。若 <see cref="Array.Length"/> == 0 ，代表未检测到人脸信息。如果图片中确实有人脸，可以修改 <see cref="FaceTrackerConfig"/> 重新检测。</returns>
-        public FaceTrackInfo[] Track(FaceImage image)
+        public FaceTrackInfo[] Track(FaceImage image, int maxFaceCount = 30)
         {
             lock (_locker)
             {
                 if (disposedValue)
                     throw new ObjectDisposedException(nameof(FaceTracker));
 
-                int size = 0;
-                var ptr = SeetaFace6Native.FaceTrack(_handle, ref image, ref size);
-                if (ptr == IntPtr.Zero) return new FaceTrackInfo[0];
+                int sizeOfFaceTrackInfo = Marshal.SizeOf(typeof(FaceTrackInfo));
+                IntPtr buffer = Marshal.AllocHGlobal(maxFaceCount * sizeOfFaceTrackInfo);
+                if (buffer == IntPtr.Zero) return new FaceTrackInfo[0];
+                
                 try
                 {
+                    int size = 0;
+                    int rtCode = SeetaFace6Native.FaceTrack(_handle, ref image, maxFaceCount, buffer, ref size);
+                    if (rtCode != 0)
+                    {
+                        throw new Exception($"Face track failed, result code id {rtCode}");
+                    }
+
                     FaceTrackInfo[] result = new FaceTrackInfo[size];
                     for (int i = 0; i < size; i++)
                     {
-                        int ofs = i * Marshal.SizeOf(typeof(FaceTrackInfo));
-                        var info = (FaceTrackInfo)Marshal.PtrToStructure(ptr + ofs, typeof(FaceTrackInfo));
-                        result[i] = info;
+                        IntPtr p = new IntPtr(buffer.ToInt64() + i * sizeOfFaceTrackInfo);
+                        result[i] = (FaceTrackInfo)Marshal.PtrToStructure(p, typeof(FaceTrackInfo));
                     }
                     return result;
                 }
                 finally
                 {
-                    SeetaFace6Native.FreeMemory(ptr);
+                    if (buffer != IntPtr.Zero)
+                        Marshal.FreeHGlobal(buffer);
                 }
             }
         }

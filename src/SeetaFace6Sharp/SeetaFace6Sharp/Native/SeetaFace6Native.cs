@@ -112,10 +112,12 @@ namespace SeetaFace6Sharp.Native
         /// </summary>
         /// <param name="handler"></param>
         /// <param name="img">图像信息</param>
+        /// <param name="maxFaceCount">单张图片中最多人脸数量（预分配内存）</param>
+        /// <param name="buffer">人脸信息</param>
         /// <param name="size">检测到的人脸数量</param>
         /// <returns></returns>
         [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "FaceDetectV2", CallingConvention = CallingConvention.Cdecl)]
-        internal extern static IntPtr FaceDetectV2(IntPtr handler, ref FaceImage img, ref int size);
+        internal extern static int FaceDetectV2(IntPtr handler, ref FaceImage img, int maxFaceCount, IntPtr buffer, ref int size);
 
         /// <summary>
         /// 释放人脸检测句柄
@@ -175,9 +177,11 @@ namespace SeetaFace6Sharp.Native
         /// <param name="img">图像信息</param>
         /// <param name="faceRect">人脸位置信息</param>
         /// <param name="size">关键点数量</param>
+        /// <param name="bufferSize">关键点数量（初始化量）</param>
+        /// <param name="buffer">初始化数组</param>
         /// <returns></returns>
         [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "FaceMark", CallingConvention = CallingConvention.Cdecl)]
-        internal extern static IntPtr FaceMark(IntPtr handler, ref FaceImage img, FaceRect faceRect, ref long size);
+        internal extern static int FaceMark(IntPtr handler, ref FaceImage img, FaceRect faceRect, int bufferSize, IntPtr buffer, ref long size);
 
         [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "DisposeFaceLandmarker", CallingConvention = CallingConvention.Cdecl)]
         internal extern static void DisposeFaceLandmarker(IntPtr handler);
@@ -287,10 +291,12 @@ namespace SeetaFace6Sharp.Native
         /// </summary>
         /// <param name="faceTracker">人脸跟踪句柄</param>
         /// <param name="img">追踪图像</param>
-        /// <param name="size"></param>
+        /// <param name="maxFaceCount">单次识别最大人脸数量</param>
+        /// <param name="buffer">数据缓冲区</param>
+        /// <param name="size">人脸数量</param>
         /// <returns></returns>
         [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "FaceTrack", CallingConvention = CallingConvention.Cdecl)]
-        internal extern static IntPtr FaceTrack(IntPtr faceTracker, ref FaceImage img, ref int size);
+        internal extern static int FaceTrack(IntPtr faceTracker, ref FaceImage img, int maxFaceCount, IntPtr buffer, ref int size);
 
         /// <summary>
         /// 重置追踪视频
@@ -459,7 +465,7 @@ namespace SeetaFace6Sharp.Native
         /// <param name="blur_thresh">清晰度阈值，默认值：0.8</param>
         /// <returns></returns>
         [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "GetQualityOfClarityExHandler", CallingConvention = CallingConvention.Cdecl)]
-        internal extern static IntPtr GetQualityOfClarityExHandler(IntPtr qualityModel,  IntPtr landmarkerPts68Model, float blur_thresh = 0.8f);
+        internal extern static IntPtr GetQualityOfClarityExHandler(IntPtr qualityModel, IntPtr landmarkerPts68Model, float blur_thresh = 0.8f);
 
         /// <summary>
         /// 清晰度 (深度)评估。

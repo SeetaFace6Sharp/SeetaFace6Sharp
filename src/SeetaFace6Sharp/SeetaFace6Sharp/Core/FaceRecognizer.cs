@@ -74,7 +74,8 @@ namespace SeetaFace6Sharp
                 }
                 finally
                 {
-                    Marshal.FreeHGlobal(buffer);
+                    if (buffer != IntPtr.Zero)
+                        Marshal.FreeHGlobal(buffer);
                 }
             }
         }

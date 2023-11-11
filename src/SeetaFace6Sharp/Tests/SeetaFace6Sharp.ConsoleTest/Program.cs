@@ -9,7 +9,7 @@ namespace SeetaFace6Sharp.ConsoleTest
     internal class Program
     {
         private readonly static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
-        private readonly static string imagePath = @"images/Jay_3.jpg";
+        private readonly static string imagePath = @"images/more.jpg";
         private readonly static string imagePath1 = @"images/Jay_4.jpg";
         private readonly static string maskImagePath = @"images/mask_01.jpeg";
         private readonly static string logPath = "logs";
@@ -39,13 +39,13 @@ namespace SeetaFace6Sharp.ConsoleTest
                     //AntiSpoofingTest();
 
                     ////质量评估测试，开始：2022 - 07 - 28 09:57，结束：,结果：通过
-                    FaceQualityTest();
+                    //FaceQualityTest();
 
                     ////人脸追踪测试，开始：2022/07/29 16:45:18，结束：2022/07/29 17:50:01,结果：通过
-                    //FaceTrackTest();
+                    FaceTrackTest();
 
                     ////人脸特征值测试，开始：2022/07/30 00:12:51，结束：2022/07/30 09:04:30，结果：通过
-                    //ExtractTest();
+                    ExtractTest();
 
                     ////年龄预测测试
                     //FaceAgePredictorTest();
@@ -177,7 +177,7 @@ namespace SeetaFace6Sharp.ConsoleTest
         {
             using var bitmap = ConvertImage(imagePath);
             using FaceDetector faceDetector = new FaceDetector(new FaceDetectConfig());
-            using FaceLandmarker faceMark = new FaceLandmarker(new FaceLandmarkConfig());
+            using FaceLandmarker faceMark = new FaceLandmarker(new FaceLandmarkConfig(MarkType.Normal));
             using FaceRecognizer faceRecognizer = new FaceRecognizer(new FaceRecognizeConfig());
             Worker((sw, i) =>
             {
@@ -322,7 +322,7 @@ namespace SeetaFace6Sharp.ConsoleTest
                 sw.Stop();
                 i++;
 
-                if (sw2.ElapsedMilliseconds > 1 * 10 * 1000)
+                if (sw2.ElapsedMilliseconds > 6000)
                 {
                     break;
                 }

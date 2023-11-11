@@ -6,12 +6,6 @@ using namespace seeta;
 
 #pragma region Common
 
-template< class T > void SafeDelete(T*& pVal)
-{
-	delete pVal;
-	pVal = NULL;
-}
-
 //#if WINDOWS
 //
 //// 设置人脸模型目录
@@ -108,25 +102,27 @@ EXPORTAPI seeta::v6::FaceDetector* GetFaceDetectorHandler(const ModelSetting& mo
 /// <param name="img"></param>
 /// <param name="size"></param>
 /// <returns></returns>
-EXPORTAPI SeetaFaceInfo* FaceDetectV2(seeta::v6::FaceDetector* handler, const SeetaImageData& img, int* size)
+EXPORTAPI int FaceDetectV2(seeta::v6::FaceDetector* handler, const SeetaImageData& img, int maxFaceCount, SeetaFaceInfo* buffer, int* size)
 {
+	*size = 0;
 	if (handler == nullptr)
 	{
-		return 0;
+		return -1;
 	}
-	*size = 0;
+	if (size == nullptr)
+	{
+		return -1;
+	}
 	std::vector<SeetaFaceInfo> detectFaces = handler->detect_v2(img);
-	if (!detectFaces.empty())
+	if (!detectFaces.empty() && detectFaces.size() > 0)
 	{
 		*size = detectFaces.size();
-		SeetaFaceInfo* resultFaces = (SeetaFaceInfo*)malloc((*size) * sizeof(SeetaFaceInfo));
-		if (resultFaces == nullptr)
-		{
-			return 0;
+		if (*size > maxFaceCount) {
+			*size = maxFaceCount;
 		}
-		memcpy(resultFaces, &detectFaces[0], detectFaces.size() * sizeof(SeetaFaceInfo));
+		memcpy(buffer, &detectFaces[0], *size * sizeof(SeetaFaceInfo));
 		std::vector<SeetaFaceInfo>().swap(detectFaces);
-		return resultFaces;
+		return 0;
 	}
 	return 0;
 }
@@ -204,27 +200,25 @@ EXPORTAPI seeta::v6::FaceLandmarker* GetFaceLandmarkerHandler(const ModelSetting
 /// <param name="size"></param>
 /// <param name="type"></param>
 /// <returns></returns>
-EXPORTAPI SeetaPointF* FaceMark(seeta::v6::FaceLandmarker* handler, const SeetaImageData& img, const SeetaRect faceRect, long* size)
+EXPORTAPI int FaceMark(seeta::v6::FaceLandmarker* handler, const SeetaImageData& img, const SeetaRect faceRect, const int bufferSize, SeetaPointF* buffer, long* size)
 {
 	if (handler == nullptr)
 	{
-		return 0;
+		return -1;
 	}
 	*size = 0;
 	std::vector<SeetaPointF> markPoints = handler->mark(img, faceRect);
-	if (!markPoints.empty())
+	if (!markPoints.empty() || markPoints.size() == 0)
 	{
 		*size = markPoints.size();
-		SeetaPointF* resultPoints = (SeetaPointF*)malloc((*size) * sizeof(SeetaPointF));
-		if (resultPoints == nullptr)
-		{
-			return 0;
+		if (*size != bufferSize) {
+			return -2;
 		}
-		memcpy(resultPoints, &markPoints[0], markPoints.size() * sizeof(SeetaPointF));
+		memcpy(buffer, &markPoints[0], *size * sizeof(SeetaPointF));
 		std::vector<SeetaPointF>().swap(markPoints);
-		return resultPoints;
+		return 0;
 	}
-	return 0;
+	return -1;
 }
 
 EXPORTAPI void DisposeFaceLandmarker(seeta::v6::FaceLandmarker* handler)
@@ -380,26 +374,24 @@ EXPORTAPI seeta::v6::FaceTracker* GetFaceTrackerHandler(const ModelSetting& mode
 /// <param name="img"></param>
 /// <param name="size"></param>
 /// <returns></returns>
-EXPORTAPI SeetaTrackingFaceInfo* FaceTrack(seeta::v6::FaceTracker* handler, const SeetaImageData& img, int* size)
+EXPORTAPI int FaceTrack(seeta::v6::FaceTracker* handler, const SeetaImageData& img, int maxFaceCount, SeetaTrackingFaceInfo* buffer, int* size)
 {
 	if (handler == nullptr)
 	{
-		return 0;
+		return -1;
 	}
 	*size = 0;
 	auto cfaces = handler->Track(img);
 	std::vector<SeetaTrackingFaceInfo> faceTrackResult(cfaces.data, cfaces.data + cfaces.size);
-	if (!faceTrackResult.empty())
+	if (!faceTrackResult.empty() && faceTrackResult.size() > 0)
 	{
 		*size = faceTrackResult.size();
-		SeetaTrackingFaceInfo* resultFaceInfos = (SeetaTrackingFaceInfo*)malloc((*size) * sizeof(SeetaTrackingFaceInfo));
-		if (resultFaceInfos == nullptr)
-		{
-			return 0;
+		if (*size > maxFaceCount) {
+			*size = maxFaceCount;
 		}
-		memcpy(resultFaceInfos, &faceTrackResult[0], faceTrackResult.size() * sizeof(SeetaTrackingFaceInfo));
+		memcpy(buffer, &faceTrackResult[0], faceTrackResult.size() * sizeof(SeetaTrackingFaceInfo));
 		std::vector<SeetaTrackingFaceInfo>().swap(faceTrackResult);
-		return resultFaceInfos;
+		return 0;
 	}
 	return 0;
 }
@@ -436,86 +428,98 @@ EXPORTAPI void DisposeFaceTracker(seeta::v6::FaceTracker* handler)
 EXPORTAPI void Quality_Brightness(const SeetaImageData& img, const SeetaRect faceRect, const SeetaPointF* points, const int pointsLength, int* level, float* score, const float v0 = 70, const float v1 = 100, const float v2 = 210, const float v3 = 230)
 {
 	try {
-		seeta::v3::QualityOfBrightness* quality_Brightness = new seeta::v3::QualityOfBrightness(v0, v1, v2, v3);
+		std::unique_ptr<seeta::v3::QualityOfBrightness> quality_Brightness = std::make_unique<seeta::v3::QualityOfBrightness>(v0, v1, v2, v3);
 		auto result = quality_Brightness->check(img, faceRect, points, pointsLength);
 
 		*level = result.level;
 		*score = result.score;
-
-		SafeDelete(quality_Brightness);
 	}
-	catch (const exception& e) {
-
-		throw;
+	catch (const std::exception& e) {
+		return;
 	}
 }
 
 // 清晰度评估
 EXPORTAPI void Quality_Clarity(const SeetaImageData& img, const SeetaRect faceRect, const SeetaPointF* points, const int pointsLength, int* level, float* score, const float low = 0.1f, const float high = 0.2f)
 {
-	seeta::v3::QualityOfClarity* quality_Clarity = new seeta::v3::QualityOfClarity(low, high);
-	auto result = quality_Clarity->check(img, faceRect, points, pointsLength);
+	try {
+		std::unique_ptr<seeta::v3::QualityOfClarity> quality_Clarity = std::make_unique<seeta::v3::QualityOfClarity>(low, high);
+		auto result = quality_Clarity->check(img, faceRect, points, pointsLength);
 
-	*level = result.level;
-	*score = result.score;
-
-	SafeDelete(quality_Clarity);
+		*level = result.level;
+		*score = result.score;
+	}
+	catch (const std::exception& e) {
+		return;
+	}
 }
 
 // 完整度评估
 EXPORTAPI void Quality_Integrity(const SeetaImageData& img, const SeetaRect faceRect, const SeetaPointF* points, const int pointsLength, int* level, float* score, const float low = 10, const float high = 1.5f)
 {
-	seeta::v3::QualityOfIntegrity* quality_Integrity = new seeta::v3::QualityOfIntegrity(low, high);
-	auto result = quality_Integrity->check(img, faceRect, points, pointsLength);
+	try {
+		std::unique_ptr<seeta::v3::QualityOfIntegrity> quality_Integrity = std::make_unique<seeta::v3::QualityOfIntegrity>(low, high);
+		auto result = quality_Integrity->check(img, faceRect, points, pointsLength);
 
-	*level = result.level;
-	*score = result.score;
-
-	SafeDelete(quality_Integrity);
+		*level = result.level;
+		*score = result.score;
+	}
+	catch (const std::exception& e) {
+		return;
+	}
 }
 
 // 姿态评估
 EXPORTAPI void Quality_Pose(const SeetaImageData& img, const SeetaRect faceRect, const SeetaPointF* points, const int pointsLength, int* level, float* score)
 {
-	seeta::v3::QualityOfPose* quality_Pose = new seeta::v3::QualityOfPose();
-	auto result = quality_Pose->check(img, faceRect, points, pointsLength);
+	try {
+		std::unique_ptr<seeta::v3::QualityOfPose> quality_Pose = std::make_unique<seeta::v3::QualityOfPose>();
+		auto result = quality_Pose->check(img, faceRect, points, pointsLength);
 
-	*level = result.level;
-	*score = result.score;
-
-	SafeDelete(quality_Pose);
+		*level = result.level;
+		*score = result.score;
+	}
+	catch (const std::exception& e) {
+		return;
+	}
 }
 
 // 姿态 (深度)评估
 EXPORTAPI void Quality_PoseEx(const ModelSetting& model, const SeetaImageData& img, const SeetaRect faceRect, const SeetaPointF* points, const int pointsLength, int* level, float* score,
 	const float yawLow = 25, const float yawHigh = 10, const float pitchLow = 20, const float pitchHigh = 10, const float rollLow = 33.33f, const float rollHigh = 16.67f)
 {
-	seeta::v3::QualityOfPoseEx* quality_PoseEx = new seeta::v3::QualityOfPoseEx(model);
-	quality_PoseEx->set(QualityOfPoseEx::YAW_LOW_THRESHOLD, yawLow);
-	quality_PoseEx->set(QualityOfPoseEx::YAW_HIGH_THRESHOLD, yawHigh);
-	quality_PoseEx->set(QualityOfPoseEx::PITCH_LOW_THRESHOLD, pitchLow);
-	quality_PoseEx->set(QualityOfPoseEx::PITCH_HIGH_THRESHOLD, pitchHigh);
-	quality_PoseEx->set(QualityOfPoseEx::ROLL_LOW_THRESHOLD, rollLow);
-	quality_PoseEx->set(QualityOfPoseEx::ROLL_HIGH_THRESHOLD, rollHigh);
+	try {
+		std::unique_ptr<seeta::v3::QualityOfPoseEx> quality_PoseEx = std::make_unique<seeta::v3::QualityOfPoseEx>(model);
+		quality_PoseEx->set(QualityOfPoseEx::YAW_LOW_THRESHOLD, yawLow);
+		quality_PoseEx->set(QualityOfPoseEx::YAW_HIGH_THRESHOLD, yawHigh);
+		quality_PoseEx->set(QualityOfPoseEx::PITCH_LOW_THRESHOLD, pitchLow);
+		quality_PoseEx->set(QualityOfPoseEx::PITCH_HIGH_THRESHOLD, pitchHigh);
+		quality_PoseEx->set(QualityOfPoseEx::ROLL_LOW_THRESHOLD, rollLow);
+		quality_PoseEx->set(QualityOfPoseEx::ROLL_HIGH_THRESHOLD, rollHigh);
 
-	auto result = quality_PoseEx->check(img, faceRect, points, pointsLength);
+		auto result = quality_PoseEx->check(img, faceRect, points, pointsLength);
 
-	*level = result.level;
-	*score = result.score;
-
-	SafeDelete(quality_PoseEx);
+		*level = result.level;
+		*score = result.score;
+	}
+	catch (const std::exception& e) {
+		return;
+	}
 }
 
 // 分辨率评估
 EXPORTAPI void Quality_Resolution(const SeetaImageData& img, const SeetaRect faceRect, const SeetaPointF* points, const int pointsLength, int* level, float* score, const float low = 80, const float high = 120)
 {
-	seeta::v3::QualityOfResolution* quality_Resolution = new seeta::v3::QualityOfResolution(low, high);
-	auto result = quality_Resolution->check(img, faceRect, points, pointsLength);
+	try {
+		std::unique_ptr<seeta::v3::QualityOfResolution> quality_Resolution = std::make_unique<seeta::v3::QualityOfResolution>(low, high);
+		auto result = quality_Resolution->check(img, faceRect, points, pointsLength);
 
-	*level = result.level;
-	*score = result.score;
-
-	SafeDelete(quality_Resolution);
+		*level = result.level;
+		*score = result.score;
+	}
+	catch (const std::exception& e) {
+		return;
+	}
 }
 
 EXPORTAPI seeta::QualityOfClarityEx* GetQualityOfClarityExHandler(const ModelSetting& qualityModel, const ModelSetting& landmarkerPts68Model, const float blur_thresh = 0.8f)

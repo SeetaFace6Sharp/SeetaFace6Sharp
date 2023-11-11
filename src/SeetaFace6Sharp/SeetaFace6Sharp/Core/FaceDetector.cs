@@ -38,30 +38,45 @@ namespace SeetaFace6Sharp
         /// </para>
         /// </summary>
         /// <param name="image">人脸图像信息</param>
+        /// <param name="maxFaceCount">单张图片中最多人脸数量（预分配内存）</param>
         /// <returns>人脸信息集合。</returns>
-        public FaceInfo[] Detect(FaceImage image)
+        public FaceInfo[] Detect(FaceImage image, int maxFaceCount = 30)
         {
+            if (maxFaceCount <= 0 || maxFaceCount >= byte.MaxValue)
+            {
+                throw new ArgumentOutOfRangeException("The parameter must be greater than 0 and less than 255.");
+            }
             lock (_locker)
             {
                 if (disposedValue)
                     throw new ObjectDisposedException(nameof(FaceAntiSpoofing));
 
-                int size = 0;
-                var ptr = SeetaFace6Native.FaceDetectV2(_handle, ref image, ref size);
-                if (ptr == IntPtr.Zero) return new FaceInfo[0];
+                int sizeOfFaceInfo = Marshal.SizeOf(typeof(FaceInfo));
+                IntPtr buffer = Marshal.AllocHGlobal(maxFaceCount * sizeOfFaceInfo);
                 try
                 {
+                    int size = 0;
+                    int rtCode = SeetaFace6Native.FaceDetectV2(_handle, ref image, maxFaceCount, buffer, ref size);
+                    if (rtCode != 0)
+                    {
+                        throw new Exception($"Face detect failed, result code id {rtCode}");
+                    }
+                    if (size == 0)
+                    {
+                        return new FaceInfo[0];
+                    }
                     FaceInfo[] result = new FaceInfo[size];
                     for (int i = 0; i < size; i++)
                     {
-                        int ofs = i * Marshal.SizeOf(typeof(FaceInfo));
-                        result[i] = (FaceInfo)Marshal.PtrToStructure(ptr + ofs, typeof(FaceInfo));
+                        IntPtr p = new IntPtr(buffer.ToInt64() + i * sizeOfFaceInfo);
+                        result[i] = (FaceInfo)Marshal.PtrToStructure(p, typeof(FaceInfo));
                     }
                     return result.OrderBy(p => p.Score).ToArray();
                 }
                 finally
                 {
-                    SeetaFace6Native.FreeMemory(ptr);
+                    if (buffer != IntPtr.Zero)
+                        Marshal.FreeHGlobal(buffer);
                 }
             }
         }

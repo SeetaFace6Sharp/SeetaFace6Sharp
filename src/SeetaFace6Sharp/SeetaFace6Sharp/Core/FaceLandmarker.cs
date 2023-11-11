@@ -18,6 +18,23 @@ namespace SeetaFace6Sharp
         /// </summary>
         public override Model Model { get; }
 
+        /// <summary>
+        /// 关键点坐标大小
+        /// </summary>
+        private int MarkPointSize
+        {
+            get
+            {
+                return this.Config.MarkType switch
+                {
+                    MarkType.Normal => 68,
+                    MarkType.Mask => 5,
+                    MarkType.Light => 5,
+                    _ => throw new NotSupportedException($"Not support face type: {this.Config.MarkType}."),
+                };
+            }
+        }
+
         /// <inheritdoc/>
         /// <exception cref="ModuleInitializeException"></exception>
         public FaceLandmarker(FaceLandmarkConfig config = null) : base(config ?? new FaceLandmarkConfig())
@@ -51,22 +68,35 @@ namespace SeetaFace6Sharp
                 if (disposedValue)
                     throw new ObjectDisposedException(nameof(FaceAntiSpoofing));
 
-                long size = 0;
-                var ptr = SeetaFace6Native.FaceMark(_handle, ref image, info.Location, ref size);
-                if (ptr == IntPtr.Zero) return new FaceMarkPoint[0];
+                int sizeOfFaceMarkPoint = Marshal.SizeOf(typeof(FaceMarkPoint));
+                IntPtr buffer = Marshal.AllocHGlobal(this.MarkPointSize * sizeOfFaceMarkPoint);
+                if (buffer == IntPtr.Zero)
+                    return new FaceMarkPoint[0];
                 try
                 {
+                    long size = 0;
+                    int rtCode = SeetaFace6Native.FaceMark(_handle, ref image, info.Location, this.MarkPointSize, buffer, ref size);
+                    if (rtCode != 0)
+                    {
+                        throw rtCode switch
+                        {
+                            -2 => new Exception($"Face mark failed, default mark point size {this.MarkPointSize} is not same as face mark size {size}."),
+                            _ => new Exception($"Face mark failed, result value is {rtCode}"),
+                        };
+                    }
+
                     FaceMarkPoint[] result = new FaceMarkPoint[size];
                     for (int i = 0; i < size; i++)
                     {
-                        var ofs = i * Marshal.SizeOf(typeof(FaceMarkPoint));
-                        result[i] = (FaceMarkPoint)Marshal.PtrToStructure(ptr + ofs, typeof(FaceMarkPoint));
+                        IntPtr p = new IntPtr(buffer.ToInt64() + i * sizeOfFaceMarkPoint);
+                        result[i] = (FaceMarkPoint)Marshal.PtrToStructure(p, typeof(FaceMarkPoint));
                     }
                     return result;
                 }
                 finally
                 {
-                    SeetaFace6Native.FreeMemory(ptr);
+                    if (buffer != IntPtr.Zero)
+                        Marshal.FreeHGlobal(buffer);
                 }
             }
         }
