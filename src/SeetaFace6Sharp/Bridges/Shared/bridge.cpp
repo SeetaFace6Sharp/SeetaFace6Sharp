@@ -69,7 +69,7 @@ EXPORTAPI int FaceDetectV2(seeta::v6::FaceDetector *handler, const SeetaImageDat
 		{
 			*size = maxFaceCount;
 		}
-		memcpy(buffer, &detectFaces[0], *size * sizeof(SeetaFaceInfo));
+		memcpy(buffer, detectFaces.data(), *size * sizeof(SeetaFaceInfo));
 		std::vector<SeetaFaceInfo>().swap(detectFaces);
 		return 0;
 	}
@@ -164,7 +164,7 @@ EXPORTAPI int FaceMark(seeta::v6::FaceLandmarker *handler, const SeetaImageData 
 		{
 			return -2;
 		}
-		memcpy(buffer, &markPoints[0], *size * sizeof(SeetaPointF));
+		memcpy(buffer, markPoints.data(), *size * sizeof(SeetaPointF));
 		std::vector<SeetaPointF>().swap(markPoints);
 		return 0;
 	}
@@ -340,7 +340,7 @@ EXPORTAPI int FaceTrack(seeta::v6::FaceTracker *handler, const SeetaImageData &i
 		{
 			*size = maxFaceCount;
 		}
-		memcpy(buffer, &faceTrackResult[0], faceTrackResult.size() * sizeof(SeetaTrackingFaceInfo));
+		memcpy(buffer, faceTrackResult.data(), *size * sizeof(SeetaTrackingFaceInfo));
 		std::vector<SeetaTrackingFaceInfo>().swap(faceTrackResult);
 		return 0;
 	}

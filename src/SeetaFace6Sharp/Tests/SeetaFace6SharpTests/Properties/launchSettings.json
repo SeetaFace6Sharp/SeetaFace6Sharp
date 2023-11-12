@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "SeetaFace6SharpTests": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

@@ -9,15 +9,15 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)bridge.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)common\common.h">
+      <Filter>common</Filter>
+    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)seetaEx\QualityOfClarityEx.h">
       <Filter>seetaEx</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)seetaEx\QualityOfNoMask.h">
       <Filter>seetaEx</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)bridge.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)common\common.h">
-      <Filter>common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
