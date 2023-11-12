@@ -25,7 +25,6 @@
 #include <string>
 #include <math.h>
 
-
 #if WINDOWS
 
 #define STDCALL _stdcall
@@ -37,24 +36,3 @@
 #define EXPORTAPI extern "C"
 
 #endif // WINDOWS or LINUX
-
-//// 模型所在路径
-//string modelPath = "./runtimes/models/";
-//
-//#if WINDOWS
-//
-//// 设置人脸模型目录
-//EXPORTAPI void SetModelPath(const wchar_t* path);
-//// 获取人脸模型目录
-//EXPORTAPI void GetModelPath(wchar_t* outPath, int* size);
-//
-//#elif LINUX
-//
-//// 设置人脸模型目录
-//EXPORTAPI void SetModelPath(const char* path);
-//
-//// 获取人脸模型目录
-//EXPORTAPI void GetModelPath(char* outPath, int* size);
-//#endif
-
-EXPORTAPI void FreeMemory(void* address);

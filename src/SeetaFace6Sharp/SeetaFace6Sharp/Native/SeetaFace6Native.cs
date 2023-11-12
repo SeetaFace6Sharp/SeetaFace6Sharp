@@ -44,50 +44,10 @@ namespace SeetaFace6Sharp.Native
         internal extern static void DisposeModel(IntPtr handler);
 
         /// <summary>
-        /// 设置人脸模型的目录（Windows）
-        /// </summary>
-        /// <param name="path"></param>
-        [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "SetModelPath", CharSet = CharSet.Auto, CallingConvention = CallingConvention.Cdecl)]
-        internal extern static void SetModelPathWindows(string path);
-
-        /// <summary>
-        /// 设置人脸模型的目录（Linux）
-        /// </summary>
-        /// <param name="path"></param>
-        [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "SetModelPath", CharSet = CharSet.Auto, CallingConvention = CallingConvention.Cdecl)]
-        internal extern static void SetModelPathLinux(byte[] path);
-
-        /// <summary>
-        /// 获取人脸模型的目录
-        /// </summary>
-        /// <param name="outPath">获取到的路径</param>
-        /// <param name="size">字符串长度</param>
-        [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "GetModelPath", CharSet = CharSet.Auto, CallingConvention = CallingConvention.Cdecl)]
-        private extern static void GetModelPath(StringBuilder outPath, ref int size);
-        internal static string GetModelPath()
-        {
-            StringBuilder result = new StringBuilder(MAX_PATH_LENGTH);
-            int size = 0;
-            GetModelPath(result, ref size);
-            if (size > MAX_PATH_LENGTH)
-            {
-                throw new NotSupportedException($"The path is too long, not support path more than {MAX_PATH_LENGTH} byte.");
-            }
-            return result?.ToString();
-        }
-
-        /// <summary>
         /// 获取静态库路径
         /// </summary>
         /// <returns></returns>
         public static string GetLibraryPath() => _loader.GetLibraryPath();
-
-        /// <summary>
-        /// 释放本机代码中由 malloc 分配的内存。
-        /// </summary>
-        /// <param name="address"></param>
-        [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "FreeMemory", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void FreeMemory(IntPtr address);
 
         #endregion
 
@@ -171,7 +131,6 @@ namespace SeetaFace6Sharp.Native
 
         /// <summary>
         /// 获取人脸关键点
-        /// <para>需要 <see cref="FreeMemory(IntPtr)"/></para>
         /// </summary>
         /// <param name="handler">句柄</param>
         /// <param name="img">图像信息</param>
