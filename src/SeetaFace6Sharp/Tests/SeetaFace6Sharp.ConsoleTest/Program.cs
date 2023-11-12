@@ -94,9 +94,9 @@ namespace SeetaFace6Sharp.ConsoleTest
 
             Worker((sw, i) =>
             {
-                //var brightnessResult = faceQuality.Detect(bitmap, info, markPoints, QualityType.Brightness);
-                //logger.Info($"第{i + 1}次{QualityType.Brightness}评估，结果：{brightnessResult}，耗时：{sw.ElapsedMilliseconds}ms");
-                //sw.Restart();
+                var brightnessResult = faceQuality.Detect(bitmap, info, markPoints, QualityType.Brightness);
+                logger.Info($"第{i + 1}次{QualityType.Brightness}评估，结果：{brightnessResult}，耗时：{sw.ElapsedMilliseconds}ms");
+                sw.Restart();
                 var resolutionResult = faceQuality.Detect(bitmap, info, markPoints, QualityType.Resolution);
                 logger.Info($"第{i + 1}次{QualityType.Resolution}评估，结果：{resolutionResult}，耗时：{sw.ElapsedMilliseconds}ms");
                 sw.Restart();

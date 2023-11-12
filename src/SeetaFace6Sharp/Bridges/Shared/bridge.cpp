@@ -376,12 +376,12 @@ EXPORTAPI void DisposeFaceTracker(seeta::v6::FaceTracker *handler)
 #pragma region Quality
 
 // 亮度评估
-EXPORTAPI void Quality_Brightness(const SeetaImageData &img, const SeetaRect faceRect, const SeetaPointF *points, const int pointsLength, int *level, float *score, const float v0 = 70, const float v1 = 100, const float v2 = 210, const float v3 = 230)
+EXPORTAPI void QualityBrightness(const SeetaImageData &img, const SeetaRect faceRect, const SeetaPointF *points, const int pointsLength, int *level, float *score, const float v0 = 70, const float v1 = 100, const float v2 = 210, const float v3 = 230)
 {
 	try
 	{
-		std::unique_ptr<seeta::v3::QualityOfBrightness> quality_Brightness = std::make_unique<seeta::v3::QualityOfBrightness>(v0, v1, v2, v3);
-		auto result = quality_Brightness->check(img, faceRect, points, pointsLength);
+		seeta::v3::QualityOfBrightness qualityBrightness(v0, v1, v2, v3);
+		auto result = qualityBrightness.check(img, faceRect, points, pointsLength);
 
 		*level = result.level;
 		*score = result.score;
@@ -393,12 +393,12 @@ EXPORTAPI void Quality_Brightness(const SeetaImageData &img, const SeetaRect fac
 }
 
 // 清晰度评估
-EXPORTAPI void Quality_Clarity(const SeetaImageData &img, const SeetaRect faceRect, const SeetaPointF *points, const int pointsLength, int *level, float *score, const float low = 0.1f, const float high = 0.2f)
+EXPORTAPI void QualityClarity(const SeetaImageData &img, const SeetaRect faceRect, const SeetaPointF *points, const int pointsLength, int *level, float *score, const float low = 0.1f, const float high = 0.2f)
 {
 	try
 	{
-		std::unique_ptr<seeta::v3::QualityOfClarity> quality_Clarity = std::make_unique<seeta::v3::QualityOfClarity>(low, high);
-		auto result = quality_Clarity->check(img, faceRect, points, pointsLength);
+		seeta::v3::QualityOfClarity qualityClarity(low, high);
+		auto result = qualityClarity.check(img, faceRect, points, pointsLength);
 
 		*level = result.level;
 		*score = result.score;
@@ -410,12 +410,12 @@ EXPORTAPI void Quality_Clarity(const SeetaImageData &img, const SeetaRect faceRe
 }
 
 // 完整度评估
-EXPORTAPI void Quality_Integrity(const SeetaImageData &img, const SeetaRect faceRect, const SeetaPointF *points, const int pointsLength, int *level, float *score, const float low = 10, const float high = 1.5f)
+EXPORTAPI void QualityIntegrity(const SeetaImageData &img, const SeetaRect faceRect, const SeetaPointF *points, const int pointsLength, int *level, float *score, const float low = 10, const float high = 1.5f)
 {
 	try
 	{
-		std::unique_ptr<seeta::v3::QualityOfIntegrity> quality_Integrity = std::make_unique<seeta::v3::QualityOfIntegrity>(low, high);
-		auto result = quality_Integrity->check(img, faceRect, points, pointsLength);
+		seeta::v3::QualityOfIntegrity qualityIntegrity(low, high);
+		auto result = qualityIntegrity.check(img, faceRect, points, pointsLength);
 
 		*level = result.level;
 		*score = result.score;
@@ -427,37 +427,12 @@ EXPORTAPI void Quality_Integrity(const SeetaImageData &img, const SeetaRect face
 }
 
 // 姿态评估
-EXPORTAPI void Quality_Pose(const SeetaImageData &img, const SeetaRect faceRect, const SeetaPointF *points, const int pointsLength, int *level, float *score)
+EXPORTAPI void QualityPose(const SeetaImageData &img, const SeetaRect faceRect, const SeetaPointF *points, const int pointsLength, int *level, float *score)
 {
 	try
 	{
-		std::unique_ptr<seeta::v3::QualityOfPose> quality_Pose = std::make_unique<seeta::v3::QualityOfPose>();
-		auto result = quality_Pose->check(img, faceRect, points, pointsLength);
-
-		*level = result.level;
-		*score = result.score;
-	}
-	catch (const std::exception &e)
-	{
-		return;
-	}
-}
-
-// 姿态 (深度)评估
-EXPORTAPI void Quality_PoseEx(const ModelSetting &model, const SeetaImageData &img, const SeetaRect faceRect, const SeetaPointF *points, const int pointsLength, int *level, float *score,
-							  const float yawLow = 25, const float yawHigh = 10, const float pitchLow = 20, const float pitchHigh = 10, const float rollLow = 33.33f, const float rollHigh = 16.67f)
-{
-	try
-	{
-		std::unique_ptr<seeta::v3::QualityOfPoseEx> quality_PoseEx = std::make_unique<seeta::v3::QualityOfPoseEx>(model);
-		quality_PoseEx->set(QualityOfPoseEx::YAW_LOW_THRESHOLD, yawLow);
-		quality_PoseEx->set(QualityOfPoseEx::YAW_HIGH_THRESHOLD, yawHigh);
-		quality_PoseEx->set(QualityOfPoseEx::PITCH_LOW_THRESHOLD, pitchLow);
-		quality_PoseEx->set(QualityOfPoseEx::PITCH_HIGH_THRESHOLD, pitchHigh);
-		quality_PoseEx->set(QualityOfPoseEx::ROLL_LOW_THRESHOLD, rollLow);
-		quality_PoseEx->set(QualityOfPoseEx::ROLL_HIGH_THRESHOLD, rollHigh);
-
-		auto result = quality_PoseEx->check(img, faceRect, points, pointsLength);
+		seeta::v3::QualityOfPose qualityPose;
+		auto result = qualityPose.check(img, faceRect, points, pointsLength);
 
 		*level = result.level;
 		*score = result.score;
@@ -469,12 +444,37 @@ EXPORTAPI void Quality_PoseEx(const ModelSetting &model, const SeetaImageData &i
 }
 
 // 分辨率评估
-EXPORTAPI void Quality_Resolution(const SeetaImageData &img, const SeetaRect faceRect, const SeetaPointF *points, const int pointsLength, int *level, float *score, const float low = 80, const float high = 120)
+EXPORTAPI void QualityResolution(const SeetaImageData& img, const SeetaRect faceRect, const SeetaPointF* points, const int pointsLength, int* level, float* score, const float low = 80, const float high = 120)
 {
 	try
 	{
-		std::unique_ptr<seeta::v3::QualityOfResolution> quality_Resolution = std::make_unique<seeta::v3::QualityOfResolution>(low, high);
-		auto result = quality_Resolution->check(img, faceRect, points, pointsLength);
+		seeta::v3::QualityOfResolution qualityResolution(low, high);
+		auto result = qualityResolution.check(img, faceRect, points, pointsLength);
+
+		*level = result.level;
+		*score = result.score;
+	}
+	catch (const std::exception& e)
+	{
+		return;
+	}
+}
+
+// 姿态 (深度)评估
+EXPORTAPI void QualityPoseEx(const ModelSetting &model, const SeetaImageData &img, const SeetaRect faceRect, const SeetaPointF *points, const int pointsLength, int *level, float *score,
+							  const float yawLow = 25, const float yawHigh = 10, const float pitchLow = 20, const float pitchHigh = 10, const float rollLow = 33.33f, const float rollHigh = 16.67f)
+{
+	try
+	{
+		seeta::v3::QualityOfPoseEx qualityPoseEx(model);
+		qualityPoseEx.set(QualityOfPoseEx::YAW_LOW_THRESHOLD, yawLow);
+		qualityPoseEx.set(QualityOfPoseEx::YAW_HIGH_THRESHOLD, yawHigh);
+		qualityPoseEx.set(QualityOfPoseEx::PITCH_LOW_THRESHOLD, pitchLow);
+		qualityPoseEx.set(QualityOfPoseEx::PITCH_HIGH_THRESHOLD, pitchHigh);
+		qualityPoseEx.set(QualityOfPoseEx::ROLL_LOW_THRESHOLD, rollLow);
+		qualityPoseEx.set(QualityOfPoseEx::ROLL_HIGH_THRESHOLD, rollHigh);
+
+		auto result = qualityPoseEx.check(img, faceRect, points, pointsLength);
 
 		*level = result.level;
 		*score = result.score;
@@ -491,7 +491,7 @@ EXPORTAPI seeta::QualityOfClarityEx *GetQualityOfClarityExHandler(const ModelSet
 }
 
 // 清晰度 (深度)评估
-EXPORTAPI void Quality_ClarityEx(seeta::QualityOfClarityEx *handler, const SeetaImageData &img, const SeetaRect faceRect, const SeetaPointF *points, const int pointsLength, int *level, float *score)
+EXPORTAPI void QualityClarityEx(seeta::QualityOfClarityEx *handler, const SeetaImageData &img, const SeetaRect faceRect, const SeetaPointF *points, const int pointsLength, int *level, float *score)
 {
 	auto result = handler->check(img, faceRect, points, pointsLength);
 
@@ -510,7 +510,7 @@ EXPORTAPI seeta::QualityOfNoMask *GetQualityOfNoMaskHandler(const ModelSetting &
 }
 
 // 遮挡评估
-EXPORTAPI void Quality_NoMask(seeta::QualityOfNoMask *handler, const SeetaImageData &img, const SeetaRect faceRect, const SeetaPointF *points, const int pointsLength, int *level, float *score)
+EXPORTAPI void QualityNoMask(seeta::QualityOfNoMask *handler, const SeetaImageData &img, const SeetaRect faceRect, const SeetaPointF *points, const int pointsLength, int *level, float *score)
 {
 	auto result = handler->check(img, faceRect, points, pointsLength);
 

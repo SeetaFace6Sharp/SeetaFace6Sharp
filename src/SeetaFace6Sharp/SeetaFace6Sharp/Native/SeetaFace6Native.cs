@@ -297,7 +297,7 @@ namespace SeetaFace6Sharp.Native
         /// <param name="v2"></param>
         /// <param name="v3"></param>
         /// <returns></returns>
-        [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "Quality_Brightness", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "QualityBrightness", CallingConvention = CallingConvention.Cdecl)]
         internal extern static void QualityOfBrightness(ref FaceImage img, FaceRect faceRect, FaceMarkPoint[] points, int pointsLength, ref int level, ref float score,
             float v0 = 70, float v1 = 100, float v2 = 210, float v3 = 230);
 
@@ -321,7 +321,7 @@ namespace SeetaFace6Sharp.Native
         /// <param name="low"></param>
         /// <param name="high"></param>
         /// <returns></returns>
-        [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "Quality_Clarity", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "QualityClarity", CallingConvention = CallingConvention.Cdecl)]
         internal extern static void QualityOfClarity(ref FaceImage img, FaceRect faceRect, FaceMarkPoint[] points, int pointsLength, ref int level, ref float score,
             float low = 0.1f, float high = 0.2f);
 
@@ -345,7 +345,7 @@ namespace SeetaFace6Sharp.Native
         /// <param name="low"></param>
         /// <param name="high"></param>
         /// <returns></returns>
-        [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "Quality_Integrity", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "QualityIntegrity", CallingConvention = CallingConvention.Cdecl)]
         internal extern static void QualityOfIntegrity(ref FaceImage img, FaceRect faceRect, FaceMarkPoint[] points, int pointsLength, ref int level, ref float score,
             float low = 10f, float high = 1.5f);
 
@@ -360,7 +360,7 @@ namespace SeetaFace6Sharp.Native
         /// <param name="level">存储 等级</param>
         /// <param name="score">存储 分数</param>
         /// <returns></returns>
-        [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "Quality_Pose", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "QualityPose", CallingConvention = CallingConvention.Cdecl)]
         internal extern static void QualityOfPose(ref FaceImage img, FaceRect faceRect, FaceMarkPoint[] points, int pointsLength, ref int level, ref float score);
 
         /// <summary>
@@ -384,7 +384,7 @@ namespace SeetaFace6Sharp.Native
         /// <param name="rollLow">roll 方向低分数阈值</param>
         /// <param name="rollHigh">roll 方向高分数阈值</param>
         /// <returns></returns>
-        [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "Quality_PoseEx", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "QualityPoseEx", CallingConvention = CallingConvention.Cdecl)]
         internal extern static void QualityOfPoseEx(IntPtr model, ref FaceImage img, FaceRect faceRect, FaceMarkPoint[] points, int pointsLength, ref int level, ref float score,
             float yawLow = 25, float yawHigh = 10, float pitchLow = 20, float pitchHigh = 10, float rollLow = 33.33f, float rollHigh = 16.67f);
 
@@ -408,7 +408,7 @@ namespace SeetaFace6Sharp.Native
         /// <param name="low"></param>
         /// <param name="high"></param>
         /// <returns></returns>
-        [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "Quality_Resolution", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "QualityResolution", CallingConvention = CallingConvention.Cdecl)]
         internal extern static void QualityOfResolution(ref FaceImage img, FaceRect faceRect, FaceMarkPoint[] points, int pointsLength, ref int level, ref float score,
             float low = 80, float high = 120);
 
@@ -441,7 +441,7 @@ namespace SeetaFace6Sharp.Native
         /// <param name="level">存储 等级</param>
         /// <param name="score">存储 分数</param>
         /// <returns></returns>
-        [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "Quality_ClarityEx", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "QualityClarityEx", CallingConvention = CallingConvention.Cdecl)]
         internal extern static void QualityOfClarityEx(IntPtr handler, ref FaceImage img, FaceRect faceRect, FaceMarkPoint[] points, int pointsLength, ref int level, ref float score);
 
         /// <summary>
@@ -469,7 +469,7 @@ namespace SeetaFace6Sharp.Native
         /// <param name="level">存储 等级</param>
         /// <param name="score">存储 分数</param>
         /// <returns></returns>
-        [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "Quality_NoMask", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "QualityNoMask", CallingConvention = CallingConvention.Cdecl)]
         internal extern static void QualityOfNoMask(IntPtr handler, ref FaceImage img, FaceRect faceRect, FaceMarkPoint[] points, int pointsLength, ref int level, ref float score);
 
         [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "DisposeQualityOfNoMask", CallingConvention = CallingConvention.Cdecl)]
