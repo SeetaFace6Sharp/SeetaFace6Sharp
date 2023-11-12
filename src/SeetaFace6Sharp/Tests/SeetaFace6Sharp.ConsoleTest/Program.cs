@@ -297,7 +297,7 @@ namespace SeetaFace6Sharp.ConsoleTest
         private static FaceMarkPoint[] GetFaceMarkPoint(FaceDetector faceDetector, FaceLandmarker faceMark, FaceImage bitmap)
         {
             var infos = faceDetector.Detect(bitmap);
-            var info = infos.First();
+            var info = infos.Last();
             return faceMark.Mark(bitmap, info);
         }
 
@@ -332,7 +332,7 @@ namespace SeetaFace6Sharp.ConsoleTest
 
         public static FaceImage ConvertImage(string path)
         {
-            using var btimap = SKBitmap.Decode(imagePath);
+            using var btimap = SKBitmap.Decode(path);
             return btimap.ToFaceImage();
         }
 
