@@ -15,6 +15,25 @@ namespace SeetaFace6Sharp
     public sealed class ClarityConfig
     {
         /// <summary>
+        /// 清晰度评估器 默认Low=0.1,High=0.2
+        /// </summary>
+        public ClarityConfig()
+        {
+
+        }
+
+        /// <summary>
+        /// 清晰度评估器
+        /// </summary>
+        /// <param name="low"></param>
+        /// <param name="high"></param>
+        public ClarityConfig(float low, float high)
+        {
+            this.Low = low;
+            this.High = high;
+        }
+
+        /// <summary>
         /// 默认值为 0.1
         /// </summary>
         public float Low { get; set; } = 0.1f;

@@ -31,6 +31,9 @@ namespace SeetaFace6Sharp.Example.VideoForm
         //人脸追踪
         FaceTracker _faceTracker = null;
 
+        //质量检测
+        FaceQuality _faceQuality = null;
+
         public T Get<T>() where T : class
         {
             switch (typeof(T).Name)
@@ -87,6 +90,15 @@ namespace SeetaFace6Sharp.Example.VideoForm
                             });
                         return _faceTracker as T;
                     }
+                case nameof(FaceQuality):
+                    {
+                        if (_faceQuality == null)
+                            _faceQuality = new FaceQuality(new QualityConfig()
+                            {
+                                Clarity = new ClarityConfig(0.1f, 0.2f)
+                            });
+                        return _faceQuality as T;
+                    }
                 default:
                     {
                         throw new Exception($"Can not get type {typeof(T)}");
@@ -116,6 +128,7 @@ namespace SeetaFace6Sharp.Example.VideoForm
             if (_genderPredictor != null) _genderPredictor.Dispose();
             if (_maskFaceRecognizer != null) _maskFaceRecognizer.Dispose();
             if (_faceTracker != null) _faceTracker.Dispose();
+            if (_faceQuality != null) _faceQuality.Dispose();
         }
     }
 }

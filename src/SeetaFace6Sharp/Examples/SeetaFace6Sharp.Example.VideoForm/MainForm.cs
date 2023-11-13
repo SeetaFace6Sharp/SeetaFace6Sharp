@@ -12,6 +12,7 @@ using SeetaFace6Sharp;
 using SeetaFace6Sharp.Example.VideoForm.Extensions;
 using SeetaFace6Sharp.Example.VideoForm.Models;
 using SeetaFace6Sharp.Example.VideoForm.Utils;
+using NLog;
 
 namespace SeetaFace6Sharp.Example.VideoForm
 {
@@ -34,6 +35,8 @@ namespace SeetaFace6Sharp.Example.VideoForm
         private CancellationTokenSource token = null;
 
         private SeetaFace6SharpFactory faceFactory = null;
+
+        private Logger logger = LogManager.GetCurrentClassLogger();
 
         public MainForm()
         {
@@ -77,6 +80,7 @@ namespace SeetaFace6Sharp.Example.VideoForm
             if (ButtonStart.Text == _disableBtnString)
             {
                 //开始
+                logger.Info("Start...");
                 Start();
             }
             else if (ButtonStart.Text == _enableBtnString)
@@ -375,106 +379,16 @@ namespace SeetaFace6Sharp.Example.VideoForm
                             FormHelper.SetPictureBoxImage(FacePictureBox, bitmap);
                             continue;
                         }
-                        List<Models.VideoFaceInfo> faceInfos = new List<Models.VideoFaceInfo>();
+                        List<VideoFaceInfo> faceInfos = null;
                         using (FaceImage faceImage = bitmap.ToFaceImage())
                         {
-                            var infos = await faceFactory.Get<FaceTracker>().TrackAsync(faceImage);
-                            for (int i = 0; i < infos.Length; i++)
-                            {
-
-                                Models.VideoFaceInfo faceInfo = new Models.VideoFaceInfo
-                                {
-                                    Pid = infos[i].Pid,
-                                    Location = infos[i].Location
-                                };
-                                if (CheckBoxFaceMask.Checked || CheckBoxFaceProperty.Checked)
-                                {
-                                    if (CheckBoxFaceMask.Checked)
-                                    {
-                                        var maskStatus = await faceFactory.Get<MaskDetector>().DetectAsync(faceImage, infos[i]);
-                                        faceInfo.HasMask = maskStatus.Masked;
-                                    }
-                                    if (CheckBoxFaceProperty.Checked)
-                                    {
-                                        FaceRecognizer faceRecognizer = null;
-                                        if (faceInfo.HasMask)
-                                        {
-                                            faceRecognizer = faceFactory.GetFaceRecognizerWithMask();
-                                        }
-                                        else
-                                        {
-                                            faceRecognizer = faceFactory.Get<FaceRecognizer>();
-                                        }
-                                        var points = await faceFactory.Get<FaceLandmarker>().MarkAsync(faceImage, infos[i]);
-                                        float[] extractData = await faceRecognizer.ExtractAsync(faceImage, points);
-
-                                        UserInfo userInfo = CacheManager.Instance.Get(faceRecognizer, extractData);
-                                        if (userInfo != null)
-                                        {
-                                            faceInfo.Name = userInfo.Name;
-                                            faceInfo.Age = userInfo.Age;
-                                            switch (userInfo.Gender)
-                                            {
-                                                case GenderEnum.Male:
-                                                    faceInfo.Gender = Gender.Male;
-                                                    break;
-                                                case GenderEnum.Female:
-                                                    faceInfo.Gender = Gender.Female;
-                                                    break;
-                                                case GenderEnum.Unknown:
-                                                    faceInfo.Gender = Gender.Unknown;
-                                                    break;
-                                            }
-                                        }
-                                        else
-                                        {
-                                            faceInfo.Age = await faceFactory.Get<AgePredictor>().PredictAgeWithCropAsync(faceImage, points);
-                                            faceInfo.Gender = await faceFactory.Get<GenderPredictor>().PredictGenderWithCropAsync(faceImage, points);
-                                        }
-                                    }
-                                }
-                                faceInfos.Add(faceInfo);
-                            }
+                            faceInfos = await DetectImage(faceImage);
                         }
                         using (Graphics g = Graphics.FromImage(bitmap))
                         {
-                            if (faceInfos.Any()) // 如果有人脸，在 bitmap 上绘制出人脸的位置信息
-                            {
-                                g.DrawRectangles(new Pen(Color.Red, 4), faceInfos.Select(p => p.Rectangle).ToArray());
-                                if (CheckBoxDetect.Checked)
-                                {
-                                    for (int i = 0; i < faceInfos.Count; i++)
-                                    {
-                                        StringBuilder builder = new StringBuilder();
-                                        if (CheckBoxFaceMask.Checked || CheckBoxFaceProperty.Checked)
-                                        {
-                                            builder.Append($"Pid: {faceInfos[i].Pid}");
-                                            builder.Append(" | ");
-                                        }
-                                        if (CheckBoxFaceMask.Checked)
-                                        {
-                                            builder.Append($"口罩：{(faceInfos[i].HasMask ? "是" : "否")}");
-                                            if (CheckBoxFaceProperty.Checked)
-                                            {
-                                                builder.Append(" | ");
-                                            }
-                                        }
-                                        if (CheckBoxFaceProperty.Checked)
-                                        {
-                                            if (!string.IsNullOrEmpty(faceInfos[i].Name))
-                                            {
-                                                builder.Append(faceInfos[i].Name);
-                                                builder.Append(" | ");
-                                            }
-                                            builder.Append($"{faceInfos[i].Age} 岁");
-                                            builder.Append(" | ");
-                                            builder.Append($"{faceInfos[i].GenderDescribe}");
-                                            builder.Append(" | ");
-                                        }
-                                        g.DrawString(builder.ToString(), new Font("微软雅黑", 24), Brushes.Green, new PointF(faceInfos[i].Location.X + faceInfos[i].Location.Width + 24, faceInfos[i].Location.Y));
-                                    }
-                                }
-                            }
+                            // 如果有人脸，在 bitmap 上绘制出人脸的位置信息
+                            DrawFaceInfo(g, faceInfos);
+                            // 计算FPS
                             if (CheckBoxFPS.Checked)
                             {
                                 stopwatch.Stop();
@@ -502,13 +416,138 @@ namespace SeetaFace6Sharp.Example.VideoForm
                     {
                         break;
                     }
-                    catch { }
+                    catch (Exception ex)
+                    {
+                        logger.Error(ex, $"检测过程中发生错误！{ex.Message}");
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, $"检测终止，{ex.Message}");
             }
             finally
             {
                 isDetecting = false;
             }
+        }
+
+        private void DrawFaceInfo(Graphics g, List<VideoFaceInfo> faceInfos)
+        {
+            if (faceInfos.Any())
+            {
+                g.DrawRectangles(new Pen(Color.Red, 4), faceInfos.Select(p => p.Rectangle).ToArray());
+                if (CheckBoxDetect.Checked)
+                {
+                    for (int i = 0; i < faceInfos.Count; i++)
+                    {
+                        if (faceInfos[i].Clarity == null || faceInfos[i].Clarity.Level < QualityLevel.Medium)
+                        {
+                            continue;
+                        }
+                        StringBuilder builder = new StringBuilder();
+                        if (CheckBoxFaceMask.Checked || CheckBoxFaceProperty.Checked)
+                        {
+                            builder.Append($"Pid: {faceInfos[i].Pid}");
+                            builder.Append(" | ");
+                        }
+                        if (CheckBoxFaceMask.Checked)
+                        {
+                            builder.Append($"口罩：{(faceInfos[i].HasMask ? "是" : "否")}");
+                            if (CheckBoxFaceProperty.Checked)
+                            {
+                                builder.Append(" | ");
+                            }
+                        }
+                        if (CheckBoxFaceProperty.Checked)
+                        {
+                            if (!string.IsNullOrEmpty(faceInfos[i].Name))
+                            {
+                                builder.Append(faceInfos[i].Name);
+                                builder.Append(" | ");
+                            }
+                            builder.Append($"{faceInfos[i].Age} 岁");
+                            builder.Append(" | ");
+                            builder.Append($"{faceInfos[i].GenderDescribe}");
+                            builder.Append(" | ");
+                        }
+                        g.DrawString(builder.ToString(), new Font("微软雅黑", 24), Brushes.Green, new PointF(faceInfos[i].Location.X + faceInfos[i].Location.Width + 24, faceInfos[i].Location.Y));
+                    }
+                }
+            }
+        }
+
+        private async Task<List<VideoFaceInfo>> DetectImage(FaceImage faceImage)
+        {
+            return await Task.Run(() =>
+            {
+                List<VideoFaceInfo> faceInfos = new List<VideoFaceInfo>();
+                var infos = faceFactory.Get<FaceTracker>().Track(faceImage);
+                foreach (var item in infos)
+                {
+                    VideoFaceInfo faceInfo = new VideoFaceInfo
+                    {
+                        Pid = item.Pid,
+                        Location = item.Location
+                    };
+
+                    if (CheckBoxFaceMask.Checked || CheckBoxFaceProperty.Checked)
+                    {
+                        FaceRecognizer faceRecognizer = null;
+                        if (faceInfo.HasMask)
+                        {
+                            faceRecognizer = faceFactory.GetFaceRecognizerWithMask();
+                        }
+                        else
+                        {
+                            faceRecognizer = faceFactory.Get<FaceRecognizer>();
+                        }
+                        var points = faceFactory.Get<FaceLandmarker>().Mark(faceImage, item);
+                        //清晰度检测
+                        faceInfo.Clarity = faceFactory.Get<FaceQuality>().Detect(faceImage, item, points, QualityType.Clarity);
+                        //清晰度达到中级的才进行检测
+                        if (faceInfo.Clarity.Level < QualityLevel.Medium)
+                        {
+                            continue;
+                        }
+                        if (CheckBoxFaceMask.Checked)
+                        {
+                            var maskStatus = faceFactory.Get<MaskDetector>().Detect(faceImage, item);
+                            faceInfo.HasMask = maskStatus.Masked;
+                        }
+                        if (CheckBoxFaceProperty.Checked)
+                        {
+                            //特征值
+                            float[] extractData = faceRecognizer.Extract(faceImage, points);
+                            UserInfo userInfo = CacheManager.Instance.Get(faceRecognizer, extractData);
+                            if (userInfo != null)
+                            {
+                                faceInfo.Name = userInfo.Name;
+                                faceInfo.Age = userInfo.Age;
+                                switch (userInfo.Gender)
+                                {
+                                    case GenderEnum.Male:
+                                        faceInfo.Gender = Gender.Male;
+                                        break;
+                                    case GenderEnum.Female:
+                                        faceInfo.Gender = Gender.Female;
+                                        break;
+                                    case GenderEnum.Unknown:
+                                        faceInfo.Gender = Gender.Unknown;
+                                        break;
+                                }
+                            }
+                            else
+                            {
+                                faceInfo.Age = faceFactory.Get<AgePredictor>().PredictAgeWithCrop(faceImage, points);
+                                faceInfo.Gender = faceFactory.Get<GenderPredictor>().PredictGenderWithCrop(faceImage, points);
+                            }
+                        }
+                    }
+                    faceInfos.Add(faceInfo);
+                }
+                return faceInfos;
+            });
         }
 
         #endregion

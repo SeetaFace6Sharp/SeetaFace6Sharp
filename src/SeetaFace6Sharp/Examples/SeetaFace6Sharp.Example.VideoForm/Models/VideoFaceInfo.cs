@@ -20,6 +20,8 @@ namespace SeetaFace6Sharp.Example.VideoForm.Models
 
         public int Age { get; set; }
 
+        public QualityResult Clarity { get; set; }
+
         public Gender Gender { get; set; }
 
         public string GenderDescribe
