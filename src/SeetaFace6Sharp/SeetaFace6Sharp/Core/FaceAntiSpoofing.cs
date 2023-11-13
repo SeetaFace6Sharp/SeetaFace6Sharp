@@ -47,8 +47,7 @@ namespace SeetaFace6Sharp
                 if (disposedValue)
                     throw new ObjectDisposedException(nameof(FaceAntiSpoofing));
 
-                float clarity = 0;
-                float reality = 0;
+                float clarity = 0, reality = 0;
                 AntiSpoofingStatus status = (AntiSpoofingStatus)SeetaFace6Native.FaceAntiSpoofingPredict(_handle, ref image, info.Location, points, ref clarity, ref reality);
                 return new AntiSpoofingResult(status, clarity, reality);
             }

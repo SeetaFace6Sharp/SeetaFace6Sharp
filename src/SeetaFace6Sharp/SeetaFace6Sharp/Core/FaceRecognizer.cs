@@ -63,10 +63,13 @@ namespace SeetaFace6Sharp
                 if (size <= 0)
                     throw new Exception("Can not get face recognizer extract size.");
 
-                IntPtr buffer = Marshal.AllocHGlobal(size * sizeof(float));
-                SeetaFace6Native.GetExtractFeature(_handle, ref image, points, size, buffer);
+                IntPtr buffer = IntPtr.Zero;
                 try
                 {
+                    buffer = Marshal.AllocHGlobal(size * sizeof(float));
+                    if (buffer == IntPtr.Zero)
+                        return new float[0];
+                    SeetaFace6Native.GetExtractFeature(_handle, ref image, points, size, buffer);
                     float[] result = new float[size];
                     Marshal.Copy(buffer, result, 0, size);
                     return result;

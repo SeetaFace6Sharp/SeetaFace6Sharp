@@ -46,11 +46,7 @@ namespace SeetaFace6Sharp
                     throw new ObjectDisposedException(nameof(GenderPredictor));
 
                 int result = SeetaFace6Native.PredictGender(_handle, ref image);
-                if (Enum.TryParse(result.ToString(), out Gender gender))
-                {
-                    return gender;
-                }
-                return Gender.Unknown;
+                return Enum.IsDefined(typeof(Gender), result) ? (Gender)result : Gender.Unknown;
             }
         }
 
@@ -71,26 +67,22 @@ namespace SeetaFace6Sharp
                     throw new ObjectDisposedException(nameof(GenderPredictor));
 
                 int result = SeetaFace6Native.PredictGenderWithCrop(_handle, ref image, points);
-                if (Enum.TryParse(result.ToString(), out Gender gender))
-                {
-                    return gender;
-                }
-                return Gender.Unknown;
+                return Enum.IsDefined(typeof(Gender), result) ? (Gender)result : Gender.Unknown;
             }
         }
 
         /// <inheritdoc/>
         public override void Dispose()
         {
-            if (disposedValue) 
+            if (disposedValue)
                 return;
 
             lock (_locker)
             {
-                if (disposedValue) 
+                if (disposedValue)
                     return;
                 disposedValue = true;
-                if (_handle == IntPtr.Zero) 
+                if (_handle == IntPtr.Zero)
                     return;
                 SeetaFace6Native.DisposeGenderPredictor(_handle);
                 this.Model?.Dispose();

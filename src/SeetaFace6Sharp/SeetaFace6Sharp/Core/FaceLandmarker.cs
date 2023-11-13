@@ -68,12 +68,14 @@ namespace SeetaFace6Sharp
                 if (disposedValue)
                     throw new ObjectDisposedException(nameof(FaceAntiSpoofing));
 
-                int sizeOfFaceMarkPoint = Marshal.SizeOf(typeof(FaceMarkPoint));
-                IntPtr buffer = Marshal.AllocHGlobal(this.MarkPointSize * sizeOfFaceMarkPoint);
-                if (buffer == IntPtr.Zero)
-                    return new FaceMarkPoint[0];
+                IntPtr buffer = IntPtr.Zero;
                 try
                 {
+                    int sizeOfFaceMarkPoint = Marshal.SizeOf(typeof(FaceMarkPoint));
+                    buffer = Marshal.AllocHGlobal(this.MarkPointSize * sizeOfFaceMarkPoint);
+                    if (buffer == IntPtr.Zero)
+                        return new FaceMarkPoint[0];
+
                     long size = 0;
                     int rtCode = SeetaFace6Native.FaceMark(_handle, ref image, info.Location, this.MarkPointSize, buffer, ref size);
                     if (rtCode != 0)

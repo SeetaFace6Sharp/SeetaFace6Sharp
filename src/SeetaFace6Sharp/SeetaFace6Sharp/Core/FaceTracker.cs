@@ -51,12 +51,14 @@ namespace SeetaFace6Sharp
                 if (disposedValue)
                     throw new ObjectDisposedException(nameof(FaceTracker));
 
-                int sizeOfFaceTrackInfo = Marshal.SizeOf(typeof(FaceTrackInfo));
-                IntPtr buffer = Marshal.AllocHGlobal(maxFaceCount * sizeOfFaceTrackInfo);
-                if (buffer == IntPtr.Zero) return new FaceTrackInfo[0];
-                
+                IntPtr buffer = IntPtr.Zero;
                 try
                 {
+                    int sizeOfFaceTrackInfo = Marshal.SizeOf(typeof(FaceTrackInfo));
+                    buffer = Marshal.AllocHGlobal(maxFaceCount * sizeOfFaceTrackInfo);
+                    if (buffer == IntPtr.Zero)
+                        return new FaceTrackInfo[0];
+
                     int size = 0;
                     int rtCode = SeetaFace6Native.FaceTrack(_handle, ref image, maxFaceCount, buffer, ref size);
                     if (rtCode != 0)

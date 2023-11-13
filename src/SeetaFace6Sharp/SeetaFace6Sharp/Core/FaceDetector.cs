@@ -51,20 +51,20 @@ namespace SeetaFace6Sharp
                 if (disposedValue)
                     throw new ObjectDisposedException(nameof(FaceAntiSpoofing));
 
-                int sizeOfFaceInfo = Marshal.SizeOf(typeof(FaceInfo));
-                IntPtr buffer = Marshal.AllocHGlobal(maxFaceCount * sizeOfFaceInfo);
+                IntPtr buffer = IntPtr.Zero;
                 try
                 {
+                    int sizeOfFaceInfo = Marshal.SizeOf(typeof(FaceInfo));
+                    buffer = Marshal.AllocHGlobal(maxFaceCount * sizeOfFaceInfo);
+                    if (buffer == IntPtr.Zero)
+                        return new FaceInfo[0];
+
                     int size = 0;
                     int rtCode = SeetaFace6Native.FaceDetectV2(_handle, ref image, maxFaceCount, buffer, ref size);
                     if (rtCode != 0)
-                    {
                         throw new Exception($"Face detect failed, result code id {rtCode}");
-                    }
                     if (size == 0)
-                    {
                         return new FaceInfo[0];
-                    }
                     FaceInfo[] result = new FaceInfo[size];
                     for (int i = 0; i < size; i++)
                     {
