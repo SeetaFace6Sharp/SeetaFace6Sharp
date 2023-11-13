@@ -27,7 +27,6 @@ namespace SeetaFace6Sharp
         public FaceTracker(FaceTrackerConfig config) : base(config ?? throw new ArgumentNullException(nameof(config), $"Param '{nameof(config)}' can not null."))
         {
             this.Model = new Model("face_detector.csta", this.Config.DeviceType);
-
             _handle = SeetaFace6Native.GetFaceTrackerHandler(this.Model.Ptr, this.Config.Width, this.Config.Height, this.Config.Stable, this.Config.Interval, this.Config.MinFaceSize, this.Config.Threshold);
             if (_handle == IntPtr.Zero)
             {

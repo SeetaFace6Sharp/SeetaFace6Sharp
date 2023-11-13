@@ -22,7 +22,6 @@ public sealed class AgePredictor : BasePredictor<AgePredictConfig>
     public AgePredictor(AgePredictConfig config = null) : base(config ?? new AgePredictConfig())
     {
         this.Model = new Model("age_predictor.csta", this.Config.DeviceType);
-
         if ((_handle = SeetaFace6Native.GetAgePredictorHandler(this.Model.Ptr)) == IntPtr.Zero)
         {
             throw new ModuleInitializeException(nameof(AgePredictor), "Get age predictor handle failed.");
@@ -72,15 +71,18 @@ public sealed class AgePredictor : BasePredictor<AgePredictConfig>
     /// <inheritdoc/>
     public override void Dispose()
     {
-        if (disposedValue) return;
+        if (disposedValue)
+            return;
 
         lock (_locker)
         {
-            if (disposedValue) return;
+            if (disposedValue)
+                return;
             disposedValue = true;
-            if (_handle == IntPtr.Zero) return;
+            if (_handle == IntPtr.Zero)
+                return;
             SeetaFace6Native.DisposeAgePredictor(_handle);
-            this.Model.Dispose();
+            this.Model?.Dispose();
         }
     }
 }

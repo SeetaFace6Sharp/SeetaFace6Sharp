@@ -120,15 +120,15 @@ namespace SeetaFace6Sharp.Example.VideoForm
 
         public void Dispose()
         {
-            if (_maskDetector != null) _maskDetector.Dispose();
-            if (_faceDetector != null) _faceDetector.Dispose();
-            if (_faceMark != null) _faceMark.Dispose();
-            if (_faceRecognizer != null) _faceRecognizer.Dispose();
-            if (_agePredictor != null) _agePredictor.Dispose();
-            if (_genderPredictor != null) _genderPredictor.Dispose();
-            if (_maskFaceRecognizer != null) _maskFaceRecognizer.Dispose();
-            if (_faceTracker != null) _faceTracker.Dispose();
-            if (_faceQuality != null) _faceQuality.Dispose();
+            _maskDetector?.Dispose();
+            _faceDetector?.Dispose();
+            _faceMark?.Dispose();
+            _faceRecognizer?.Dispose();
+            _agePredictor?.Dispose();
+            _genderPredictor?.Dispose();
+            _maskFaceRecognizer?.Dispose();
+            _faceTracker?.Dispose();
+            _faceQuality?.Dispose();
         }
     }
 }

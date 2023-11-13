@@ -40,7 +40,6 @@ namespace SeetaFace6Sharp
                 _ => throw new NotSupportedException($"Not support face type: {this.Config.FaceType}."),
             };
             this.Model = new Model(model, this.Config.DeviceType);
-
             if ((_handle = SeetaFace6Native.GetFaceRecognizerHandler(this.Model.Ptr)) == IntPtr.Zero)
             {
                 throw new ModuleInitializeException(nameof(FaceRecognizer), "Get face recognizer handle failed.");
@@ -105,9 +104,6 @@ namespace SeetaFace6Sharp
                 sum += lfs[i] * rfs[i];
             }
             return sum;
-
-            //调用Native组件
-            //return SeetaFace6SharpNative.Compare(_lfs, _rfs, _lfs.Length);
         }
 
         /// <summary>
@@ -138,9 +134,12 @@ namespace SeetaFace6Sharp
 
             lock (_locker)
             {
-                if (disposedValue) return;
+                if (disposedValue)
+                    return;
                 disposedValue = true;
-                if (_handle != IntPtr.Zero) SeetaFace6Native.DisposeFaceRecognizer(_handle);
+                if (_handle == IntPtr.Zero)
+                    return;
+                SeetaFace6Native.DisposeFaceRecognizer(_handle);
                 this.Model?.Dispose();
             }
         }

@@ -104,13 +104,16 @@ namespace SeetaFace6Sharp
         /// <inheritdoc/>
         public override void Dispose()
         {
-            if (disposedValue) return;
+            if (disposedValue)
+                return;
 
             lock (_locker)
             {
-                if (disposedValue) return;
+                if (disposedValue)
+                    return;
                 disposedValue = true;
-                if (_handle == IntPtr.Zero) return;
+                if (_handle == IntPtr.Zero)
+                    return;
                 SeetaFace6Native.DisposeFaceLandmarker(_handle);
                 this.Model?.Dispose();
             }
