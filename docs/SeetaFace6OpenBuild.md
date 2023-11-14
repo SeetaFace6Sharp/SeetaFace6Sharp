@@ -72,9 +72,9 @@ src
   
 ### Winodws
   
-  1. 安装 `Visual Studio 2019` 编译工具
+  1. 安装 `Visual Studio 2022` 编译工具
   
-     需要选择MSVC v142 VS2019工作负载, 如图所示：
+     需要选择MSVC v142 VS2022工作负载, 如图所示：
   <!-- ![](../assets/images/vs_workload.png) -->
         
   <image src="../assets/images/vs_workload.png" height=400></image>
