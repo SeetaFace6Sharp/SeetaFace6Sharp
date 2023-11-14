@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SeetaFace6Sharp;
+using SeetaFace6SharpTests.Utils;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,7 @@ namespace SeetaFace6Sharp.Tests
             using FaceLandmarker faceMark = new FaceLandmarker();
 
             var info = faceDetector.Detect(bitmap).First();
-            var markPoints = GetFaceMarkPoint(faceDetector, faceMark, bitmap);
+            var markPoints = FaceMarkUtil.GetFaceMarkPoint(faceDetector, faceMark, bitmap);
 
             for (int i = 0; i < 100; i++)
             {
@@ -45,13 +46,6 @@ namespace SeetaFace6Sharp.Tests
                 var poseExeResult = faceQuality.Detect(bitmap, info, markPoints, QualityType.PoseEx);
 
             }
-        }
-
-        private static FaceMarkPoint[] GetFaceMarkPoint(FaceDetector faceDetector, FaceLandmarker faceMark, FaceImage bitmap)
-        {
-            var infos = faceDetector.Detect(bitmap);
-            var info = infos.First();
-            return faceMark.Mark(bitmap, info);
         }
     }
 }
