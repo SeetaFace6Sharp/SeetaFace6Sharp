@@ -14,8 +14,8 @@ namespace SeetaFace6Sharp
 
         private readonly IntPtr _maskHandle = IntPtr.Zero;
         private readonly static object _maskLocker = new object();
-
         private readonly static object _disposeLocker = new object();
+        private readonly static object _poseLocker = new object();
 
         /// <summary>
         /// 人脸识别所需model（quality_lbn）
@@ -91,8 +91,13 @@ namespace SeetaFace6Sharp
                     SeetaFace6Native.QualityOfPose(ref image, info.Location, points, points.Length, ref level, ref score);
                     break;
                 case QualityType.PoseEx:
-                    SeetaFace6Native.QualityOfPoseEx(this.PoseEstimationModel.Ptr, ref image, info.Location, points, points.Length, ref level, ref score,
-                       this.Config.PoseEx.YawLow, this.Config.PoseEx.YawHigh, this.Config.PoseEx.PitchLow, this.Config.PoseEx.PitchHigh, this.Config.PoseEx.RollLow, this.Config.PoseEx.RollHigh);
+                    {
+                        lock (_poseLocker)
+                        {
+                            SeetaFace6Native.QualityOfPoseEx(this.PoseEstimationModel.Ptr, ref image, info.Location, points, points.Length, ref level, ref score,
+                               this.Config.PoseEx.YawLow, this.Config.PoseEx.YawHigh, this.Config.PoseEx.PitchLow, this.Config.PoseEx.PitchHigh, this.Config.PoseEx.RollLow, this.Config.PoseEx.RollHigh);
+                        }
+                    }
                     break;
                 case QualityType.Resolution:
                     SeetaFace6Native.QualityOfResolution(ref image, info.Location, points, points.Length, ref level, ref score, this.Config.Resolution.Low, this.Config.Resolution.High);
@@ -129,28 +134,31 @@ namespace SeetaFace6Sharp
                 if (disposedValue)
                     return;
                 disposedValue = true;
+
+                lock (_clarityLocker)
+                {
+                    if (_clarityHandle == IntPtr.Zero)
+                        return;
+                    SeetaFace6Native.DisposeQualityOfClarityEx(_clarityHandle);
+
+                    this.Model.Dispose();
+                    this.LandmarkerPts68Model.Dispose();
+                }
+
+                lock (_maskLocker)
+                {
+                    if (_maskHandle == IntPtr.Zero)
+                        return;
+                    SeetaFace6Native.DisposeQualityOfNoMask(_maskHandle);
+
+                    this.LandmarkerMaskPts5Model.Dispose();
+                }
+
+                lock (_poseLocker)
+                {
+                    this.PoseEstimationModel.Dispose();
+                }
             }
-
-            lock (_clarityLocker)
-            {
-                if (_clarityHandle == IntPtr.Zero)
-                    return;
-                SeetaFace6Native.DisposeQualityOfClarityEx(_clarityHandle);
-
-                this.Model.Dispose();
-                this.LandmarkerPts68Model.Dispose();
-            }
-
-            lock (_maskLocker)
-            {
-                if (_maskHandle == IntPtr.Zero)
-                    return;
-                SeetaFace6Native.DisposeQualityOfNoMask(_maskHandle);
-
-                this.LandmarkerMaskPts5Model.Dispose();
-            }
-
-            this.PoseEstimationModel.Dispose();
         }
     }
 }

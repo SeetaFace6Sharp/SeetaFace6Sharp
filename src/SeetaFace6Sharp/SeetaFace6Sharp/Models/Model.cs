@@ -11,10 +11,20 @@ namespace SeetaFace6Sharp.Models
     /// </summary>
     public sealed class Model : IDisposable
     {
+        private IntPtr _ptr = IntPtr.Zero;
+
         /// <summary>
         /// Model对象指针
         /// </summary>
-        internal IntPtr Ptr { get; }
+        internal IntPtr Ptr
+        {
+            get
+            {
+                if (disposedValue) throw new ObjectDisposedException(nameof(Model));
+                if (_ptr == IntPtr.Zero) throw new ModuleInitializeException(nameof(Model), "The model not init.");
+                return _ptr;
+            }
+        }
 
         /// <summary>
         /// 模型路径
@@ -46,7 +56,7 @@ namespace SeetaFace6Sharp.Models
             }
             this.DeviceType = deviceType;
 
-            if ((this.Ptr = SeetaFace6Native.GetModel(this.Path, (int)this.DeviceType)) == IntPtr.Zero)
+            if ((_ptr = SeetaFace6Native.GetModel(this.Path, (int)this.DeviceType)) == IntPtr.Zero)
             {
                 throw new ModuleInitializeException(nameof(FaceRecognizer), "Get model ptr failed.");
             }
@@ -90,9 +100,9 @@ namespace SeetaFace6Sharp.Models
             lock (_locker)
             {
                 if (disposedValue) return;
-
+                if (this.Ptr != IntPtr.Zero) 
+                    SeetaFace6Native.DisposeModel(this.Ptr);
                 disposedValue = true;
-                if (this.Ptr != IntPtr.Zero) SeetaFace6Native.DisposeModel(this.Ptr);
             }
         }
     }
