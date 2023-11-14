@@ -1,7 +1,7 @@
 @echo off
 
 set configuration=Release
-set mainVersion=1.0.1
+set mainVersion=1.0.2
 set output=%~dp0publish
 
 rd /s /q %output%
