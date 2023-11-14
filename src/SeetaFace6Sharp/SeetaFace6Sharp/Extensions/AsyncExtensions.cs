@@ -43,7 +43,7 @@ namespace SeetaFace6Sharp
         /// </summary>
         /// <param name="handle"><see cref="FaceAntiSpoofing"/> 对象</param>
         /// <param name="image">人脸图像信息</param>
-        /// <param name="info">面部信息<para>通过 <see cref="FaceDetector.Detect(FaceImage)"/> 获取</para></param>
+        /// <param name="info">面部信息<para>通过 <see cref="FaceDetector.Detect(FaceImage, int)"/> 获取</para></param>
         /// <param name="points"><paramref name="info"/> 对应的关键点坐标<para>通过 <see cref="FaceLandmarker.Mark(FaceImage, FaceInfo)"/> 获取</para></param>
         /// <returns>活体检测状态</returns>
         public static Task<AntiSpoofingResult> PredictAsync(this FaceAntiSpoofing handle, FaceImage image, FaceInfo info, FaceMarkPoint[] points)
@@ -54,7 +54,7 @@ namespace SeetaFace6Sharp
         /// </summary>
         /// <param name="handle"><see cref="FaceAntiSpoofing"/> 对象</param>
         /// <param name="image">人脸图像信息</param>
-        /// <param name="info">面部信息<para>通过 <see cref="FaceDetector.Detect(FaceImage)"/> 获取</para></param>
+        /// <param name="info">面部信息<para>通过 <see cref="FaceDetector.Detect(FaceImage, int)"/> 获取</para></param>
         /// <param name="points"><paramref name="info"/> 对应的关键点坐标<para>通过 <see cref="FaceLandmarker.Mark(FaceImage, FaceInfo)"/> 获取</para></param>
         /// <returns>如果为 <see cref="AntiSpoofingStatus.Detecting"/>，则说明需要继续调用此方法，传入更多的图片</returns>
         public static Task<AntiSpoofingResult> PredictVideoAsync(this FaceAntiSpoofing handle, FaceImage image, FaceInfo info, FaceMarkPoint[] points)
@@ -65,7 +65,7 @@ namespace SeetaFace6Sharp
         /// </summary>
         /// <param name="handle"><see cref="FaceQuality"/> 对象</param>
         /// <param name="image">人脸图像信息</param>
-        /// <param name="info">面部信息<para>通过 <see cref="FaceDetector.Detect(FaceImage)"/> 获取</para></param>
+        /// <param name="info">面部信息<para>通过 <see cref="FaceDetector.Detect(FaceImage, int)"/> 获取</para></param>
         /// <param name="points"><paramref name="info"/> 对应的关键点坐标<para>通过 <see cref="FaceLandmarker.Mark(FaceImage, FaceInfo)"/> 获取</para></param>
         /// <param name="type">质量评估类型</param>
         /// <returns></returns>
@@ -152,7 +152,7 @@ namespace SeetaFace6Sharp
         /// </summary>
         /// <param name="handle"><see cref="FaceTracker"/> 对象</param>
         /// <param name="image">人脸图像信息</param>
-        /// <param name="info">面部信息<para>通过 <see cref="FaceDetector.Detect(FaceImage)"/> 获取</para></param>
+        /// <param name="info">面部信息<para>通过 <see cref="FaceDetector.Detect(FaceImage, int)"/> 获取</para></param>
         /// <returns></returns>
         public static Task<PlotMaskResult> DetectAsync(this MaskDetector handle, FaceImage image, FaceInfo info)
             => Task.Run(() => handle.Detect(image, info));

@@ -28,7 +28,7 @@
 		<PackageIcon>Logo.png</PackageIcon>
 		<PackageProjectUrl>https://github.com/SeetaFace6Sharp/SeetaFace6Sharp</PackageProjectUrl>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<Description>一个基于 SeetaFace6 实现的 .NET 平台的人脸识别库。支持 Windows(x64/x86)、Linux(arm/arm64/x64)。</Description>
+		<Description>一个基于 SeetaFace6 实现的 .NET 平台的离线人脸识别库。支持 Windows(x64/x86)、Linux(arm/arm64/x64)。</Description>
 		<PackageReleaseNotes></PackageReleaseNotes>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 

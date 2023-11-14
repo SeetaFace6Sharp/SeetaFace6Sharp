@@ -7,6 +7,7 @@
 
 		<IsPackable>false</IsPackable>
 		<IsTestProject>true</IsTestProject>
+		<Platforms>AnyCPU;x86;x64</Platforms>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -21,6 +22,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\..\Extensions\SeetaFace6Sharp.Extension.SkiaSharp\SeetaFace6Sharp.Extension.SkiaSharp.csproj" />
 		<ProjectReference Include="..\..\Runtimes\SeetaFace6Sharp.runtime.win.x64\SeetaFace6Sharp.runtime.win.x64.csproj" />
+		<ProjectReference Include="..\..\Runtimes\SeetaFace6Sharp.runtime.win.x86\SeetaFace6Sharp.runtime.win.x86.csproj" />
 		<ProjectReference Include="..\..\SeetaFace6Sharp\SeetaFace6Sharp.csproj" />
 	</ItemGroup>
 
