@@ -2,7 +2,7 @@
 namespace SeetaFace6Sharp
 {
     /// <summary>
-    /// x86环境下支持的架构枚举
+    /// x86环境下支持的指令集枚举
     /// </summary>
     public enum X86Instruction
     {

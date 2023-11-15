@@ -16,7 +16,7 @@
 </div>
 
 ## 💎 关于
-- 一个基于 [SeetaFace6](https://github.com/SeetaFace6Open/index) 的 .NET 人脸识别解决方案
+- 一个基于 [SeetaFace6](https://github.com/SeetaFace6Open/index) 的 .NET 离线人脸识别解决方案
 - 此项目来源于ViewFaceCore，在ViewFaceCore基础上二次开发与分发
 - 开源、免费、跨平台
 
