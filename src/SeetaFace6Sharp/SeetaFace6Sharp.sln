@@ -15,6 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{C5B0
 		Scripts\copy_gpu_seetaface6binary.bat = Scripts\copy_gpu_seetaface6binary.bat
 		Scripts\pack_all.bat = Scripts\pack_all.bat
 		Scripts\pack_all_without_models.bat = Scripts\pack_all_without_models.bat
+		Scripts\pack_gpu_runtime.bat = Scripts\pack_gpu_runtime.bat
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Runtimes", "Runtimes", "{8FD6FB52-6A56-4DA4-8B17-434D4D4A7942}"
