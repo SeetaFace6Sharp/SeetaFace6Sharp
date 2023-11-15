@@ -86,7 +86,7 @@
 
 - [*SeetaFace6Sharp 的 Nuget 包清单*](/docs/SeetaFace6SharpPackages.md)
 
-## 🐟 API（使用说明）
+## 🐟 API文档
 
 - [*SeetaFace6Sharp API*](/docs/SeetaFace6SharpAPI.md)
 
