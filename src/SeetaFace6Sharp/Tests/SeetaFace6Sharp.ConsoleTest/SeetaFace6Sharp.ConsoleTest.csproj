@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<OutputType>Exe</OutputType>
-		<TargetFramework>net7.0</TargetFramework>
+		<TargetFramework>net8.0</TargetFramework>
 		<ImplicitUsings>disable</ImplicitUsings>
 		<Nullable>disable</Nullable>
 		<Platforms>x64;x86</Platforms>
@@ -16,6 +16,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\Extensions\SeetaFace6Sharp.Extension.SkiaSharp\SeetaFace6Sharp.Extension.SkiaSharp.csproj" />
+		<ProjectReference Include="..\..\Runtimes\SeetaFace6Sharp.runtime.linux.debian.x64\SeetaFace6Sharp.runtime.linux.debian.x64.csproj" />
 		<ProjectReference Include="..\..\Runtimes\SeetaFace6Sharp.runtime.win.x64\SeetaFace6Sharp.runtime.win.x64.csproj" />
 		<ProjectReference Include="..\..\Runtimes\SeetaFace6Sharp.runtime.win.x86\SeetaFace6Sharp.runtime.win.x86.csproj" />
 		<ProjectReference Include="..\..\SeetaFace6Sharp\SeetaFace6Sharp.csproj" />

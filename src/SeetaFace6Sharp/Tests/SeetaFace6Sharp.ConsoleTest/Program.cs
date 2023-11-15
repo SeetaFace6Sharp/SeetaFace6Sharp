@@ -30,34 +30,34 @@ namespace SeetaFace6Sharp.ConsoleTest
                 try
                 {
                     //口罩识别测试
-                    //MaskDetectorTest();
+                    MaskDetectorTest();
 
-                    ////人脸识别和标记测试，开始：2022/07/30 00:12:51，结束：2022/07/30 09:04:30，结果：通过
-                    //FaceDetectorAndFaceMarkTest();
+                    //人脸识别和标记测试，开始：2022/07/30 00:12:51，结束：2022/07/30 09:04:30，结果：通过
+                    FaceDetectorAndFaceMarkTest();
 
-                    ////活体检测测试，通过24h测试，20220728
-                    //AntiSpoofingTest();
+                    //活体检测测试，通过24h测试，20220728
+                    AntiSpoofingTest();
 
-                    ////质量评估测试，开始：2022 - 07 - 28 09:57，结束：,结果：通过
+                    //质量评估测试，开始：2022 - 07 - 28 09:57，结束：,结果：通过
                     FaceQualityTest();
 
-                    ////人脸追踪测试，开始：2022/07/29 16:45:18，结束：2022/07/29 17:50:01,结果：通过
-                    //FaceTrackTest();
+                    //人脸追踪测试，开始：2022/07/29 16:45:18，结束：2022/07/29 17:50:01,结果：通过
+                    FaceTrackTest();
 
-                    ////人脸特征值测试，开始：2022/07/30 00:12:51，结束：2022/07/30 09:04:30，结果：通过
-                    //ExtractTest();
+                    //人脸特征值测试，开始：2022/07/30 00:12:51，结束：2022/07/30 09:04:30，结果：通过
+                    ExtractTest();
 
-                    ////年龄预测测试
-                    //FaceAgePredictorTest();
+                    //年龄预测测试
+                    FaceAgePredictorTest();
 
-                    ////性别预测测试
-                    //FaceGenderPredictorTest();
+                    //性别预测测试
+                    FaceGenderPredictorTest();
 
-                    ////眼睛状态检测测试
-                    //FaceEyeStateDetectorTest();
+                    //眼睛状态检测测试
+                    FaceEyeStateDetectorTest();
 
-                    ////人脸对比测试，开始：2022 / 07 / 30 00:12:51，结束：2022 / 07 / 30 09:04:30，结果：通过
-                    //CompareTest();
+                    //人脸对比测试，开始：2022 / 07 / 30 00:12:51，结束：2022 / 07 / 30 09:04:30，结果：通过
+                    CompareTest();
                 }
                 catch (Exception ex)
                 {
@@ -275,8 +275,6 @@ namespace SeetaFace6Sharp.ConsoleTest
             using var bitmap_nomask = ConvertImage(imagePath);
             using var bitmap_mask = ConvertImage(maskImagePath);
 
-            
-
             using MaskDetector maskDetector = new MaskDetector();
             using FaceDetector faceDetector = new FaceDetector();
             //FaceType需要用口罩模型
@@ -322,7 +320,7 @@ namespace SeetaFace6Sharp.ConsoleTest
                 sw.Stop();
                 i++;
 
-                if (sw2.ElapsedMilliseconds > 6000)
+                if (sw2.ElapsedMilliseconds > 3000)
                 {
                     break;
                 }
