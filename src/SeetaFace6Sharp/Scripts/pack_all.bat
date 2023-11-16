@@ -5,6 +5,8 @@ set mainVersion=1.0.2
 set modelVersion=1.0.0
 set output=%~dp0publish
 
+call copy_cpu_seetaface6binary.bat
+
 rd /s /q %output%
 cd ..
 
