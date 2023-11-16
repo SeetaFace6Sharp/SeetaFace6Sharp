@@ -103,6 +103,59 @@ namespace SeetaFace6Sharp
             }
         }
 
+        /// <summary>
+        /// 识别 <paramref name="image"/> 中指定的人脸信息 <paramref name="info"/> 的关键点坐标。（包含遮挡）
+        /// </summary>
+        /// <param name="image">人脸图像信息</param>
+        /// <param name="info">指定的人脸信息</param>
+        /// <exception cref="ObjectDisposedException"/>
+        /// <returns>若失败，则返回结果 Length == 0</returns>
+        public FaceMarkPointMask[] MarkV2(FaceImage image, FaceInfo info)
+        {
+            if (this.Config.MarkType != MarkType.Light)
+            {
+                throw new ArgumentException(nameof(this.Config.MarkType), "The occlusion assessment module only support 'face_landmarker_mask_pts5.csta' model. Mark type value: Light");
+            }
+            lock (_locker)
+            {
+                if (disposedValue)
+                    throw new ObjectDisposedException(nameof(FaceAntiSpoofing));
+
+                IntPtr buffer = IntPtr.Zero;
+                try
+                {
+                    int sizeOfFaceMarkPoint = Marshal.SizeOf(typeof(FaceMarkPointMask));
+                    buffer = Marshal.AllocHGlobal(this.MarkPointSize * sizeOfFaceMarkPoint);
+                    if (buffer == IntPtr.Zero)
+                        return new FaceMarkPointMask[0];
+
+                    long size = 0;
+                    int rtCode = SeetaFace6Native.FaceMarkV2(_handle, ref image, info.Location, this.MarkPointSize, buffer, ref size);
+                    if (rtCode != 0)
+                    {
+                        throw rtCode switch
+                        {
+                            -2 => new Exception($"Face mark v2 failed, default mark point size {this.MarkPointSize} is not same as face mark size {size}."),
+                            _ => new Exception($"Face mark v2 failed, result value is {rtCode}"),
+                        };
+                    }
+
+                    FaceMarkPointMask[] result = new FaceMarkPointMask[size];
+                    for (int i = 0; i < size; i++)
+                    {
+                        IntPtr p = new IntPtr(buffer.ToInt64() + i * sizeOfFaceMarkPoint);
+                        result[i] = (FaceMarkPointMask)Marshal.PtrToStructure(p, typeof(FaceMarkPointMask));
+                    }
+                    return result;
+                }
+                finally
+                {
+                    if (buffer != IntPtr.Zero)
+                        Marshal.FreeHGlobal(buffer);
+                }
+            }
+        }
+
         /// <inheritdoc/>
         public override void Dispose()
         {

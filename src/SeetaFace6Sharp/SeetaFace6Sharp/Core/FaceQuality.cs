@@ -42,7 +42,7 @@ namespace SeetaFace6Sharp
         {
             this.Model = new Model("quality_lbn.csta", this.Config.DeviceType);
             this.LandmarkerPts68Model = new Model("face_landmarker_pts68.csta", this.Config.DeviceType);
-            _clarityHandle = SeetaFace6Native.GetQualityOfClarityExHandler(this.Model.Ptr, this.LandmarkerPts68Model.Ptr);
+            _clarityHandle = SeetaFace6Native.GetQualityOfClarityExHandler(this.Model.Ptr, this.LandmarkerPts68Model.Ptr, this.Config.ThreadNumber);
             if (_clarityHandle == IntPtr.Zero)
             {
                 throw new ModuleInitializeException(nameof(FaceQuality), "Get quality of clarityEx handle failed.");

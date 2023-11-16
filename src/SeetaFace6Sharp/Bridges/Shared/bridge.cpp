@@ -554,9 +554,28 @@ EXPORTAPI void QualityPoseEx(const ModelSetting& model, const SeetaImageData& im
 	}
 }
 
-EXPORTAPI seeta::QualityOfClarityEx* GetQualityOfClarityExHandler(const ModelSetting& qualityModel, const ModelSetting& landmarkerPts68Model, const float blur_thresh = 0.8f)
+// 深度学习的人脸清晰度评估器。
+EXPORTAPI seeta::v6::QualityOfLBN* GetQualityOfLBNHandler(const ModelSetting& model, const float blurThresh = 0.8f, const int threads = 4)
 {
-	return new seeta::QualityOfClarityEx(blur_thresh, qualityModel, landmarkerPts68Model);
+	seeta::v6::QualityOfLBN* lbn = new seeta::v6::QualityOfLBN(model);
+	lbn->set(QualityOfLBN::Property::PROPERTY_BLUR_THRESH, blurThresh);
+	lbn->set(QualityOfLBN::Property::PROPERTY_NUMBER_THREADS, threads);
+	return lbn;
+}
+
+EXPORTAPI void QualityOfLBNDetect(seeta::v6::QualityOfLBN* handler, const SeetaImageData& image, const SeetaPointF* points, int* light, int* blur, int* noise) {
+	handler->Detect(image, points, light, blur, noise);
+}
+
+
+EXPORTAPI void DisposeQualityOfLBN(seeta::v6::QualityOfLBN* handler)
+{
+	_dispose(handler);
+}
+
+EXPORTAPI seeta::QualityOfClarityEx* GetQualityOfClarityExHandler(const ModelSetting& qualityModel, const ModelSetting& landmarkerPts68Model, const float blur_thresh = 0.8f, const int threads = 4)
+{
+	return new seeta::QualityOfClarityEx(qualityModel, landmarkerPts68Model, blur_thresh, threads);
 }
 
 // 清晰度 (深度)评估

@@ -142,6 +142,19 @@ namespace SeetaFace6Sharp.Native
         [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "FaceMark", CallingConvention = CallingConvention.Cdecl)]
         internal extern static int FaceMark(IntPtr handler, ref FaceImage img, FaceRect faceRect, int bufferSize, IntPtr buffer, ref long size);
 
+        /// <summary>
+        /// 获取人脸关键点（包含遮挡）
+        /// </summary>
+        /// <param name="handler">句柄</param>
+        /// <param name="img">图像信息</param>
+        /// <param name="faceRect">人脸位置信息</param>
+        /// <param name="size">关键点数量</param>
+        /// <param name="bufferSize">关键点数量（初始化量）</param>
+        /// <param name="buffer">初始化数组</param>
+        /// <returns></returns>
+        [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "FaceMarkV2", CallingConvention = CallingConvention.Cdecl)]
+        internal extern static int FaceMarkV2(IntPtr handler, ref FaceImage img, FaceRect faceRect, int bufferSize, IntPtr buffer, ref long size);
+
         [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "DisposeFaceLandmarker", CallingConvention = CallingConvention.Cdecl)]
         internal extern static void DisposeFaceLandmarker(IntPtr handler);
 
@@ -437,6 +450,16 @@ namespace SeetaFace6Sharp.Native
 
         #region 清晰度 (深度)评估。
 
+        // 深度学习的人脸清晰度评估器。
+        [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "GetQualityOfLBNHandler", CallingConvention = CallingConvention.Cdecl)]
+        internal extern static IntPtr GetQualityOfLBNHandler(IntPtr model, float blurThresh = 0.8f, int threads = 4);
+
+        [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "QualityOfLBNDetect", CallingConvention = CallingConvention.Cdecl)]
+        internal extern static void QualityOfLBNDetect(IntPtr handler, ref FaceImage img, FaceMarkPoint[] points, ref int light, ref int blur, ref int noise);
+
+        [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "DisposeQualityOfLBN", CallingConvention = CallingConvention.Cdecl)]
+        internal extern static void DisposeQualityOfLBN(IntPtr handler);
+
         /// <summary>
         /// 获取清晰度 (深度)评估句柄
         /// <param name="qualityModel">检测所需模型</param>
@@ -445,9 +468,10 @@ namespace SeetaFace6Sharp.Native
         /// </summary>
         /// 
         /// <param name="blur_thresh">清晰度阈值，默认值：0.8</param>
+        /// <param name="threads"></param>
         /// <returns></returns>
         [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "GetQualityOfClarityExHandler", CallingConvention = CallingConvention.Cdecl)]
-        internal extern static IntPtr GetQualityOfClarityExHandler(IntPtr qualityModel, IntPtr landmarkerPts68Model, float blur_thresh = 0.8f);
+        internal extern static IntPtr GetQualityOfClarityExHandler(IntPtr qualityModel, IntPtr landmarkerPts68Model, float blur_thresh = 0.8f, int threads = 4);
 
         /// <summary>
         /// 清晰度 (深度)评估。
