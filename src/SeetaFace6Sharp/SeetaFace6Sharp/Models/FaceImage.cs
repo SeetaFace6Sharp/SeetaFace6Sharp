@@ -40,6 +40,10 @@ namespace SeetaFace6Sharp
             {
                 throw new ArgumentException("Invalid argument");
             }
+            if (buffer.Length < width * height * channels)
+            {
+                throw new ArgumentOutOfRangeException(nameof(buffer), "Image data is incorrect. buffer.Length ≠ width × height × channels");
+            }
 
             this.width = width;
             this.height = height;
