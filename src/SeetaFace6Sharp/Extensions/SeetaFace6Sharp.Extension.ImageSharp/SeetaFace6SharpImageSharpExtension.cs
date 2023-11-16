@@ -23,26 +23,6 @@ namespace SeetaFace6Sharp
         }
 
         /// <summary>
-        /// Image convert to FaceImage
-        /// </summary>
-        /// <typeparam name="T">Only support type of SixLabors.ImageSharp.Image</typeparam>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
-        public static FaceImage ToFaceImage<T>(this T obj) where T : class
-        {
-            if (obj == null)
-            {
-                throw new ArgumentNullException(nameof(obj));
-            }
-            if (obj is Image bitmap)
-            {
-                return bitmap.ToFaceImage();
-            }
-            throw new Exception($"Not support type:{obj.GetType()}");
-        }
-
-        /// <summary>
         /// <see cref="Bitmap"/> 转为 3*8bit BGR <see cref="byte"/> 数组。
         /// </summary>
         /// <param name="source">待转换图像</param>

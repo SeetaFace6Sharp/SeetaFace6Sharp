@@ -21,26 +21,6 @@ namespace SeetaFace6Sharp
             return new FaceImage(width, height, channels, data);
         }
 
-        /// <summary>
-        /// SKBitmap convert to FaceImage
-        /// </summary>
-        /// <typeparam name="T">Only support type of SkiaSharp.SKBitmap</typeparam>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
-        public static FaceImage ToFaceImage<T>(this T obj) where T : class
-        {
-            if (obj == null)
-            {
-                throw new ArgumentNullException(nameof(obj));
-            }
-            if (obj is SKBitmap bitmap)
-            {
-                return bitmap.ToFaceImage();
-            }
-            throw new Exception($"Not support type:{obj.GetType()}");
-        }
-
         #region Private
 
         /// <summary>
