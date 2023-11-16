@@ -23,7 +23,7 @@ namespace SeetaFace6Sharp
         public GenderPredictor(GenderPredictConfig config = null) : base(config ?? new GenderPredictConfig())
         {
             this.Model = new Model("gender_predictor.csta", this.Config.DeviceType);
-            if ((_handle = SeetaFace6Native.GetGenderPredictorHandler(this.Model.Ptr)) == IntPtr.Zero)
+            if ((_handle = SeetaFace6Native.GetGenderPredictorHandler(this.Model.Ptr, this.Config.ThreadNumber)) == IntPtr.Zero)
             {
                 throw new ModuleInitializeException(nameof(GenderPredictor), "Get gender predictor handle failed.");
             }

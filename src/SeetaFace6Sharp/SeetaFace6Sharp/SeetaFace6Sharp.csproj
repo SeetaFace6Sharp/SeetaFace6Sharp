@@ -8,6 +8,7 @@
 		<OutputType>Library</OutputType>
 		<LangVersion>latest</LangVersion>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<Platforms>AnyCPU;x64;x86</Platforms>
 	</PropertyGroup>
 
 	<!--Package Info-->

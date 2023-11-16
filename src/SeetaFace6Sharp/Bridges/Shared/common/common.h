@@ -15,7 +15,7 @@ inline void _dispose(T &ptr)
 			delete ptr;
 			ptr = nullptr;
 		}
-		catch (int e)
+		catch (const std::exception&)
 		{
 		}
 	}

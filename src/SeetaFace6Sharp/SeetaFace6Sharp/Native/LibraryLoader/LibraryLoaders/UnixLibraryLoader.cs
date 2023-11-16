@@ -43,7 +43,7 @@ namespace SeetaFace6Sharp.Native.LibraryLoader.LibraryLoaders
             {
                 return;
             }
-            switch (GlobalConfig.GetX86Instruction())
+            switch (GlobalConfig.X86Instruction)
             {
                 case X86Instruction.AVX2:
                     {

@@ -58,10 +58,6 @@ namespace SeetaFace6Sharp
                 threshold = value;
             }
         }
-        /// <summary>
-        /// 是否进行检测结果的帧间平滑，使得检测结果从视觉上更好一些。
-        /// </summary>
-        public bool Stable { get; set; } = false;
 
         /// <summary>
         /// 检测间隔

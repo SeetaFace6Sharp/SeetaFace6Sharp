@@ -24,7 +24,7 @@ namespace SeetaFace6Sharp
         public FaceDetector(FaceDetectConfig config = null) : base(config ?? new FaceDetectConfig())
         {
             this.Model = new Model("face_detector.csta", this.Config.DeviceType);
-            _handle = SeetaFace6Native.GetFaceDetectorHandler(this.Model.Ptr, this.Config.FaceSize, this.Config.Threshold, this.Config.MaxWidth, this.Config.MaxHeight);
+            _handle = SeetaFace6Native.GetFaceDetectorHandler(this.Model.Ptr, this.Config.FaceSize, this.Config.Threshold, this.Config.MaxWidth, this.Config.MaxHeight, this.Config.ThreadNumber);
             if (_handle == IntPtr.Zero)
             {
                 throw new ModuleInitializeException(nameof(FaceDetector), "Get face detector handle failed.");

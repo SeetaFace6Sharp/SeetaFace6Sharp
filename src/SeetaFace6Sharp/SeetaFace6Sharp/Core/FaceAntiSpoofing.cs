@@ -26,7 +26,7 @@ namespace SeetaFace6Sharp
             {
                 this.Model.Append("fas_second.csta");
             }
-            _handle = SeetaFace6Native.GetFaceAntiSpoofingHandler(this.Model.Ptr, this.Config.VideoFrameCount, this.Config.BoxThresh, this.Config.Threshold.Clarity, this.Config.Threshold.Reality);
+            _handle = SeetaFace6Native.GetFaceAntiSpoofingHandler(this.Model.Ptr, this.Config.VideoFrameCount, this.Config.BoxThresh, this.Config.Threshold.Clarity, this.Config.Threshold.Reality, this.Config.ThreadNumber);
             if (_handle == IntPtr.Zero)
             {
                 throw new ModuleInitializeException(nameof(FaceAntiSpoofing), "Get face anti spoofing handle failed.");

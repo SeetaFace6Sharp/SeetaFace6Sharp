@@ -27,10 +27,22 @@ namespace SeetaFace6Sharp
         public FaceTracker(FaceTrackerConfig config) : base(config ?? throw new ArgumentNullException(nameof(config), $"Param '{nameof(config)}' can not null."))
         {
             this.Model = new Model("face_detector.csta", this.Config.DeviceType);
-            _handle = SeetaFace6Native.GetFaceTrackerHandler(this.Model.Ptr, this.Config.Width, this.Config.Height, this.Config.Stable, this.Config.Interval, this.Config.MinFaceSize, this.Config.Threshold);
+            _handle = SeetaFace6Native.GetFaceTrackerHandler(this.Model.Ptr, this.Config.Width, this.Config.Height, this.Config.Interval, this.Config.MinFaceSize, this.Config.Threshold, this.Config.ThreadNumber);
             if (_handle == IntPtr.Zero)
             {
                 throw new ModuleInitializeException(nameof(FaceLandmarker), "Get face track handle failed.");
+            }
+        }
+
+        /// <summary>
+        /// 是否进行检测结果的帧间平滑，使得检测结果从视觉上更好一些。
+        /// </summary>
+        /// <param name="stable"></param>
+        public void SetVideoStable(bool stable)
+        {
+            lock (_locker)
+            {
+                SeetaFace6Native.SetVideoStable(this._handle, stable);
             }
         }
 
@@ -46,6 +58,27 @@ namespace SeetaFace6Sharp
         /// <returns>人脸信息集合。若 <see cref="Array.Length"/> == 0 ，代表未检测到人脸信息。如果图片中确实有人脸，可以修改 <see cref="FaceTrackerConfig"/> 重新检测。</returns>
         public FaceTrackInfo[] Track(FaceImage image, int maxFaceCount = 30)
         {
+            return BaseTrack(image, 0, false, maxFaceCount);
+        }
+
+        /// <summary>
+        /// 识别 <paramref name="image"/> 中的人脸，并返回可跟踪的人脸信息。
+        /// <para>
+        /// 当 <c><see cref="FaceType"/> <see langword="="/> <see cref="FaceType.Normal"/> <see langword="||"/> <see cref="FaceType.Light"/></c> 时， 需要模型：<a href="https://www.nuget.org/packages/SeetaFace6Sharp.model.face_detector">face_detector.csta</a><br/>
+        /// 当 <c><see cref="FaceType"/> <see langword="="/> <see cref="FaceType.Mask"/></c> 时， 需要模型：<a href="https://www.nuget.org/packages/SeetaFace6Sharp.model.mask_detector">mask_detector.csta</a><br/>
+        /// </para>
+        /// </summary>
+        /// <param name="image">人脸图像信息</param>
+        /// <param name="frameNo">帧编号</param>
+        /// <param name="maxFaceCount">单张图片中最多人脸数量（预分配内存）</param>
+        /// <returns>人脸信息集合。若 <see cref="Array.Length"/> == 0 ，代表未检测到人脸信息。如果图片中确实有人脸，可以修改 <see cref="FaceTrackerConfig"/> 重新检测。</returns>
+        public FaceTrackInfo[] TrackVideo(FaceImage image, int frameNo, int maxFaceCount = 30)
+        {
+            return BaseTrack(image, frameNo, true, maxFaceCount);
+        }
+
+        private FaceTrackInfo[] BaseTrack(FaceImage image, int frameNo, bool isTrackVideo, int maxFaceCount)
+        {
             lock (_locker)
             {
                 if (disposedValue)
@@ -60,7 +93,7 @@ namespace SeetaFace6Sharp
                         return new FaceTrackInfo[0];
 
                     int size = 0;
-                    int rtCode = SeetaFace6Native.FaceTrack(_handle, ref image, maxFaceCount, buffer, ref size);
+                    int rtCode = isTrackVideo ? SeetaFace6Native.FaceTrackVideo(_handle, ref image, frameNo, maxFaceCount, buffer, ref size) : SeetaFace6Native.FaceTrack(_handle, ref image, maxFaceCount, buffer, ref size);
                     if (rtCode != 0)
                     {
                         throw new Exception($"Face track failed, result code id {rtCode}");

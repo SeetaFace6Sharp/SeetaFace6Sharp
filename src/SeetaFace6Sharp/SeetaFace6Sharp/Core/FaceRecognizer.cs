@@ -40,7 +40,7 @@ namespace SeetaFace6Sharp
                 _ => throw new NotSupportedException($"Not support face type: {this.Config.FaceType}."),
             };
             this.Model = new Model(model, this.Config.DeviceType);
-            if ((_handle = SeetaFace6Native.GetFaceRecognizerHandler(this.Model.Ptr)) == IntPtr.Zero)
+            if ((_handle = SeetaFace6Native.GetFaceRecognizerHandler(this.Model.Ptr, this.Config.ThreadNumber)) == IntPtr.Zero)
             {
                 throw new ModuleInitializeException(nameof(FaceRecognizer), "Get face recognizer handle failed.");
             }

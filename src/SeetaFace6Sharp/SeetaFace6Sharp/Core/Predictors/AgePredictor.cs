@@ -22,7 +22,7 @@ public sealed class AgePredictor : BasePredictor<AgePredictConfig>
     public AgePredictor(AgePredictConfig config = null) : base(config ?? new AgePredictConfig())
     {
         this.Model = new Model("age_predictor.csta", this.Config.DeviceType);
-        if ((_handle = SeetaFace6Native.GetAgePredictorHandler(this.Model.Ptr)) == IntPtr.Zero)
+        if ((_handle = SeetaFace6Native.GetAgePredictorHandler(this.Model.Ptr, this.Config.ThreadNumber)) == IntPtr.Zero)
         {
             throw new ModuleInitializeException(nameof(AgePredictor), "Get age predictor handle failed.");
         }

@@ -16,7 +16,7 @@ namespace SeetaFace6Sharp
         /// <summary>
         /// 日志事件绑定
         /// </summary>
-        private static Action<string> LogEvent { get; set; }
+        private static Action<string> _logEvent { get; set; }
 
         /// <summary>
         /// 绑定log event
@@ -26,9 +26,9 @@ namespace SeetaFace6Sharp
         {
             if (action == null)
                 return;
-            if (LogEvent != null)
+            if (_logEvent != null)
                 return;
-            LogEvent = action;
+            _logEvent = action;
         }
 
         /// <summary>
@@ -37,46 +37,9 @@ namespace SeetaFace6Sharp
         /// <param name="log"></param>
         internal static void WriteLog(string log)
         {
-            if (LogEvent == null)
+            if (_logEvent == null)
                 return;
-            LogEvent(log);
-        }
-
-        #endregion
-
-        #region Instruction
-
-        private static bool _isSetX86Instruction = false;
-
-        private static readonly object _setX86InstructionLocker = new object();
-
-        /// <summary>
-        /// 在x86环境下支持的指令集
-        /// </summary>
-        private static X86Instruction _x86Instruction = X86Instruction.AVX2 | X86Instruction.SSE2 | X86Instruction.FMA;
-
-        /// <summary>
-        /// 设置支持的指令集
-        /// </summary>
-        /// <param name="instruction"></param>
-        public static void SetX86Instruction(X86Instruction instruction)
-        {
-            if (_isSetX86Instruction)
-                return;
-            if (RuntimeInformation.ProcessArchitecture != Architecture.X86 && RuntimeInformation.ProcessArchitecture != Architecture.X64)
-                return;
-            lock (_setX86InstructionLocker)
-            {
-                if (_isSetX86Instruction)
-                    return;
-                _isSetX86Instruction = true;
-                _x86Instruction = instruction;
-            }
-        }
-
-        internal static X86Instruction GetX86Instruction()
-        {
-            return _x86Instruction;
+            _logEvent(log);
         }
 
         #endregion
@@ -94,7 +57,7 @@ namespace SeetaFace6Sharp
         /// <returns></returns>
         internal static IPathResolver GetPathResolver()
         {
-            if(_pathResolver == null)
+            if (_pathResolver == null)
             {
                 return new DefaultPathResolver();
             }
@@ -113,30 +76,115 @@ namespace SeetaFace6Sharp
 
         #endregion
 
+        #region Instruction
+
+        private static bool _isSetX86Instruction = false;
+        private static readonly object _setX86InstructionLocker = new object();
+        private static X86Instruction _x86Instruction = X86Instruction.AVX2 | X86Instruction.SSE2 | X86Instruction.FMA;
+
+        /// <summary>
+        /// x86或者x64环境下支持的指令集
+        /// </summary>
+        public static X86Instruction X86Instruction
+        {
+            get
+            {
+                return _x86Instruction;
+            }
+            set
+            {
+                if (_isSetX86Instruction)
+                    return;
+                if (RuntimeInformation.ProcessArchitecture != Architecture.X86 && RuntimeInformation.ProcessArchitecture != Architecture.X64)
+                    return;
+                lock (_setX86InstructionLocker)
+                {
+                    if (_isSetX86Instruction)
+                        return;
+                    _isSetX86Instruction = true;
+                    _x86Instruction = value;
+                }
+            }
+        }
+
+        #endregion
+
         #region DeviceType
 
         private static DeviceType _deviceType = DeviceType.AUTO;
 
         /// <summary>
-        /// 获取全局设备类型配置
+        /// 全局使用的设备类型
         /// </summary>
-        /// <returns></returns>
-        public static DeviceType GetDefaultDeviceType()
+        public static DeviceType DefaultDeviceType
         {
-            return _deviceType;
+            get
+            {
+                return _deviceType;
+            }
+            set
+            {
+                if (value < DeviceType.AUTO || value > DeviceType.GPU)
+                {
+                    throw new ArgumentException($"Invalid parameter. Value cannot be {(int)value}");
+                }
+                _deviceType = value;
+            }
         }
 
+        #endregion
+
+        #region Threads
+
+        private static int _maxThreadNumber = 16;
+
         /// <summary>
-        /// 设置全局设备类型（不设置默认值为自动）
+        /// 默认能使用的最大线程数量（默认16）
         /// </summary>
-        /// <param name="deviceType"></param>
-        public static void SetDefaultDeviceType(DeviceType deviceType)
+        public static int MaxThreadNumber
         {
-            if (deviceType < DeviceType.AUTO || deviceType > DeviceType.GPU)
+            get
             {
-                throw new ArgumentException($"Invalid parameter. Value cannot be {(int)deviceType}");
+                return _maxThreadNumber;
             }
-            _deviceType = deviceType;
+            set
+            {
+                if (value <= 0)
+                    throw new ArgumentOutOfRangeException(nameof(MaxThreadNumber), "The number of threads max used cannot be less than or equal to 0.");
+                _maxThreadNumber = value;
+            }
+        }
+
+        private static int _threadNumber = -1;
+
+        /// <summary>
+        /// 指定线程数量
+        /// </summary>
+        public static int ThreadNumber
+        {
+            get
+            {
+                if (_threadNumber == -1)
+                {
+                    return Environment.ProcessorCount > MaxThreadNumber ? MaxThreadNumber : Environment.ProcessorCount;
+                }
+                return _threadNumber;
+            }
+            set
+            {
+                if (value <= 0)
+                    throw new ArgumentOutOfRangeException(nameof(ThreadNumber), "The number of threads cannot be less than or equal to 0.");
+                _threadNumber= value;
+                if (MaxThreadNumber > _threadNumber)
+                {
+                    WriteLog($"The input number of threads exceeds the maximum thread limit of {MaxThreadNumber}, the number of threads will be set to the maximum thread limit of {MaxThreadNumber}.");
+                    _threadNumber = MaxThreadNumber;
+                }
+                if (_threadNumber > Environment.ProcessorCount)
+                {
+                    WriteLog($"The number of threads exceeds logical processors count {Environment.ProcessorCount}. It is not recommended for the number of threads to exceed the number of logical processors");
+                }
+            }
         }
 
         #endregion

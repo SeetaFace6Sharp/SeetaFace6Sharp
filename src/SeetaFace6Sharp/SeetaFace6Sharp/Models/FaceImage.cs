@@ -25,7 +25,7 @@ namespace SeetaFace6Sharp
         [MarshalAs(UnmanagedType.SysInt)]
         private readonly IntPtr data = IntPtr.Zero;
 
-        private readonly int _length = 0;
+        private int _length = 0;
 
         /// <summary>
         /// 构造器
@@ -78,9 +78,17 @@ namespace SeetaFace6Sharp
                 {
                     throw new ObjectDisposedException(nameof(FaceImage));
                 }
-                if (this.data == IntPtr.Zero || _length == 0)
+                if (this.data == IntPtr.Zero)
                 {
                     return Array.Empty<byte>();
+                }
+                if (_length == 0)
+                {
+                    if (this.Width == 0 || this.Height == 0 || this.Channels == 0)
+                    {
+                        return Array.Empty<byte>();
+                    }
+                    _length = this.Width * this.Height * this.Channels; 
                 }
                 var buffer = new byte[_length];
                 for (int i = 0; i < _length; i++)

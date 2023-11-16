@@ -54,7 +54,7 @@ namespace SeetaFace6Sharp.Native.PathResolvers
                 throw new PlatformNotSupportedException($"Unsupported processor architecture: {RuntimeInformation.ProcessArchitecture}, system type: {RuntimeInformation.OSDescription}");
 
             string gpuMark = null;
-            if (GlobalConfig.GetDefaultDeviceType() == DeviceType.GPU)
+            if (GlobalConfig.DefaultDeviceType == DeviceType.GPU)
                 gpuMark = "gpu";
 
             if (!TryCombine(out string libraryPath, DEFAULT_LIBRARY_PATH, archPath, "native", gpuMark))

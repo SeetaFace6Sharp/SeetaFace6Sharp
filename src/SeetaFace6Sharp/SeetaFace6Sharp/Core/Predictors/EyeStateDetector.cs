@@ -24,7 +24,7 @@ public sealed class EyeStateDetector : BasePredictor<EyeStateDetectConfig>
     public EyeStateDetector(EyeStateDetectConfig config = null) : base(config ?? new EyeStateDetectConfig())
     {
         this.Model = new Model("eye_state.csta", this.Config.DeviceType);
-        if ((_handle = SeetaFace6Native.GetEyeStateDetectorHandler(this.Model.Ptr)) == IntPtr.Zero)
+        if ((_handle = SeetaFace6Native.GetEyeStateDetectorHandler(this.Model.Ptr, this.Config.ThreadNumber)) == IntPtr.Zero)
         {
             throw new ModuleInitializeException(nameof(EyeStateDetector), "Get eye state detector handle failed.");
         }

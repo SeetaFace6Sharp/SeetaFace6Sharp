@@ -33,13 +33,14 @@ EXPORTAPI void DisposeModel(seeta::ModelSetting* model)
 /// <param name="maxWidth"></param>
 /// <param name="maxHeight"></param>
 /// <returns></returns>
-EXPORTAPI seeta::v6::FaceDetector* GetFaceDetectorHandler(const ModelSetting& model, const double faceSize = 20, const double threshold = 0.9, const double maxWidth = 2000, const double maxHeight = 2000)
+EXPORTAPI seeta::v6::FaceDetector* GetFaceDetectorHandler(const ModelSetting& model, const double faceSize = 20, const double threshold = 0.9, const double maxWidth = 2000, const double maxHeight = 2000, const int threads = 4)
 {
 	seeta::v6::FaceDetector* faceDetector = new seeta::v6::FaceDetector(model);
 	faceDetector->set(FaceDetector::Property::PROPERTY_MIN_FACE_SIZE, faceSize);
 	faceDetector->set(FaceDetector::Property::PROPERTY_THRESHOLD, threshold);
 	faceDetector->set(FaceDetector::Property::PROPERTY_MAX_IMAGE_WIDTH, maxWidth);
 	faceDetector->set(FaceDetector::Property::PROPERTY_MAX_IMAGE_HEIGHT, maxHeight);
+	faceDetector->set(FaceDetector::Property::PROPERTY_NUMBER_THREADS, threads);
 	return faceDetector;
 }
 
@@ -136,9 +137,10 @@ EXPORTAPI void DisposeMaskDetector(seeta::v2::MaskDetector* handler)
 /// </summary>
 /// <param name="type"></param>
 /// <returns></returns>
-EXPORTAPI seeta::v6::FaceLandmarker* GetFaceLandmarkerHandler(const ModelSetting& model, const int type = 0)
+EXPORTAPI seeta::v6::FaceLandmarker* GetFaceLandmarkerHandler(const ModelSetting& model)
 {
-	return new seeta::v6::FaceLandmarker(model);
+	seeta::v6::FaceLandmarker* faceLandmarker = new seeta::v6::FaceLandmarker(model);
+	return faceLandmarker;
 }
 
 /// <summary>
@@ -171,6 +173,28 @@ EXPORTAPI int FaceMark(seeta::v6::FaceLandmarker* handler, const SeetaImageData&
 	return -1;
 }
 
+EXPORTAPI int FaceMarkV2(seeta::v6::FaceLandmarker* handler, const SeetaImageData& img, const SeetaRect faceRect, const int bufferSize, seeta::v6::FaceLandmarker::PointWithMask* buffer, long* size)
+{
+	if (handler == nullptr)
+	{
+		return -1;
+	}
+	*size = 0;
+	std::vector<seeta::v6::FaceLandmarker::PointWithMask> markPoints = handler->mark_v2(img, faceRect);
+	if (!markPoints.empty() || markPoints.size() == 0)
+	{
+		*size = markPoints.size();
+		if (*size != bufferSize)
+		{
+			return -2;
+		}
+		memcpy(buffer, markPoints.data(), *size * sizeof(SeetaPointF));
+		std::vector<seeta::v6::FaceLandmarker::PointWithMask>().swap(markPoints);
+		return 0;
+	}
+	return -1;
+}
+
 EXPORTAPI void DisposeFaceLandmarker(seeta::v6::FaceLandmarker* handler)
 {
 	_dispose(handler);
@@ -185,9 +209,11 @@ EXPORTAPI void DisposeFaceLandmarker(seeta::v6::FaceLandmarker* handler)
 /// </summary>
 /// <param name="type"></param>
 /// <returns></returns>
-EXPORTAPI seeta::v6::FaceRecognizer* GetFaceRecognizerHandler(const ModelSetting& model)
+EXPORTAPI seeta::v6::FaceRecognizer* GetFaceRecognizerHandler(const ModelSetting& model, const int threads = 4)
 {
-	return new seeta::v6::FaceRecognizer(model);
+	seeta::v6::FaceRecognizer* faceRecognizer = new seeta::v6::FaceRecognizer(model);
+	faceRecognizer->set(FaceRecognizer::Property::PROPERTY_NUMBER_THREADS, threads);
+	return faceRecognizer;
 }
 
 EXPORTAPI int GetExtractFeatureSize(seeta::v6::FaceRecognizer* handler)
@@ -236,12 +262,13 @@ EXPORTAPI float Compare(const float* lhs, const float* rhs, int size)
 
 #pragma region FaceAntiSpoofing
 
-EXPORTAPI seeta::v6::FaceAntiSpoofing* GetFaceAntiSpoofingHandler(const ModelSetting& model, const int videoFrameCount = 10, const float boxThresh = 0.8, const float clarity = 0.3, const float reality = 0.8)
+EXPORTAPI seeta::v6::FaceAntiSpoofing* GetFaceAntiSpoofingHandler(const ModelSetting& model, const int videoFrameCount = 10, const float boxThresh = 0.8, const float clarity = 0.3, const float reality = 0.8, const int threads = 4)
 {
 	seeta::v6::FaceAntiSpoofing* faceAntiSpoofing = new seeta::v6::FaceAntiSpoofing(model);
 	faceAntiSpoofing->SetVideoFrameCount(videoFrameCount);
 	faceAntiSpoofing->SetBoxThresh(boxThresh);
 	faceAntiSpoofing->SetThreshold(clarity, reality);
+	faceAntiSpoofing->set(FaceAntiSpoofing::Property::PROPERTY_NUMBER_THREADS, threads);
 	return faceAntiSpoofing;
 }
 
@@ -307,13 +334,13 @@ EXPORTAPI void DisposeFaceAntiSpoofing(seeta::v6::FaceAntiSpoofing* handler)
 /// <param name="faceSize"></param>
 /// <param name="threshold"></param>
 /// <returns></returns>
-EXPORTAPI seeta::v6::FaceTracker* GetFaceTrackerHandler(const ModelSetting& model, const int width, const int height, const bool stable = false, const int interval = 10, const int faceSize = 20, const float threshold = 0.9)
+EXPORTAPI seeta::v6::FaceTracker* GetFaceTrackerHandler(const ModelSetting& model, const int width, const int height, const int interval = 10, const int faceSize = 20, const float threshold = 0.9, const int threads = 4)
 {
 	seeta::v6::FaceTracker* faceTracker = new seeta::v6::FaceTracker(model, width, height);
-	faceTracker->SetVideoStable(stable);
 	faceTracker->SetMinFaceSize(faceSize);
 	faceTracker->SetThreshold(threshold);
 	faceTracker->SetInterval(interval);
+	faceTracker->SetSingleCalculationThreads(threads);
 	return faceTracker;
 }
 
@@ -345,6 +372,48 @@ EXPORTAPI int FaceTrack(seeta::v6::FaceTracker* handler, const SeetaImageData& i
 		return 0;
 	}
 	return 0;
+}
+
+/// <summary>
+/// 追踪视频帧
+/// </summary>
+/// <param name="handler"></param>
+/// <param name="img"></param>
+/// <param name="frameNo"></param>
+/// <param name="maxFaceCount"></param>
+/// <param name="buffer"></param>
+/// <param name="size"></param>
+/// <returns></returns>
+EXPORTAPI int FaceTrackVideo(seeta::v6::FaceTracker* handler, const SeetaImageData& img, const int frameNo, int maxFaceCount, SeetaTrackingFaceInfo* buffer, int* size)
+{
+	if (handler == nullptr)
+	{
+		return -1;
+	}
+	*size = 0;
+	auto cfaces = handler->Track(img, frameNo);
+	std::vector<SeetaTrackingFaceInfo> faceTrackResult(cfaces.data, cfaces.data + cfaces.size);
+	if (!faceTrackResult.empty() && faceTrackResult.size() > 0)
+	{
+		*size = faceTrackResult.size();
+		if (*size > maxFaceCount)
+		{
+			*size = maxFaceCount;
+		}
+		memcpy(buffer, faceTrackResult.data(), *size * sizeof(SeetaTrackingFaceInfo));
+		std::vector<SeetaTrackingFaceInfo>().swap(faceTrackResult);
+		return 0;
+	}
+	return 0;
+}
+
+EXPORTAPI void SetVideoStable(seeta::v6::FaceTracker* handler, const bool stable = false)
+{
+	if (handler == nullptr)
+	{
+		return;
+	}
+	handler->SetVideoStable(stable);
 }
 
 /// <summary>
@@ -386,7 +455,7 @@ EXPORTAPI void QualityBrightness(const SeetaImageData& img, const SeetaRect face
 		*level = result.level;
 		*score = result.score;
 	}
-	catch (const std::exception& e)
+	catch (const std::exception&)
 	{
 		return;
 	}
@@ -403,7 +472,7 @@ EXPORTAPI void QualityClarity(const SeetaImageData& img, const SeetaRect faceRec
 		*level = result.level;
 		*score = result.score;
 	}
-	catch (const std::exception& e)
+	catch (const std::exception&)
 	{
 		return;
 	}
@@ -420,7 +489,7 @@ EXPORTAPI void QualityIntegrity(const SeetaImageData& img, const SeetaRect faceR
 		*level = result.level;
 		*score = result.score;
 	}
-	catch (const std::exception& e)
+	catch (const std::exception&)
 	{
 		return;
 	}
@@ -437,7 +506,7 @@ EXPORTAPI void QualityPose(const SeetaImageData& img, const SeetaRect faceRect, 
 		*level = result.level;
 		*score = result.score;
 	}
-	catch (const std::exception& e)
+	catch (const std::exception&)
 	{
 		return;
 	}
@@ -454,7 +523,7 @@ EXPORTAPI void QualityResolution(const SeetaImageData& img, const SeetaRect face
 		*level = result.level;
 		*score = result.score;
 	}
-	catch (const std::exception& e)
+	catch (const std::exception&)
 	{
 		return;
 	}
@@ -533,9 +602,11 @@ EXPORTAPI void DisposeQualityOfNoMask(seeta::QualityOfNoMask* handler)
 /// 获取年龄预测句柄
 /// </summary>
 /// <returns></returns>
-EXPORTAPI seeta::v6::AgePredictor* GetAgePredictorHandler(const ModelSetting& model)
+EXPORTAPI seeta::v6::AgePredictor* GetAgePredictorHandler(const ModelSetting& model, const int threads = 4)
 {
-	return new seeta::v6::AgePredictor(model);
+	seeta::v6::AgePredictor* agePredictor = new seeta::v6::AgePredictor(model);
+	agePredictor->set(AgePredictor::Property::PROPERTY_NUMBER_THREADS, threads);
+	return agePredictor;
 }
 
 /// <summary>
@@ -604,9 +675,11 @@ EXPORTAPI void DisposeAgePredictor(seeta::v6::AgePredictor* handler)
 /// 获取性别预测句柄
 /// </summary>
 /// <returns></returns>
-EXPORTAPI seeta::v6::GenderPredictor* GetGenderPredictorHandler(const ModelSetting& model)
+EXPORTAPI seeta::v6::GenderPredictor* GetGenderPredictorHandler(const ModelSetting& model, const int threads = 4)
 {
-	return new seeta::v6::GenderPredictor(model);
+	seeta::v6::GenderPredictor* genderPredictor = new seeta::v6::GenderPredictor(model);
+	genderPredictor->set(GenderPredictor::Property::PROPERTY_NUMBER_THREADS, threads);
+	return genderPredictor;
 }
 
 /// <summary>
@@ -675,9 +748,11 @@ EXPORTAPI void DisposeGenderPredictor(seeta::v6::GenderPredictor* handler)
 /// 获取眼睛状态检测句柄
 /// </summary>
 /// <returns></returns>
-EXPORTAPI seeta::v6::EyeStateDetector* GetEyeStateDetectorHandler(const ModelSetting& model)
+EXPORTAPI seeta::v6::EyeStateDetector* GetEyeStateDetectorHandler(const ModelSetting& model, const int threads = 4)
 {
-	return new seeta::v6::EyeStateDetector(model);
+	seeta::v6::EyeStateDetector* eyeStateDetector = new seeta::v6::EyeStateDetector(model);
+	eyeStateDetector->set(EyeStateDetector::Property::PROPERTY_NUMBER_THREADS, threads);
+	return eyeStateDetector;
 }
 
 /// <summary>

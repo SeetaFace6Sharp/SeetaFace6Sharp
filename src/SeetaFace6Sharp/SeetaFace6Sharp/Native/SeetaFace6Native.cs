@@ -63,9 +63,10 @@ namespace SeetaFace6Sharp.Native
         /// <param name="threshold">检测器阈值默认值是0.9，合理范围为[0, 1]。这个值一般不进行调整，除了用来处理一些极端情况。这个值设置的越小，漏检的概率越小，同时误检的概率会提高</param>
         /// <param name="maxWidth">可检测的图像最大宽度。默认值2000。</param>
         /// <param name="maxHeight">可检测的图像最大高度。默认值2000。</param>
+        /// <param name="threads">计算线程数，默认为 4.</param>
         /// <returns></returns>
         [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "GetFaceDetectorHandler", CallingConvention = CallingConvention.Cdecl)]
-        internal extern static IntPtr GetFaceDetectorHandler(IntPtr model, double faceSize = 20, double threshold = 0.9, double maxWidth = 2000, double maxHeight = 2000);
+        internal extern static IntPtr GetFaceDetectorHandler(IntPtr model, double faceSize = 20, double threshold = 0.9, double maxWidth = 2000, double maxHeight = 2000, int threads = 4);
 
         /// <summary>
         /// 人脸检测器
@@ -124,10 +125,9 @@ namespace SeetaFace6Sharp.Native
         /// 
         /// </summary>
         /// <param name="model">检测所需模型</param>
-        /// <param name="type"></param>
         /// <returns></returns>
         [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "GetFaceLandmarkerHandler", CallingConvention = CallingConvention.Cdecl)]
-        internal extern static IntPtr GetFaceLandmarkerHandler(IntPtr model, int type = 0);
+        internal extern static IntPtr GetFaceLandmarkerHandler(IntPtr model);
 
         /// <summary>
         /// 获取人脸关键点
@@ -150,7 +150,7 @@ namespace SeetaFace6Sharp.Native
         #region FaceRecognizer
 
         [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "GetFaceRecognizerHandler", CallingConvention = CallingConvention.Cdecl)]
-        internal extern static IntPtr GetFaceRecognizerHandler(IntPtr model);
+        internal extern static IntPtr GetFaceRecognizerHandler(IntPtr model, int threads = 4);
 
         [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "GetExtractFeatureSize", CallingConvention = CallingConvention.Cdecl)]
         internal extern static int GetExtractFeatureSize(IntPtr handler);
@@ -183,13 +183,15 @@ namespace SeetaFace6Sharp.Native
         /// <param name="boxThresh"></param>
         /// <param name="clarity"></param>
         /// <param name="reality"></param>
+        /// <param name="threads">检测用的线程数</param>
         /// <returns></returns>
         [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "GetFaceAntiSpoofingHandler", CallingConvention = CallingConvention.Cdecl)]
         internal extern static IntPtr GetFaceAntiSpoofingHandler(IntPtr model
             , int videoFrameCount = 10
             , float boxThresh = 0.8f
             , float clarity = 0.3f
-            , float reality = 0.8f);
+            , float reality = 0.8f
+            , int threads = 4);
 
         /// <summary>
         /// 活体检测器
@@ -237,13 +239,13 @@ namespace SeetaFace6Sharp.Native
         /// <param name="model">检测所需模型</param>
         /// <param name="width">图像宽度</param>
         /// <param name="height">图像高度</param>
-        /// <param name="stable"></param>
         /// <param name="interval"></param>
         /// <param name="faceSize"></param>
         /// <param name="threshold"></param>
+        /// <param name="threads"></param>
         /// <returns></returns>
         [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "GetFaceTrackerHandler", CallingConvention = CallingConvention.Cdecl)]
-        internal extern static IntPtr GetFaceTrackerHandler(IntPtr model, int width, int height, bool stable = false, int interval = 10, int faceSize = 20, float threshold = 0.9f);
+        internal extern static IntPtr GetFaceTrackerHandler(IntPtr model, int width, int height, int interval = 10, int faceSize = 20, float threshold = 0.9f, int threads = 4);
 
         /// <summary>
         /// 人脸跟踪信息
@@ -258,11 +260,32 @@ namespace SeetaFace6Sharp.Native
         internal extern static int FaceTrack(IntPtr faceTracker, ref FaceImage img, int maxFaceCount, IntPtr buffer, ref int size);
 
         /// <summary>
+        /// 人脸跟踪信息（视频帧）
+        /// </summary>
+        /// <param name="faceTracker">人脸跟踪句柄</param>
+        /// <param name="img">追踪图像</param>
+        /// <param name="frameNo">帧编号</param>
+        /// <param name="maxFaceCount">单次识别最大人脸数量</param>
+        /// <param name="buffer">数据缓冲区</param>
+        /// <param name="size">人脸数量</param>
+        /// <returns></returns>
+        [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "FaceTrackVideo", CallingConvention = CallingConvention.Cdecl)]
+        internal extern static int FaceTrackVideo(IntPtr faceTracker, ref FaceImage img, int frameNo, int maxFaceCount, IntPtr buffer, ref int size);
+
+        /// <summary>
         /// 重置追踪视频
         /// </summary>
         /// <param name="faceTracker"></param>
         [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "FaceTrackReset", CallingConvention = CallingConvention.Cdecl)]
         internal extern static void FaceTrackReset(IntPtr faceTracker);
+
+        /// <summary>
+        /// 设置以稳定模式输出人脸跟踪结果
+        /// </summary>
+        /// <param name="faceTracker"></param>
+        /// <param name="stable"></param>
+        [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "SetVideoStable", CallingConvention = CallingConvention.Cdecl)]
+        internal extern static void SetVideoStable(IntPtr faceTracker, bool stable = false);
 
         /// <summary>
         /// 释放人脸追踪句柄
@@ -483,7 +506,7 @@ namespace SeetaFace6Sharp.Native
         #region 年龄预测
 
         [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "GetAgePredictorHandler", CallingConvention = CallingConvention.Cdecl)]
-        internal extern static IntPtr GetAgePredictorHandler(IntPtr model);
+        internal extern static IntPtr GetAgePredictorHandler(IntPtr model, int threads = 4);
 
         /// <summary>
         /// 人脸年龄预测
@@ -512,7 +535,7 @@ namespace SeetaFace6Sharp.Native
         #region 性别预测
 
         [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "GetGenderPredictorHandler", CallingConvention = CallingConvention.Cdecl)]
-        internal extern static IntPtr GetGenderPredictorHandler(IntPtr model);
+        internal extern static IntPtr GetGenderPredictorHandler(IntPtr model, int threads = 4);
 
         /// <summary>
         /// 人脸性别预测
@@ -541,7 +564,7 @@ namespace SeetaFace6Sharp.Native
         #region 眼睛状态检测
 
         [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "GetEyeStateDetectorHandler", CallingConvention = CallingConvention.Cdecl)]
-        internal extern static IntPtr GetEyeStateDetectorHandler(IntPtr model);
+        internal extern static IntPtr GetEyeStateDetectorHandler(IntPtr model, int threads = 4);
 
         /// <summary>
         /// 眼睛状态检测。

@@ -25,6 +25,9 @@ namespace SeetaFace6Sharp.ConsoleTest
             {
                 Console.WriteLine(msg);
             });
+
+            GlobalConfig.ThreadNumber = 16;
+
             while (true)
             {
                 try
