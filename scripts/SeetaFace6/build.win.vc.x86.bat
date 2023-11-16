@@ -4,7 +4,7 @@ rem 设置控制台字符集为UTF-8
 CHCP 65001 > nul
 color 0f
 
-rem 设置vcvarsall.bat位置
+rem 设置vcvarsall.bat位置，默认使用VS2022
 set VCVARSALL_DIR="C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvarsall.bat"
 rem 设置源码位置
 set "BASE_DIR=%~dp0..\..\src\SeetaFace\index"
