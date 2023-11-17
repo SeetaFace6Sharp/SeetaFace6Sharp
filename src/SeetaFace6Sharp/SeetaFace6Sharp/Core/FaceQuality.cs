@@ -88,10 +88,8 @@ namespace SeetaFace6Sharp
                         SeetaFace6Native.QualityOfPose(ref image, info.Location, points, points.Length, ref level, ref score);
                         break;
                     case QualityType.PoseEx:
-                        {
-                            SeetaFace6Native.QualityOfPoseEx(this.PoseEstimationModel.Ptr, ref image, info.Location, points, points.Length, ref level, ref score,
-                               this.Config.PoseEx.YawLow, this.Config.PoseEx.YawHigh, this.Config.PoseEx.PitchLow, this.Config.PoseEx.PitchHigh, this.Config.PoseEx.RollLow, this.Config.PoseEx.RollHigh);
-                        }
+                        SeetaFace6Native.QualityOfPoseEx(this.PoseEstimationModel.Ptr, ref image, info.Location, points, points.Length, ref level, ref score,
+                           this.Config.PoseEx.YawLow, this.Config.PoseEx.YawHigh, this.Config.PoseEx.PitchLow, this.Config.PoseEx.PitchHigh, this.Config.PoseEx.RollLow, this.Config.PoseEx.RollHigh);
                         break;
                     case QualityType.Resolution:
                         SeetaFace6Native.QualityOfResolution(ref image, info.Location, points, points.Length, ref level, ref score, this.Config.Resolution.Low, this.Config.Resolution.High);
