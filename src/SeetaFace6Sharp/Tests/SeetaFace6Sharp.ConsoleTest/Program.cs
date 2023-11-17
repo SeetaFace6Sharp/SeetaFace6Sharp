@@ -184,7 +184,7 @@ namespace SeetaFace6Sharp.ConsoleTest
             using FaceRecognizer faceRecognizer = new FaceRecognizer(new FaceRecognizeConfig());
             Worker((sw, i) =>
             {
-                var result = faceRecognizer.Extract(bitmap, GetFaceMarkPoint(faceDetector, faceMark, bitmap)).ToList();
+                var result = faceRecognizer.Extract(bitmap, GetFaceMarkPoint(faceDetector, faceMark, bitmap));
                 logger.Info($"第{i + 1}次特征值检测，结果：{result.Count()}，耗时：{sw.ElapsedMilliseconds}ms");
             });
         }

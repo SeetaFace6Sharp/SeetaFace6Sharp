@@ -136,10 +136,10 @@ namespace SeetaFace6Sharp
 
         #region Threads
 
-        private static int _maxThreadNumber = 16;
+        private static int _maxThreadNumber = 4;
 
         /// <summary>
-        /// 默认能使用的最大线程数量（默认16）
+        /// 默认能使用的最大线程数量（默认4）
         /// </summary>
         public static int MaxThreadNumber
         {

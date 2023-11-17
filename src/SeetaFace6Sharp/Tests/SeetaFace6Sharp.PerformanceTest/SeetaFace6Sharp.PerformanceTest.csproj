@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Models\SeetaFace6Sharp.model.all\SeetaFace6Sharp.model.all.csproj" />
+    <ProjectReference Include="..\..\Runtimes\SeetaFace6Sharp.runtime.win.x64\SeetaFace6Sharp.runtime.win.x64.csproj" />
+    <ProjectReference Include="..\..\Runtimes\SeetaFace6Sharp.runtime.win.x86\SeetaFace6Sharp.runtime.win.x86.csproj" />
+    <ProjectReference Include="..\..\SeetaFace6Sharp\SeetaFace6Sharp.csproj" />
+  </ItemGroup>
+
+</Project>
