@@ -460,70 +460,7 @@ namespace SeetaFace6Sharp.Native
         [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "DisposeQualityOfLBN", CallingConvention = CallingConvention.Cdecl)]
         internal extern static void DisposeQualityOfLBN(IntPtr handler);
 
-        /// <summary>
-        /// 获取清晰度 (深度)评估句柄
-        /// <param name="qualityModel">检测所需模型</param>
-        /// <param name="landmarkerPts68Model">检测所需模型</param>
-        /// <para><see langword="{blur_thresh}"/> 的默认值为 <see langword="{0.8}"/></para>
-        /// </summary>
-        /// 
-        /// <param name="blur_thresh">清晰度阈值，默认值：0.8</param>
-        /// <param name="threads"></param>
-        /// <returns></returns>
-        [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "GetQualityOfClarityExHandler", CallingConvention = CallingConvention.Cdecl)]
-        internal extern static IntPtr GetQualityOfClarityExHandler(IntPtr qualityModel, IntPtr landmarkerPts68Model, float blur_thresh = 0.8f, int threads = 4);
-
-        /// <summary>
-        /// 清晰度 (深度)评估。
-        /// <para>
-        /// 需要模型 <see langword="quality_lbn.csta"/> <br />
-        /// 需要模型 <see langword="face_landmarker_pts68.csta"/> 
-        /// </para>
-        /// </summary>
-        /// <param name="handler">句柄</param>
-        /// <param name="img">图像宽高通道信息</param>
-        /// <param name="faceRect">人脸位置信息</param>
-        /// <param name="points">人脸关键点 数组</param>
-        /// <param name="pointsLength">人脸关键点 数组长度</param>
-        /// <param name="level">存储 等级</param>
-        /// <param name="score">存储 分数</param>
-        /// <returns></returns>
-        [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "QualityClarityEx", CallingConvention = CallingConvention.Cdecl)]
-        internal extern static void QualityOfClarityEx(IntPtr handler, ref FaceImage img, FaceRect faceRect, FaceMarkPoint[] points, int pointsLength, ref int level, ref float score);
-
-        /// <summary>
-        /// 释放清晰度 (深度)评估句柄
-        /// </summary>
-        /// <param name="handler"></param>
-        [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "DisposeQualityOfClarityEx", CallingConvention = CallingConvention.Cdecl)]
-        internal extern static void DisposeQualityOfClarityEx(IntPtr handler);
         #endregion
-
-        #region 遮挡评估
-
-        [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "GetQualityOfNoMaskHandler", CallingConvention = CallingConvention.Cdecl)]
-        internal extern static IntPtr GetQualityOfNoMaskHandler(IntPtr landmarkerPts5Model);
-
-        /// <summary>
-        /// 遮挡评估。
-        /// <para>判断人脸部分的分辨率。</para>
-        /// </summary>
-        /// <param name="handler">句柄</param>
-        /// <param name="img">图像宽高通道信息</param>
-        /// <param name="faceRect">人脸位置信息</param>
-        /// <param name="points">人脸关键点 数组</param>
-        /// <param name="pointsLength">人脸关键点 数组长度</param>
-        /// <param name="level">存储 等级</param>
-        /// <param name="score">存储 分数</param>
-        /// <returns></returns>
-        [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "QualityNoMask", CallingConvention = CallingConvention.Cdecl)]
-        internal extern static void QualityOfNoMask(IntPtr handler, ref FaceImage img, FaceRect faceRect, FaceMarkPoint[] points, int pointsLength, ref int level, ref float score);
-
-        [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "DisposeQualityOfNoMask", CallingConvention = CallingConvention.Cdecl)]
-        internal extern static void DisposeQualityOfNoMask(IntPtr handler);
-
-        #endregion
-
         #endregion
 
         #region 年龄/性别/眼睛状态检测

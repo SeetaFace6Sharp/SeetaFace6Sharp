@@ -41,23 +41,20 @@ namespace SeetaFace6Sharp.Tests
         }
 
         [TestMethod()]
-        public void DetectResultTheSameAsOldTest1()
+        public void DetectTest3()
         {
-            using var bitmap = SKBitmap.Decode(@"images/Jay_3.jpg").ToFaceImage();
+            using var bitmap = SKBitmap.Decode(@"images/mask_01.jpeg").ToFaceImage();
             using FaceDetector faceDetector = new FaceDetector();
             using FaceLandmarker faceMark = new FaceLandmarker(new FaceLandmarkConfig(MarkType.Normal));
-            using QualityOfLBN qualityOfLBN = new QualityOfLBN();
+            using FaceQuality quality = new FaceQuality();
 
             var info = faceDetector.Detect(bitmap).First();
             var points = faceMark.Mark(bitmap, info);
-            var result1 = qualityOfLBN.Detect(bitmap, points);
 
-            qualityOfLBN.Dispose();
+            var clarityExResult = quality.Detect(bitmap, info, points, QualityType.ClarityEx);
+            var structureeResult = quality.Detect(bitmap, info, points, QualityType.Structure);
 
-            using var qua = new FaceQuality();
-            var result2 = qua.Detect(bitmap, info, points, QualityType.ClarityEx);
-
-
+            quality.Dispose();
         }
     }
 }

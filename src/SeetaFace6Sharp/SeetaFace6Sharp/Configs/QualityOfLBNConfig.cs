@@ -8,7 +8,12 @@ namespace SeetaFace6Sharp
     public class QualityOfLBNConfig : BaseConfig
     {
         /// <inheritdoc/>
-        public QualityOfLBNConfig(float blurThresh = 0.8f)
+        public QualityOfLBNConfig()
+        {
+        }
+
+        /// <inheritdoc/>
+        public QualityOfLBNConfig(float blurThresh)
         {
             if (blurThresh <= 0) throw new ArgumentOutOfRangeException(nameof(blurThresh), "Blur thresh can not less than 0.");
             this.BlurThresh = blurThresh;

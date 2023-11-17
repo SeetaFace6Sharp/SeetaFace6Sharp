@@ -1,10 +1,30 @@
 #include "bridge.h"
-#include "common/common.h"
 
 using namespace std;
 using namespace seeta;
 
 #pragma region Common
+
+/// <summary>
+/// 释放
+/// </summary>
+/// <typeparam name="T"></typeparam>
+/// <param name="ptr"></param>
+template <typename T>
+inline void _dispose(T& ptr)
+{
+	if (ptr != nullptr)
+	{
+		try
+		{
+			delete ptr;
+			ptr = nullptr;
+		}
+		catch (const std::exception&)
+		{
+		}
+	}
+}
 
 EXPORTAPI seeta::ModelSetting* GetModel(const char* model, const SeetaDevice deviceType = SEETA_DEVICE_AUTO)
 {
@@ -573,44 +593,6 @@ EXPORTAPI void QualityOfLBNDetect(seeta::v6::QualityOfLBN* handler, const SeetaI
 
 
 EXPORTAPI void DisposeQualityOfLBN(seeta::v6::QualityOfLBN* handler)
-{
-	_dispose(handler);
-}
-
-EXPORTAPI seeta::QualityOfClarityEx* GetQualityOfClarityExHandler(const ModelSetting& qualityModel, const ModelSetting& landmarkerPts68Model, const float blur_thresh = 0.8f, const int threads = 4)
-{
-	return new seeta::QualityOfClarityEx(qualityModel, landmarkerPts68Model, blur_thresh, threads);
-}
-
-// 清晰度 (深度)评估
-EXPORTAPI void QualityClarityEx(seeta::QualityOfClarityEx* handler, const SeetaImageData& img, const SeetaRect faceRect, const SeetaPointF* points, const int pointsLength, int* level, float* score)
-{
-	auto result = handler->check(img, faceRect, points, pointsLength);
-
-	*level = result.level;
-	*score = result.score;
-}
-
-EXPORTAPI void DisposeQualityOfClarityEx(seeta::QualityOfClarityEx* handler)
-{
-	_dispose(handler);
-}
-
-EXPORTAPI seeta::QualityOfNoMask* GetQualityOfNoMaskHandler(const ModelSetting& landmarkerPts5Model)
-{
-	return new seeta::QualityOfNoMask(landmarkerPts5Model);
-}
-
-// 遮挡评估
-EXPORTAPI void QualityNoMask(seeta::QualityOfNoMask* handler, const SeetaImageData& img, const SeetaRect faceRect, const SeetaPointF* points, const int pointsLength, int* level, float* score)
-{
-	auto result = handler->check(img, faceRect, points, pointsLength);
-
-	*level = result.level;
-	*score = result.score;
-}
-
-EXPORTAPI void DisposeQualityOfNoMask(seeta::QualityOfNoMask* handler)
 {
 	_dispose(handler);
 }

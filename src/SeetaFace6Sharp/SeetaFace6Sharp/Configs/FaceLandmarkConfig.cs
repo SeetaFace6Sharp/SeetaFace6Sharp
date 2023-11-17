@@ -15,7 +15,7 @@ namespace SeetaFace6Sharp
         /// 当关键点类型为 <see cref="MarkType.Mask"/> 时， 需要模型：<a href="https://www.nuget.org/packages/SeetaFace6Sharp.model.face_landmarker_mask_pts5">face_landmarker_mask_pts5.csta</a><br/>
         /// </para>
         /// </summary>
-        public MarkType MarkType { get; private set; }
+        public MarkType MarkType { get; set; }
 
         /// <summary>
         /// 人脸关键的检测配置

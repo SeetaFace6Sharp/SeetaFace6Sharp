@@ -59,6 +59,13 @@ namespace SeetaFace6Sharp
             }
         }
 
+        /// <summary>
+        /// 清晰度评估，传入FaceInfo
+        /// </summary>
+        /// <param name="image"></param>
+        /// <param name="faceInfo"></param>
+        /// <returns></returns>
+        /// <exception cref="ObjectDisposedException"></exception>
         public QualityOfLBNResult Detect(FaceImage image, FaceInfo faceInfo)
         {
             lock (_locker)
@@ -67,7 +74,6 @@ namespace SeetaFace6Sharp
                     throw new ObjectDisposedException(nameof(QualityOfLBN));
 
                 FaceMarkPoint[] points = _faceLandmarker.Value.Mark(image, faceInfo);
-
                 int light = 0, blur = 0, noise = 0;
                 SeetaFace6Native.QualityOfLBNDetect(_handle, ref image, points, ref light, ref blur, ref noise);
                 return new QualityOfLBNResult(light, blur, noise);

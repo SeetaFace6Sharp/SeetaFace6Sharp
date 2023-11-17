@@ -4,8 +4,12 @@ using System.Text;
 
 namespace SeetaFace6Sharp.Models
 {
+    /// <summary>
+    /// 深度学习的人脸清晰度评估结果
+    /// </summary>
     public class QualityOfLBNResult
     {
+        /// <inheritdoc/>
         internal QualityOfLBNResult(int light, int blur, int noise)
         {
             this.Light = light;
