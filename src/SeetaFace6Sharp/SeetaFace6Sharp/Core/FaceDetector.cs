@@ -49,7 +49,7 @@ namespace SeetaFace6Sharp
             lock (_locker)
             {
                 if (disposedValue)
-                    throw new ObjectDisposedException(nameof(FaceAntiSpoofing));
+                    throw new ObjectDisposedException(nameof(FaceDetector));
 
                 IntPtr buffer = IntPtr.Zero;
                 try

@@ -27,7 +27,7 @@ namespace SeetaFace6Sharp
             this.Model = new Model("mask_detector.csta", this.Config.DeviceType);
             if ((_handle = SeetaFace6Native.GetMaskDetectorHandler(this.Model.Ptr)) == IntPtr.Zero)
             {
-                throw new ModuleInitializeException(nameof(FaceLandmarker), "Get mask detector handle failed.");
+                throw new ModuleInitializeException(nameof(MaskDetector), "Get mask detector handle failed.");
             }
         }
 

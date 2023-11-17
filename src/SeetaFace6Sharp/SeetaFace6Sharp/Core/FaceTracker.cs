@@ -30,7 +30,7 @@ namespace SeetaFace6Sharp
             _handle = SeetaFace6Native.GetFaceTrackerHandler(this.Model.Ptr, this.Config.Width, this.Config.Height, this.Config.Interval, this.Config.MinFaceSize, this.Config.Threshold, this.Config.ThreadNumber);
             if (_handle == IntPtr.Zero)
             {
-                throw new ModuleInitializeException(nameof(FaceLandmarker), "Get face track handle failed.");
+                throw new ModuleInitializeException(nameof(FaceTracker), "Get face track handle failed.");
             }
         }
 

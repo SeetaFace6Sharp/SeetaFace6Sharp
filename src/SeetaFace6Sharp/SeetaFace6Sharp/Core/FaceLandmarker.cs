@@ -66,7 +66,7 @@ namespace SeetaFace6Sharp
             lock (_locker)
             {
                 if (disposedValue)
-                    throw new ObjectDisposedException(nameof(FaceAntiSpoofing));
+                    throw new ObjectDisposedException(nameof(FaceLandmarker));
 
                 IntPtr buffer = IntPtr.Zero;
                 try
@@ -119,7 +119,7 @@ namespace SeetaFace6Sharp
             lock (_locker)
             {
                 if (disposedValue)
-                    throw new ObjectDisposedException(nameof(FaceAntiSpoofing));
+                    throw new ObjectDisposedException(nameof(FaceLandmarker));
 
                 IntPtr buffer = IntPtr.Zero;
                 try

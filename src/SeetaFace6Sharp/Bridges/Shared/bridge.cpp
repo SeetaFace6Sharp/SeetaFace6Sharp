@@ -564,6 +564,10 @@ EXPORTAPI seeta::v6::QualityOfLBN* GetQualityOfLBNHandler(const ModelSetting& mo
 }
 
 EXPORTAPI void QualityOfLBNDetect(seeta::v6::QualityOfLBN* handler, const SeetaImageData& image, const SeetaPointF* points, int* light, int* blur, int* noise) {
+	if (handler == nullptr)
+	{
+		return;
+	}
 	handler->Detect(image, points, light, blur, noise);
 }
 
