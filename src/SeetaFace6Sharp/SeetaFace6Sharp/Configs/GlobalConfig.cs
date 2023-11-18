@@ -136,7 +136,7 @@ namespace SeetaFace6Sharp
 
         #region Threads
 
-        private static int _maxThreadNumber = 4;
+        private static int _maxThreadNumber = 8;
 
         /// <summary>
         /// 默认能使用的最大线程数量（默认4）

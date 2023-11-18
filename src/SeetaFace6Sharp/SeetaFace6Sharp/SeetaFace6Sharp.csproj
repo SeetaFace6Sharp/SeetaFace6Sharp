@@ -4,11 +4,11 @@
 	<PropertyGroup>
 		<TargetFrameworks>netstandard2.0;netcoreapp3.1;net5.0;net6.0;net7.0;net8.0</TargetFrameworks>
 		<Authors>SeetaFace6Sharp, View</Authors>
-		<Version>1.0.2</Version>
+		<Version>1.0.3</Version>
 		<OutputType>Library</OutputType>
 		<LangVersion>latest</LangVersion>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
-		<Platforms>AnyCPU;x64;x86</Platforms>
+		<Platforms>AnyCPU;x64;x86;ARM;ARM64</Platforms>
 	</PropertyGroup>
 
 	<!--Package Info-->
@@ -30,7 +30,7 @@
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<Description>一个基于 SeetaFace6 实现的 .NET 平台的离线人脸识别库。支持 Windows(x64/x86)、Linux(arm/arm64/x64)。</Description>
 		<PackageReleaseNotes></PackageReleaseNotes>
-		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<AllowUnsafeBlocks>False</AllowUnsafeBlocks>
 
 	</PropertyGroup>
 
