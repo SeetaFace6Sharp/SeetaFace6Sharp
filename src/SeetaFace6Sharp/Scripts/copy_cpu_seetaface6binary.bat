@@ -24,5 +24,7 @@ if exist %~dp0..\..\SeetaFace\index (
 
 xcopy /y /e /i %sourcePath% %destPath% > nul
 
-echo 已将SeetaFace6OpenBinary替换为CPU版本，请按任意键退出...
-pause > nul
+if "%~1" == "" (
+   echo 已将SeetaFace6OpenBinary替换为CPU版本，请按任意键退出...
+   pause > nul
+)

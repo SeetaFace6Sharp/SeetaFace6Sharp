@@ -2,9 +2,9 @@
 
 set configuration=Release
 set mainVersion=1.0.3
-set output=%~dp0publish
+set output=%~dp0publish_gpu
 
-call copy_gpu_seetaface6binary.bat
+call copy_gpu_seetaface6binary.bat 1
 
 rd /s /q %output%
 cd ..
