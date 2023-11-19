@@ -139,7 +139,7 @@ namespace SeetaFace6Sharp
         private static int _maxThreadNumber = 8;
 
         /// <summary>
-        /// 默认能使用的最大线程数量（默认4）
+        /// 默认能使用的最大线程数量（默认8）
         /// </summary>
         public static int MaxThreadNumber
         {

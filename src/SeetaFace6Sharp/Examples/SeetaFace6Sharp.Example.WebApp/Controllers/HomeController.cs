@@ -35,7 +35,7 @@ namespace SeetaFace6Sharp.Example.WebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Detect(PhotoDetectRequest @params)
+        public IActionResult Detect(PhotoDetectRequest @params)
         {
             if (string.IsNullOrWhiteSpace(@params.Image))
             {
@@ -56,7 +56,7 @@ namespace SeetaFace6Sharp.Example.WebApp.Controllers
                 using FaceImage image = bitmap.ToFaceImage();
                 Stopwatch stopwatch = Stopwatch.StartNew();
                 //检测人脸
-                FaceInfo[] faceInfos = await _faceDetector.DetectAsync(image);
+                FaceInfo[] faceInfos = _faceDetector.Detect(image);
                 if (faceInfos == null || !faceInfos.Any())
                 {
                     stopwatch.Stop();
@@ -69,19 +69,19 @@ namespace SeetaFace6Sharp.Example.WebApp.Controllers
                         FaceInfo = faceInfo,
                     };
                     //关键点标记
-                    FaceMarkPoint[] points = await _faceFactory.Get<FaceLandmarker>()?.MarkAsync(image, faceInfo);
+                    FaceMarkPoint[] points = _faceFactory.Get<FaceLandmarker>()?.Mark(image, faceInfo);
                     //口罩检测
-                    faceData.MaskResult = await _faceFactory.Get<MaskDetector>()?.DetectAsync(image, faceInfo);
+                    faceData.MaskResult = _faceFactory.Get<MaskDetector>()?.Detect(image, faceInfo);
                     //年龄预测
-                    faceData.Age = await _faceFactory.Get<AgePredictor>()?.PredictAgeWithCropAsync(image, points);
+                    faceData.Age = _faceFactory.Get<AgePredictor>()?.PredictAgeWithCrop(image, points);
                     //性别预测
-                    faceData.Gender = await _faceFactory.Get<GenderPredictor>()?.PredictGenderWithCropAsync(image, points);
+                    faceData.Gender = _faceFactory.Get<GenderPredictor>()?.PredictGenderWithCrop(image, points);
                     //活体检测
-                    faceData.AntiSpoofing = await _faceFactory.Get<FaceAntiSpoofing>()?.PredictAsync(image, faceInfo, points);
+                    faceData.AntiSpoofing = _faceFactory.Get<FaceAntiSpoofing>()?.Predict(image, faceInfo, points);
                     //眼睛状态检测
-                    faceData.EyeState = await _faceFactory.Get<EyeStateDetector>()?.DetectAsync(image, points);
+                    faceData.EyeState = _faceFactory.Get<EyeStateDetector>()?.Detect(image, points);
                     //清晰度检测
-                    faceData.Quality = await _faceFactory.Get<FaceQuality>()?.DetectAsync(image, faceInfo, points, QualityType.Clarity);
+                    faceData.Quality = _faceFactory.Get<FaceQuality>()?.Detect(image, faceInfo, points, QualityType.Clarity);
                     result.Infos.Add(faceData);
                     //完成识别计时
                     stopwatch.Stop();
