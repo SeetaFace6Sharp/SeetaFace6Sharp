@@ -354,8 +354,12 @@ namespace SeetaFace6Sharp.Example.VideoForm
             Stopwatch stopwatchFPS = new Stopwatch();
             Stopwatch stopwatch = new Stopwatch();
             isDetecting = true;
+            int frameNo = 0;
             try
             {
+                var faceTracker = faceFactory.Get<FaceTracker>();
+                faceTracker.SetVideoStable(true);
+
                 while (VideoPlayer.IsRunning && !token.IsCancellationRequested)
                 {
                     try
@@ -367,6 +371,7 @@ namespace SeetaFace6Sharp.Example.VideoForm
                             { stopwatchFPS.Start(); }
                         }
                         Bitmap bitmap = VideoPlayer.GetCurrentVideoFrame(); // 获取摄像头画面 
+                        frameNo++;
                         if (bitmap == null)
                         {
                             await Task.Delay(10, token);
@@ -382,7 +387,7 @@ namespace SeetaFace6Sharp.Example.VideoForm
                         List<VideoFaceInfo> faceInfos = null;
                         using (FaceImage faceImage = bitmap.ToFaceImage())
                         {
-                            faceInfos = await DetectImage(faceImage);
+                            faceInfos = await DetectImage(faceImage, frameNo);
                         }
                         using (Graphics g = Graphics.FromImage(bitmap))
                         {
@@ -477,12 +482,12 @@ namespace SeetaFace6Sharp.Example.VideoForm
             }
         }
 
-        private async Task<List<VideoFaceInfo>> DetectImage(FaceImage faceImage)
+        private async Task<List<VideoFaceInfo>> DetectImage(FaceImage faceImage, int frameNo)
         {
             return await Task.Run(() =>
             {
                 List<VideoFaceInfo> faceInfos = new List<VideoFaceInfo>();
-                var infos = faceFactory.Get<FaceTracker>().Track(faceImage);
+                var infos = faceFactory.Get<FaceTracker>().TrackVideo(faceImage, frameNo);
                 foreach (var item in infos)
                 {
                     VideoFaceInfo faceInfo = new VideoFaceInfo

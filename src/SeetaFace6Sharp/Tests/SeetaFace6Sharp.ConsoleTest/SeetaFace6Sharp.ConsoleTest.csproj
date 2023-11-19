@@ -9,7 +9,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="NLog" Version="5.2.5" />
+		<PackageReference Include="NLog" Version="5.2.6" />
 		<PackageReference Include="SeetaFace6Sharp.model.all" Version="1.0.0" />
 		<PackageReference Include="SkiaSharp" Version="2.88.6" />
 	</ItemGroup>

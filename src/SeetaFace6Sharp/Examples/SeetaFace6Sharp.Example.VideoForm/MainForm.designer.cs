@@ -108,8 +108,6 @@
             // CheckBoxFaceMask
             // 
             this.CheckBoxFaceMask.AutoSize = true;
-            this.CheckBoxFaceMask.Checked = true;
-            this.CheckBoxFaceMask.CheckState = System.Windows.Forms.CheckState.Checked;
             this.CheckBoxFaceMask.Location = new System.Drawing.Point(9, 56);
             this.CheckBoxFaceMask.Margin = new System.Windows.Forms.Padding(2);
             this.CheckBoxFaceMask.Name = "CheckBoxFaceMask";

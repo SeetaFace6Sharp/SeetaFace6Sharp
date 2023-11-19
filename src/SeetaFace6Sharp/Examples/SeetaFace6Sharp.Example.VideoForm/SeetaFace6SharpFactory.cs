@@ -86,7 +86,6 @@ namespace SeetaFace6Sharp.Example.VideoForm
                             _faceTracker = new FaceTracker(new FaceTrackerConfig(this.Width, this.Height)
                             {
                                 MinFaceSize = 20,
-                                Stable = true,
                             });
                         return _faceTracker as T;
                     }
