@@ -95,8 +95,7 @@ build_seeta_TenniS() {
     -DTS_USE_FAST_MATH=ON \
     -DTS_USE_NEON=ON \
     -DTS_BUILD_TEST=OFF \
-    -DTS_BUILD_TOOLS=OFF \
-    -DTS_ON_ARM=ON || exit
+    -DTS_BUILD_TOOLS=OFF || exit
 
   echo -e "\n>>> Making TenniS"
   make "$CORES" || exit

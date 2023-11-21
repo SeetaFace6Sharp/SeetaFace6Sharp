@@ -88,10 +88,13 @@ build_seeta_TenniS() {
 
   echo -e ">>> Configuring TenniS"
   
-  # 这里我选用了Arm平台，其它平台根据文档修改
+  # 这里我选用了Linux x64平台，其它平台根据文档修改
   cmake "$SOURCE_PATH_SEETA"/TenniS \
     -DCMAKE_BUILD_TYPE="Release" \
     -DCMAKE_INSTALL_PREFIX="$INSTALL_PATH_SEETA" \
+    -DTS_USE_OPENMP=ON \
+    -DTS_USE_SIMD=ON \
+    -DTS_ON_HASWELL=ON \
     -DTS_DYNAMIC_INSTRUCTION=ON \
     -DTS_BUILD_TEST=OFF \
     -DTS_BUILD_TOOLS=OFF || exit
