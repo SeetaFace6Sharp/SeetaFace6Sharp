@@ -33,7 +33,7 @@
 
 ## ⭐ 快速开始
 
-- [Examples](/src/Examples/)  
+- [Examples](/src/SeetaFace6Sharp/Examples)  
 
 - 在 *Windows x64* 下, 快速集成人脸检测  
 
