@@ -158,6 +158,8 @@ GlobalConfig.SetPathResolver(new CudaLibPathResolver());
 | 配置项     | 类型                         | 默认值 | 说明                                                                                                             |
 |------------|------------------------------|--------|------------------------------------------------------------------------------------------------------------------|
 | DeviceType | 枚举；支持值：AUTO、CPU、GPU | AUTO   | 检测所用的设备类型，目前只提供CPU支持，需要GPU请自行编译[TenniS](https://github.com/TenniS-Open/TenniS "TenniS") |
+| ThreadNumber | int | --   | 全局检测使用的线程数量。不建议更高，设置过高效率范围低 |
+| MaxThreadNumber | int | 8   | 最多能使用的线程数量，默认为8。 |
 
 ### 2.2 FaceAntiSpoofing（活体检测）  
 活体检测API。  
