@@ -100,7 +100,7 @@ SeetaFace6Bridge中的函数`GetFaceDetectorHandler`函数代码如下：
  static void Config()
  {
      //设置只支持SSE2指令集
-     GlobalConfig.SetInstruction(X86Instruction.SSE2);
+     GlobalConfig.X86Instruction = X86Instruction.SSE2;
  }
  ```
  需要注意的是，设置指令集支持，必需在初始化任何API之前，否者无效。
