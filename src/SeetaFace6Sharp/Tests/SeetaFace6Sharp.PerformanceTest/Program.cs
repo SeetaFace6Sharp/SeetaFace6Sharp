@@ -11,6 +11,8 @@ namespace SeetaFace6Sharp.PerformanceTest
     {
         static void Main(string[] args)
         {
+            GlobalConfig.DefaultDeviceType =  DeviceType.CPU;
+
             //特征值检测性能测试
             RecognizeTest();
 
@@ -47,6 +49,7 @@ namespace SeetaFace6Sharp.PerformanceTest
             }
             var avgTime = expTime.OrderByDescending(p => p).Skip(1).Take(expTime.Length - 2).Average();
             Console.WriteLine($"平均耗时为：{avgTime}ms");
+            Console.WriteLine();
             return avgTime;
         }
 
@@ -75,7 +78,7 @@ namespace SeetaFace6Sharp.PerformanceTest
             }
             var avgTime = expTime.OrderByDescending(p => p).Skip(1).Take(expTime.Length - 2).Average();
             Console.WriteLine($"平均耗时为：{avgTime}ms");
-
+            Console.WriteLine();
             return avgTime;
         }
 

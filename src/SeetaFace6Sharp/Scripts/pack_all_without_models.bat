@@ -1,7 +1,7 @@
 @echo off
 
 set configuration=Release
-set mainVersion=1.0.3
+set mainVersion=1.0.4
 set output=%~dp0publish_cpu
 
 call copy_cpu_seetaface6binary.bat 1
