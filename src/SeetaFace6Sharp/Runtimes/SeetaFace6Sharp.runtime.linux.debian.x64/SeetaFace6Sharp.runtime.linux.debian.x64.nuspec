@@ -8,7 +8,7 @@
 		<requireLicenseAcceptance>true</requireLicenseAcceptance>
 		<license type="file">SeetaFace_LICENSE</license>
 		<icon>Logo.png</icon>
-		<description>SeetaFace6Sharp Native libraries for Linux-x64 (Debian系列)</description>
+		<description>SeetaFace6Sharp Native libraries for Linux-x64 (Debian family)</description>
 	</metadata>
 	<files>
 		<file src="..\..\Bridges\Linux\SeetaFace6Bridge\bin\Release\x64\libSeetaFace6Bridge.so" target="build\runtimes\linux-x64\native\libSeetaFace6Bridge.so" />
