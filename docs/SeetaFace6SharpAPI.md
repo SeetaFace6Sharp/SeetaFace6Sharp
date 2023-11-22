@@ -115,6 +115,7 @@ internal class CudaLibPathResolver : DefaultPathResolver
     public CudaLibPathResolver() : base(DeviceType.GPU)
     {
     }
+
     public override string GetLibraryPath()
     {
         string path = Path.Combine(Environment.CurrentDirectory, "cuda_libs");
@@ -130,6 +131,24 @@ internal class CudaLibPathResolver : DefaultPathResolver
 ```csharp
 GlobalConfig.SetPathResolver(new CudaLibPathResolver());
 ```
+
+#### 使用GPU
+ 目前SeetaFace6Sharp支持在Windows环境下使用GPU进行计算。相比较于CPU，即使是GT 1030 GPU都能有不错的帧数体验。  
+ 1. 安装CUDA  
+    前往https://developer.nvidia.com/cuda-downloads 下载并安装cuda。  
+ 2. 安装win x64环境下gpu运行时包  
+    在nuget管理器中或者命令行中安装包：`SeetaFace6Sharp.runtime.win.x64_gpu`  
+ 3. 全局指定使用设备类型为GPU  
+    ```
+    GlobalConfig.DefaultDeviceType = DeviceType.GPU;
+    ```
+    也可以在特定的API中单独指定检测所用设备。如：  
+    ```
+    FaceRecognizer faceRecognizer = new FaceRecognizer(new FaceRecognizeConfig()
+    {
+        DeviceType = DeviceType.GPU,
+    });
+    ```
 
 ## 2. API
 
