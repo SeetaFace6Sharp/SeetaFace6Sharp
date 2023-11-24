@@ -7,11 +7,11 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Avalonia;
+using CustomMessageBox.Avalonia;
 using DynamicData;
 using Epoxy;
 using FlashCap;
-using MsBox.Avalonia;
-using MsBox.Avalonia.Enums;
 using ReactiveUI;
 using SeetaFace6Sharp.Example.Camera.Models;
 using SkiaSharp;
@@ -57,6 +57,10 @@ namespace SeetaFace6Sharp.Example.Camera.ViewModels
                 });
 
             StartBtnCommand = ReactiveCommand.Create(BtnAction);
+
+            //加载默认字体
+            using var stream = Avalonia.Platform.AssetLoader.Open(new Uri($"avares://{GetType().Assembly.GetName().Name}/Assets/Fonts/MSYH.TTC"));
+            this.SKTypeface = SKTypeface.FromStream(stream);
         }
 
         #region Commonds
@@ -67,7 +71,8 @@ namespace SeetaFace6Sharp.Example.Camera.ViewModels
 
         #region 属性
 
-        private SKTypeface SKTypeface = SKTypeface.FromFile("Fonts/SIMHEI.TTF");
+        private SKTypeface SKTypeface { get; }
+
 
         public FaceDetectOptions DetectOptions { get; private set; } = new FaceDetectOptions();
 
@@ -75,13 +80,11 @@ namespace SeetaFace6Sharp.Example.Camera.ViewModels
 
 
         public CaptureDeviceDescriptor? _device = null;
-        public CaptureDeviceDescriptor? _lastDevice = null;
         public CaptureDeviceDescriptor? Device
         {
             get => this._device;
             set
             {
-                _lastDevice = _device;
                 this.RaiseAndSetIfChanged(ref _device, value);
             }
         }
@@ -204,14 +207,12 @@ namespace SeetaFace6Sharp.Example.Camera.ViewModels
         {
             if (this.Device == null)
             {
-                var box = MessageBoxManager.GetMessageBoxStandard("提示", "请指定设备", ButtonEnum.Ok);
-                var result = await box.ShowAsync();
+                await MessageBox.Show("请指定设备", "提示", MessageBoxButtons.OK);
                 return;
             }
             if (this.Characteristics == null)
             {
-                var box = MessageBoxManager.GetMessageBoxStandard("提示", "请指定分辨率", ButtonEnum.Ok);
-                var result = await box.ShowAsync();
+                await MessageBox.Show("请指定分辨率", "提示", MessageBoxButtons.OK);
                 return;
             }
             try
@@ -225,8 +226,7 @@ namespace SeetaFace6Sharp.Example.Camera.ViewModels
                 _captureDevice = await this.Device.OpenAsync(this.Characteristics, this.OnPixelBufferArrivedAsync);
                 if (_captureDevice == null)
                 {
-                    var box = MessageBoxManager.GetMessageBoxStandard("提示", $"无法打开指定的设备：{this.Device.Name}", ButtonEnum.Ok);
-                    var result = await box.ShowAsync();
+                    await MessageBox.Show($"无法打开指定的设备：{this.Device.Name}", "提示", MessageBoxButtons.OK);
                     return;
                 }
                 await _captureDevice.StartAsync();
@@ -235,9 +235,7 @@ namespace SeetaFace6Sharp.Example.Camera.ViewModels
             catch (Exception ex)
             {
                 _captureDevice = null;
-
-                var box = MessageBoxManager.GetMessageBoxStandard("提示", $"无法打开指定的设备：{this.Device.Name}，{ex.Message}", ButtonEnum.Ok);
-                var result = await box.ShowAsync();
+                await MessageBox.Show($"无法打开指定的设备：{this.Device.Name}，{ex.Message}", "提示", MessageBoxButtons.OK);
                 return;
             }
         }
@@ -429,9 +427,9 @@ namespace SeetaFace6Sharp.Example.Camera.ViewModels
                             paint.Style = SKPaintStyle.Fill;
                             paint.Color = SKColors.Red;
                             paint.TextSize = ObtainDynamic(40);
-                            paint.Typeface = this.SKTypeface;
+                            paint.Typeface = SKTypeface;
 
-                            canvas.DrawText(builder.ToString(), faceInfo.Location.X - 3 , faceInfo.Location.Y + faceInfo.Location.Height + paint.TextSize, paint);
+                            canvas.DrawText(builder.ToString(), faceInfo.Location.X - 3, faceInfo.Location.Y + faceInfo.Location.Height + paint.TextSize, paint);
                         }
                     }
                 }

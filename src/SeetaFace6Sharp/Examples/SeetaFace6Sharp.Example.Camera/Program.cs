@@ -1,5 +1,6 @@
 ﻿using System;
 using Avalonia;
+using Avalonia.Media;
 using Avalonia.ReactiveUI;
 
 namespace SeetaFace6Sharp.Example.Camera
@@ -19,6 +20,17 @@ namespace SeetaFace6Sharp.Example.Camera
                 .UsePlatformDetect()
                 .WithInterFont()
                 .LogToTrace()
-                .UseReactiveUI();
+                .UseReactiveUI()
+                .With(new FontManagerOptions
+                {
+                    DefaultFamilyName = $"Microsoft YaHei",
+                    FontFallbacks = new[]
+                    {
+                        new FontFallback
+                        {
+                            FontFamily = new FontFamily($"avares://{typeof(Program).Assembly.GetName().Name}/Assets/Fonts/MSYH.TTC#Microsoft YaHei")
+                        }
+                    }
+                });
     }
 }

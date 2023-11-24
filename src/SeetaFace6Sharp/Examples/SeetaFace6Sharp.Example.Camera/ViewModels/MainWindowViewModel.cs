@@ -9,7 +9,7 @@ namespace SeetaFace6Sharp.Example.Camera.ViewModels
 
         public void OnWindowOpened()
         {
-            //CaptureControl.InitDeviceList();
+            
         }
     }
 }
