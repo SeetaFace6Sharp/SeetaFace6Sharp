@@ -1,0 +1,57 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:SeetaFace6Sharp.Example.Camera.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:siv="clr-namespace:SkiaImageView;assembly=SkiaImageView"
+        mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="350"
+        x:Class="SeetaFace6Sharp.Example.Camera.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="SeetaFace6Sharp.Example.Camera"
+		Height="450"
+		Width="800">
+
+	<Design.DataContext>
+		<!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+		<vm:MainWindowViewModel/>
+	</Design.DataContext>
+
+	<Grid DataContext="{Binding CaptureControl}" RowDefinitions="*" ColumnDefinitions="*,250" Margin="10" >
+		<Border BorderThickness="1" BorderBrush="Black" Margin="0,0,10,0">
+			<Panel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0" Grid.Column="0">
+				<siv:SKImageView Source="{Binding Image}" Stretch="Uniform" />
+			</Panel>
+		</Border>
+		<StackPanel Orientation="Vertical" Grid.Row="0"  Grid.Column="1" Margin="10,0,10,0">
+			<Grid RowDefinitions="50,50" ColumnDefinitions="60,*" >
+				<Label Grid.Row="0" Grid.Column="0"  HorizontalAlignment="Left" VerticalAlignment="Center">设备</Label>
+				<ComboBox Name="DeviceList" HorizontalAlignment="Stretch" Margin="0,10,0,0" Grid.Row="0" Grid.Column="1"
+                          IsEnabled="{Binding IsEnabledDeviceSelector}"
+                          ItemsSource="{Binding DeviceList}"
+                          SelectedItem="{Binding Device, Mode=TwoWay}"
+						  MaxDropDownHeight="500" />
+
+				<Label Grid.Row="1" Grid.Column="0"  HorizontalAlignment="Left" VerticalAlignment="Center">分辨率</Label>
+				<ComboBox HorizontalAlignment="Stretch" Margin="0,10,0,0" Grid.Row="1" Grid.Column="1"
+						  IsEnabled="{Binding IsEnabledDeviceSelector}"
+						  ItemsSource="{Binding CharacteristicsList}"
+						  SelectedItem="{Binding Characteristics, Mode=TwoWay}"
+						  MaxDropDownHeight="500"/>
+			</Grid>
+			<Grid RowDefinitions="*,*,*,*" ColumnDefinitions="*" Margin="5,10,0,0">
+				<CheckBox IsChecked="{Binding DetectOptions.IsTrack}" Grid.Row="0">追踪人脸</CheckBox>
+				<CheckBox IsChecked="{Binding DetectOptions.PropertyDetect}" Grid.Row="1">属性检测</CheckBox>
+				<CheckBox IsChecked="{Binding DetectOptions.MaskDetect}" Grid.Row="2">戴口罩检测</CheckBox>
+			</Grid>
+			
+			<Button Content="{Binding BtnName}" Command="{Binding StartBtnCommand}" IsEnabled="{Binding IsEnabled}" Background="{Binding BtnBackground}" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="100" Height="40" Margin="0,20,0,20">
+				Start
+			</Button>
+
+		</StackPanel>
+	</Grid>
+
+
+</Window>
