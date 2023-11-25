@@ -3,6 +3,7 @@ using SeetaFace6Sharp.Native;
 using System;
 using System.IO;
 using System.Linq;
+using System.Numerics;
 using System.Runtime.InteropServices;
 
 namespace SeetaFace6Sharp
@@ -93,7 +94,7 @@ namespace SeetaFace6Sharp
         /// <exception cref="ArgumentException"></exception>
         public float Compare(float[] lfs, float[] rfs)
         {
-            if (lfs == null || !lfs.Any() || rfs == null || !rfs.Any())
+            if (lfs?.Any() != true || rfs?.Any() != true)
             {
                 throw new ArgumentNullException(nameof(lfs), "参数不能为空");
             }
@@ -102,10 +103,31 @@ namespace SeetaFace6Sharp
                 throw new ArgumentException("两个人脸特征值数组长度不一致，请使用同一检测模型");
             }
             float sum = 0;
+#if NET7_0_OR_GREATER
+            if (lfs.Length % Vector<float>.Count != 0 && Vector<float>.IsSupported)
+            {
+                for (int i = 0; i < lfs.Length; i++)
+                {
+                    sum += lfs[i] * rfs[i];
+                }
+            }
+            else
+            {
+                for (int i = 0; i < lfs.Length; i += Vector<float>.Count)
+                {
+                    Vector<float> vector1 = new Vector<float>(lfs, i);
+                    Vector<float> vector2 = new Vector<float>(rfs, i);
+
+                    Vector<float> product = Vector.Multiply(vector1, vector2);
+                    sum += Vector.Dot(product, Vector<float>.One);
+                }
+            }
+#else
             for (int i = 0; i < lfs.Length; i++)
             {
                 sum += lfs[i] * rfs[i];
             }
+#endif
             return sum;
         }
 
