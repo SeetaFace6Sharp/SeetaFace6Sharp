@@ -150,11 +150,11 @@
     <Reference Include="NLog, Version=5.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NLog.5.2.6\lib\net46\NLog.dll</HintPath>
     </Reference>
-    <Reference Include="SeetaFace6Sharp, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SeetaFace6Sharp.1.0.4\lib\netstandard2.0\SeetaFace6Sharp.dll</HintPath>
+    <Reference Include="SeetaFace6Sharp, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SeetaFace6Sharp.1.0.5\lib\netstandard2.0\SeetaFace6Sharp.dll</HintPath>
     </Reference>
-    <Reference Include="SeetaFace6Sharp.Extension.SystemDrawing, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SeetaFace6Sharp.Extension.SystemDrawing.1.0.4\lib\netstandard2.0\SeetaFace6Sharp.Extension.SystemDrawing.dll</HintPath>
+    <Reference Include="SeetaFace6Sharp.Extension.SystemDrawing, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SeetaFace6Sharp.Extension.SystemDrawing.1.0.5\lib\netstandard2.0\SeetaFace6Sharp.Extension.SystemDrawing.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -363,8 +363,8 @@
     <Error Condition="!Exists('..\..\packages\SeetaFace6Sharp.model.pose_estimation.1.0.0\build\SeetaFace6Sharp.model.pose_estimation.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\SeetaFace6Sharp.model.pose_estimation.1.0.0\build\SeetaFace6Sharp.model.pose_estimation.targets'))" />
     <Error Condition="!Exists('..\..\packages\SeetaFace6Sharp.model.quality_lbn.1.0.0\build\SeetaFace6Sharp.model.quality_lbn.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\SeetaFace6Sharp.model.quality_lbn.1.0.0\build\SeetaFace6Sharp.model.quality_lbn.targets'))" />
     <Error Condition="!Exists('..\..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.118.0\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.118.0\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets'))" />
-    <Error Condition="!Exists('..\..\packages\SeetaFace6Sharp.runtime.win.x64.1.0.4\build\SeetaFace6Sharp.runtime.win.x64.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\SeetaFace6Sharp.runtime.win.x64.1.0.4\build\SeetaFace6Sharp.runtime.win.x64.targets'))" />
-    <Error Condition="!Exists('..\..\packages\SeetaFace6Sharp.runtime.win.x86.1.0.4\build\SeetaFace6Sharp.runtime.win.x86.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\SeetaFace6Sharp.runtime.win.x86.1.0.4\build\SeetaFace6Sharp.runtime.win.x86.targets'))" />
+    <Error Condition="!Exists('..\..\packages\SeetaFace6Sharp.runtime.win.x64.1.0.5\build\SeetaFace6Sharp.runtime.win.x64.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\SeetaFace6Sharp.runtime.win.x64.1.0.5\build\SeetaFace6Sharp.runtime.win.x64.targets'))" />
+    <Error Condition="!Exists('..\..\packages\SeetaFace6Sharp.runtime.win.x86.1.0.5\build\SeetaFace6Sharp.runtime.win.x86.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\SeetaFace6Sharp.runtime.win.x86.1.0.5\build\SeetaFace6Sharp.runtime.win.x86.targets'))" />
   </Target>
   <Import Project="..\..\packages\SeetaFace6Sharp.model.age_predictor.1.0.0\build\SeetaFace6Sharp.model.age_predictor.targets" Condition="Exists('..\..\packages\SeetaFace6Sharp.model.age_predictor.1.0.0\build\SeetaFace6Sharp.model.age_predictor.targets')" />
   <Import Project="..\..\packages\SeetaFace6Sharp.model.eye_state.1.0.0\build\SeetaFace6Sharp.model.eye_state.targets" Condition="Exists('..\..\packages\SeetaFace6Sharp.model.eye_state.1.0.0\build\SeetaFace6Sharp.model.eye_state.targets')" />
@@ -382,6 +382,6 @@
   <Import Project="..\..\packages\SeetaFace6Sharp.model.pose_estimation.1.0.0\build\SeetaFace6Sharp.model.pose_estimation.targets" Condition="Exists('..\..\packages\SeetaFace6Sharp.model.pose_estimation.1.0.0\build\SeetaFace6Sharp.model.pose_estimation.targets')" />
   <Import Project="..\..\packages\SeetaFace6Sharp.model.quality_lbn.1.0.0\build\SeetaFace6Sharp.model.quality_lbn.targets" Condition="Exists('..\..\packages\SeetaFace6Sharp.model.quality_lbn.1.0.0\build\SeetaFace6Sharp.model.quality_lbn.targets')" />
   <Import Project="..\..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.118.0\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets" Condition="Exists('..\..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.118.0\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets')" />
-  <Import Project="..\..\packages\SeetaFace6Sharp.runtime.win.x64.1.0.4\build\SeetaFace6Sharp.runtime.win.x64.targets" Condition="Exists('..\..\packages\SeetaFace6Sharp.runtime.win.x64.1.0.4\build\SeetaFace6Sharp.runtime.win.x64.targets')" />
-  <Import Project="..\..\packages\SeetaFace6Sharp.runtime.win.x86.1.0.4\build\SeetaFace6Sharp.runtime.win.x86.targets" Condition="Exists('..\..\packages\SeetaFace6Sharp.runtime.win.x86.1.0.4\build\SeetaFace6Sharp.runtime.win.x86.targets')" />
+  <Import Project="..\..\packages\SeetaFace6Sharp.runtime.win.x64.1.0.5\build\SeetaFace6Sharp.runtime.win.x64.targets" Condition="Exists('..\..\packages\SeetaFace6Sharp.runtime.win.x64.1.0.5\build\SeetaFace6Sharp.runtime.win.x64.targets')" />
+  <Import Project="..\..\packages\SeetaFace6Sharp.runtime.win.x86.1.0.5\build\SeetaFace6Sharp.runtime.win.x86.targets" Condition="Exists('..\..\packages\SeetaFace6Sharp.runtime.win.x86.1.0.5\build\SeetaFace6Sharp.runtime.win.x86.targets')" />
 </Project>

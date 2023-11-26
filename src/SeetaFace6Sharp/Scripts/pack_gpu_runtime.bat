@@ -1,7 +1,7 @@
 @echo off
 
 set configuration=Release
-set mainVersion=1.0.4
+set mainVersion=1.0.5
 set output=%~dp0publish_gpu
 
 call copy_gpu_seetaface6binary.bat 1
