@@ -20,7 +20,7 @@ namespace SeetaFace6Sharp.ConsoleTest
             {
                 Directory.Delete(logPath, true);
             }
-
+            
             GlobalConfig.SetLog(msg =>
             {
                 Console.WriteLine(msg);
@@ -32,6 +32,8 @@ namespace SeetaFace6Sharp.ConsoleTest
                 {
                     //口罩识别测试
                     MaskDetectorTest();
+
+                    GlobalConfig.X86Instruction = X86Instruction.SSE2;
 
                     //人脸识别和标记测试，开始：2022/07/30 00:12:51，结束：2022/07/30 09:04:30，结果：通过
                     FaceDetectorAndFaceMarkTest();

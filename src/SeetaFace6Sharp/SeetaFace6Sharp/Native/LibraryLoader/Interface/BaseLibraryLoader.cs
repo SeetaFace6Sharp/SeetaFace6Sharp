@@ -217,7 +217,7 @@ namespace SeetaFace6Sharp.Native.LibraryLoader.Interface
                     File.Delete(baseLibraryPath);
                     File.Copy(targetLibraryPath, baseLibraryPath);
 
-                    if (targetInstruction.TargetX86Instruction != (X86Instruction.AVX2 | X86Instruction.FMA | X86Instruction.SSE2))
+                    if (targetInstruction.TargetX86Instruction != GlobalConfig.DefaultX86Instruction)
                     {
                         File.WriteAllText(keyFile, ((int)targetInstruction.TargetX86Instruction).ToString());
                     }

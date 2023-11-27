@@ -80,7 +80,8 @@ namespace SeetaFace6Sharp
 
         private static bool _isSetX86Instruction = false;
         private static readonly object _setX86InstructionLocker = new object();
-        private static X86Instruction _x86Instruction = X86Instruction.AVX2 | X86Instruction.SSE2 | X86Instruction.FMA;
+        private static X86Instruction _x86Instruction = DefaultX86Instruction;
+        internal static X86Instruction DefaultX86Instruction = X86Instruction.AVX2 | X86Instruction.SSE2 | X86Instruction.FMA;
 
         /// <summary>
         /// x86或者x64环境下支持的指令集
@@ -89,6 +90,16 @@ namespace SeetaFace6Sharp
         {
             get
             {
+                if (!_isSetX86Instruction)
+                {
+                    lock (_setX86InstructionLocker)
+                    {
+                        if (!_isSetX86Instruction)
+                        {
+                            _isSetX86Instruction = true;
+                        }
+                    }
+                }
                 return _x86Instruction;
             }
             set
@@ -174,7 +185,7 @@ namespace SeetaFace6Sharp
             {
                 if (value <= 0)
                     throw new ArgumentOutOfRangeException(nameof(ThreadNumber), "The number of threads cannot be less than or equal to 0.");
-                _threadNumber= value;
+                _threadNumber = value;
                 if (MaxThreadNumber > _threadNumber)
                 {
                     WriteLog($"The input number of threads exceeds the maximum thread limit of {MaxThreadNumber}, the number of threads will be set to the maximum thread limit of {MaxThreadNumber}.");
