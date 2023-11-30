@@ -42,7 +42,42 @@ namespace SeetaFace6Sharp
         {
             lock (_locker)
             {
+                if (disposedValue)
+                    throw new ObjectDisposedException(nameof(FaceTracker));
+
                 SeetaFace6Native.SetVideoStable(this._handle, stable);
+            }
+        }
+
+        /// <summary>
+        /// 检测间隔
+        /// <para>
+        /// 间隔默认值为10。这里跟踪间隔是为了发现新增PID的间隔。检测器会通过整张图像检测人脸去发现是否有新增的PID，所以这个值太小会导致跟踪速度变慢（不断做全局检测）；这个值太大会导致画面中新增加的人脸不会立马被跟踪到。
+        /// </para>
+        /// </summary>
+        public void SetInterval(int interval)
+        {
+            lock (_locker)
+            {
+                if (disposedValue)
+                    throw new ObjectDisposedException(nameof(FaceTracker));
+
+                SeetaFace6Native.SetInterval(this._handle, interval);
+            }
+        }
+
+
+        /// <summary>
+        /// 重置追踪的视频
+        /// </summary>
+        public void Reset()
+        {
+            lock (_locker)
+            {
+                if (disposedValue)
+                    throw new ObjectDisposedException(nameof(FaceTracker));
+
+                SeetaFace6Native.FaceTrackReset(_handle);
             }
         }
 
@@ -93,7 +128,7 @@ namespace SeetaFace6Sharp
                         return new FaceTrackInfo[0];
 
                     int size = 0;
-                    int rtCode = isTrackVideo ? SeetaFace6Native.FaceTrackVideo(_handle, ref image, frameNo, maxFaceCount, buffer, ref size) : SeetaFace6Native.FaceTrack(_handle, ref image, maxFaceCount, buffer, ref size);
+                    int rtCode = isTrackVideo ? SeetaFace6Native.FaceTrackVideo(_handle, ref image, frameNo % int.MaxValue, maxFaceCount, buffer, ref size) : SeetaFace6Native.FaceTrack(_handle, ref image, maxFaceCount, buffer, ref size);
                     if (rtCode != 0)
                     {
                         throw new Exception($"Face track failed, result code id {rtCode}");
@@ -112,20 +147,6 @@ namespace SeetaFace6Sharp
                     if (buffer != IntPtr.Zero)
                         Marshal.FreeHGlobal(buffer);
                 }
-            }
-        }
-
-        /// <summary>
-        /// 重置追踪的视频
-        /// </summary>
-        public void Reset()
-        {
-            lock (_locker)
-            {
-                if (disposedValue)
-                    throw new ObjectDisposedException(nameof(FaceTracker));
-
-                SeetaFace6Native.FaceTrackReset(_handle);
             }
         }
 

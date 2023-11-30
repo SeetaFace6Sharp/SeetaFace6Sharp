@@ -291,6 +291,14 @@ namespace SeetaFace6Sharp.Native
         internal extern static void SetVideoStable(IntPtr faceTracker, bool stable = false);
 
         /// <summary>
+        /// 设置追踪间隔
+        /// </summary>
+        /// <param name="faceTracker"></param>
+        /// <param name="interval"></param>
+        [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "SetInterval", CallingConvention = CallingConvention.Cdecl)]
+        internal extern static void SetInterval(IntPtr faceTracker, int interval);
+
+        /// <summary>
         /// 释放人脸追踪句柄
         /// </summary>
         /// <param name="faceTracker"></param>

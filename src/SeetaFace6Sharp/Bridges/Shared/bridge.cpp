@@ -386,7 +386,7 @@ EXPORTAPI seeta::v6::FaceTracker* GetFaceTrackerHandler(const ModelSetting& mode
 /// <param name="img"></param>
 /// <param name="size"></param>
 /// <returns></returns>
-EXPORTAPI int FaceTrack(seeta::v6::FaceTracker* handler, const SeetaImageData& img, int maxFaceCount, SeetaTrackingFaceInfo* buffer, int* size)
+EXPORTAPI int FaceTrack(seeta::v6::FaceTracker* handler, const SeetaImageData& img, const int maxFaceCount, SeetaTrackingFaceInfo* buffer, int* size)
 {
 	if (handler == nullptr)
 	{
@@ -463,6 +463,20 @@ EXPORTAPI void FaceTrackReset(seeta::v6::FaceTracker* handler)
 		return;
 	}
 	handler->Reset();
+}
+
+/// <summary>
+/// 设置追踪间隔
+/// </summary>
+/// <param name="handler"></param>
+/// <returns></returns>
+EXPORTAPI void SetInterval(seeta::v6::FaceTracker* handler, const int interval)
+{
+	if (handler == nullptr)
+	{
+		return;
+	}
+	handler->SetInterval(interval);
 }
 
 /// <summary>
