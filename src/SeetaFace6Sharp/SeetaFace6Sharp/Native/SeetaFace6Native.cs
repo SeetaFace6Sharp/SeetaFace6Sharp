@@ -174,16 +174,6 @@ namespace SeetaFace6Sharp.Native
         [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "DisposeFaceRecognizer", CallingConvention = CallingConvention.Cdecl)]
         internal extern static void DisposeFaceRecognizer(IntPtr handler);
 
-        /// <summary>
-        /// 计算相似度
-        /// </summary>
-        /// <param name="lhs"></param>
-        /// <param name="rhs"></param>
-        /// <param name="size"></param>
-        /// <returns></returns>
-        [DllImport(BRIDGE_LIBRARY_NAME, EntryPoint = "Compare", CallingConvention = CallingConvention.Cdecl)]
-        internal extern static float Compare(float[] lhs, float[] rhs, int size);
-
         #endregion
 
         #region FaceAntiSpoofing（活体检测）

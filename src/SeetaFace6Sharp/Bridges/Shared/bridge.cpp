@@ -105,7 +105,7 @@ EXPORTAPI seeta::v6::FaceDetector* GetFaceDetectorHandler(const ModelSetting& mo
 /// <param name="img"></param>
 /// <param name="size"></param>
 /// <returns></returns>
-EXPORTAPI int FaceDetectV2(seeta::v6::FaceDetector* handler, const SeetaImageData& img, int maxFaceCount, SeetaFaceInfo* buffer, int* size)
+EXPORTAPI int FaceDetectV2(seeta::v6::FaceDetector* handler, const SeetaImageData& img, const int maxFaceCount, SeetaFaceInfo* buffer, int* size)
 {
 	*size = 0;
 	if (handler == nullptr)
@@ -293,25 +293,6 @@ EXPORTAPI void DisposeFaceRecognizer(seeta::v6::FaceRecognizer* handler)
 	_dispose(handler);
 }
 
-/// <summary>
-/// 人脸特征值相似度计算
-/// </summary>
-/// <param name="lhs"></param>
-/// <param name="rhs"></param>
-/// <param name="size"></param>
-/// <returns></returns>
-EXPORTAPI float Compare(const float* lhs, const float* rhs, int size)
-{
-	float sum = 0;
-	for (int i = 0; i < size; ++i)
-	{
-		sum += *lhs * *rhs;
-		++lhs;
-		++rhs;
-	}
-	return sum;
-}
-
 #pragma endregion
 
 #pragma region FaceAntiSpoofing
@@ -438,7 +419,7 @@ EXPORTAPI int FaceTrack(seeta::v6::FaceTracker* handler, const SeetaImageData& i
 /// <param name="buffer"></param>
 /// <param name="size"></param>
 /// <returns></returns>
-EXPORTAPI int FaceTrackVideo(seeta::v6::FaceTracker* handler, const SeetaImageData& img, const int frameNo, int maxFaceCount, SeetaTrackingFaceInfo* buffer, int* size)
+EXPORTAPI int FaceTrackVideo(seeta::v6::FaceTracker* handler, const SeetaImageData& img, const int frameNo, const int maxFaceCount, SeetaTrackingFaceInfo* buffer, int* size)
 {
 	if (handler == nullptr)
 	{
