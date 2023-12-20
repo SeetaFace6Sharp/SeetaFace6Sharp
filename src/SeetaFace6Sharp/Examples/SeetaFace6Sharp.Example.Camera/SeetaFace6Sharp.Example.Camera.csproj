@@ -17,16 +17,16 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Avalonia" Version="11.0.5" />
-		<PackageReference Include="Avalonia.Desktop" Version="11.0.5" />
-		<PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.5" />
-		<PackageReference Include="Avalonia.Fonts.Inter" Version="11.0.5" />
+		<PackageReference Include="Avalonia" Version="11.0.6" />
+		<PackageReference Include="Avalonia.Desktop" Version="11.0.6" />
+		<PackageReference Include="Avalonia.Themes.Fluent" Version="11.0.6" />
+		<PackageReference Include="Avalonia.Fonts.Inter" Version="11.0.6" />
 		<!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-		<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.5" />
-		<PackageReference Include="Avalonia.ReactiveUI" Version="11.0.5" />
+		<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.6" />
+		<PackageReference Include="Avalonia.ReactiveUI" Version="11.0.6" />
 		<PackageReference Include="CustomMessageBox.Avalonia" Version="11.0.0.2" />
 		<PackageReference Include="Epoxy.Avalonia11" Version="1.12.0" />
-		<PackageReference Include="FlashCap" Version="1.8.0" />
+		<PackageReference Include="FlashCap" Version="1.9.0" />
 		<PackageReference Include="SkiaImageView.Avalonia11" Version="1.5.0" />
 		<PackageReference Include="SeetaFace6Sharp" Version="1.0.5" />
 		<PackageReference Include="SeetaFace6Sharp.Extension.SkiaSharp" Version="1.0.5" />
