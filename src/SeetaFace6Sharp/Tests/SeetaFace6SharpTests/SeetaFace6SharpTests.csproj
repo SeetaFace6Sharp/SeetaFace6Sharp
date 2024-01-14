@@ -19,7 +19,7 @@
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="SeetaFace6Sharp.model.all" Version="1.0.0" />
-		<PackageReference Include="SkiaSharp" Version="2.88.6" />
+		<PackageReference Include="SkiaSharp" Version="2.88.7" />
 	</ItemGroup>
 
 	<ItemGroup>
