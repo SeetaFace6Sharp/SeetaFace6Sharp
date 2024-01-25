@@ -108,6 +108,7 @@ SeetaFace6Bridge中的函数`GetFaceDetectorHandler`函数代码如下：
  #### 路径解析器
  实际上，SeetaFace6Sharp就是对SeetaFace6Open的C#封装，让我们.NET Developer调用起来更方便而已。所以SeetaFace6Sharp必须依赖SeetaFace6的动态库。如果使用我们打包好的runtime nuget包，则默认将SeetaFace6的动态库放在程序集SeetaFace6Sharp根目录下面的runtime中，开发人员无需关注runtime调用路径等问题。  
  如果自行修改了SeetaFace6，且不想使用使用默认提供的路径解析器。可以自行实现接口`IPathResolver`或重写`DefaultPathResolver`。然后设置路径解析器为自行实现的解析器。
+ 下面是一个示例：
 
 ```csharp
 internal class CudaLibPathResolver : DefaultPathResolver
@@ -157,8 +158,8 @@ GlobalConfig.SetPathResolver(new CudaLibPathResolver());
 
 | 配置项     | 类型                         | 默认值 | 说明                                                                                                             |
 |------------|------------------------------|--------|------------------------------------------------------------------------------------------------------------------|
-| DeviceType | 枚举；支持值：AUTO、CPU、GPU | AUTO   | 检测所用的设备类型，目前只提供CPU支持，需要GPU请自行编译[TenniS](https://github.com/TenniS-Open/TenniS "TenniS") |
-| ThreadNumber | int | --   | 全局检测使用的线程数量。不建议更高，设置过高效率范围低 |
+| DeviceType | 枚举；支持值：AUTO、CPU、GPU | AUTO   | 检测所用的设备类型，目前只提供Win64 GPU支持，其它平台GPU支持请自行编译[TenniS](https://github.com/TenniS-Open/TenniS "TenniS") |
+| ThreadNumber | int | 8   | 全局检测使用的线程数量，如果CPU线程数量少于8个，会默认使用CPU最大线程数量。不建议更高，设置过高效率反而低 |
 | MaxThreadNumber | int | 8   | 最多能使用的线程数量，默认为8。 |
 
 ### 2.2 FaceAntiSpoofing（活体检测）  

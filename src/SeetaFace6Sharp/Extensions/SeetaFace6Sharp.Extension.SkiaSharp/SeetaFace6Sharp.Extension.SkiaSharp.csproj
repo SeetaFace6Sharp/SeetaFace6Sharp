@@ -15,11 +15,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="SkiaSharp" Version="2.88.6">
+		<PackageReference Include="SkiaSharp" Version="2.88.7">
 			<PrivateAssets>all</PrivateAssets>
 		</PackageReference>
-		<PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.6" />
-		<PackageReference Include="SkiaSharp.NativeAssets.Win32" Version="2.88.6" />
+		<PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.88.7" />
+		<PackageReference Include="SkiaSharp.NativeAssets.Win32" Version="2.88.7" />
 	</ItemGroup>
 
 	<!--Project Reference-->
