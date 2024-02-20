@@ -134,7 +134,7 @@ GlobalConfig.SetPathResolver(new CudaLibPathResolver());
 ```
 
 #### 使用GPU
- 目前SeetaFace6Sharp支持在Windows环境下使用GPU进行计算。相比较于CPU，即使是GT 1030 GPU都能有不错的帧数体验。  
+ 目前SeetaFace6Sharp支持在Windows环境下使用GPU进行计算，且仅支持NVDIA GPU(需支持CUDA)。相比较于CPU，即使是GT 1030 GPU都能有不错的帧数体验。  
  1. 安装CUDA  
     前往https://developer.nvidia.com/cuda-downloads 下载并安装cuda。  
  2. 安装win x64环境下gpu运行时包  
