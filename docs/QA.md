@@ -14,3 +14,8 @@
    > 或者报异常：0x00007FFC3FDD104E (tennis.dll) (ConsoleApp1.exe 中)处有未经处理的异常: 0xC000001D: IllegInstruction
 
 	- 参考：[特定指令集支持](/docs/SeetaFace6SharpAPI.md#特定指令集支持)
+
+4. libgomp.so.1: cannot open shared object file: No such file or directory  
+   通过包管理器安装：`apt install libgomp1`
+   
+   
