@@ -5,13 +5,13 @@
 		<TargetFramework>net8.0</TargetFramework>
 		<ImplicitUsings>disable</ImplicitUsings>
 		<Nullable>disable</Nullable>
-		<Platforms>x64;x86</Platforms>
+		<Platforms>x64;x86;AnyCPU</Platforms>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="NLog" Version="5.2.8" />
+		<PackageReference Include="NLog" Version="5.3.4" />
 		<PackageReference Include="SeetaFace6Sharp.model.all" Version="1.0.0" />
-		<PackageReference Include="SkiaSharp" Version="2.88.7" />
+		<PackageReference Include="SkiaSharp" Version="3.116.1" />
 	</ItemGroup>
 
 	<ItemGroup>

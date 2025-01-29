@@ -28,7 +28,7 @@
 		<None Include="..\..\..\..\LICENSE" Pack="true" PackagePath="" />
 	</ItemGroup>
 	<ItemGroup>
-	  <PackageReference Include="SixLabors.ImageSharp" Version="2.1.6" />
+	  <PackageReference Include="SixLabors.ImageSharp" Version="2.1.9" />
 	</ItemGroup>
 
 	<PropertyGroup>

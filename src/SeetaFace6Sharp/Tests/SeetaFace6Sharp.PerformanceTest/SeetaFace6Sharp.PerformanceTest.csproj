@@ -23,7 +23,7 @@
 		<PackageReference Include="SeetaFace6Sharp.model.face_recognizer" Version="1.0.0" />
 		<PackageReference Include="SeetaFace6Sharp.model.face_recognizer_light" Version="1.0.0" />
 		<PackageReference Include="SeetaFace6Sharp.model.face_recognizer_mask" Version="1.0.0" />
-		<PackageReference Include="SkiaSharp" Version="2.88.7" />
+		<PackageReference Include="SkiaSharp" Version="3.116.1" />
 	</ItemGroup>
 
 	<ItemGroup>
