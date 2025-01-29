@@ -4,7 +4,7 @@
 	<PropertyGroup>
 		<TargetFrameworks>netstandard2.0;netcoreapp3.1;net5.0;net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
 		<Authors>SeetaFace6Sharp, View</Authors>
-		<Version>1.0.5</Version>
+		<Version>1.0.6</Version>
 		<OutputType>Library</OutputType>
 		<LangVersion>latest</LangVersion>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
