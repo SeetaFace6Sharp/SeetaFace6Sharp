@@ -105,7 +105,7 @@ EXPORTAPI seeta::v6::FaceDetector* GetFaceDetectorHandler(const ModelSetting& mo
 /// <param name="img"></param>
 /// <param name="size"></param>
 /// <returns></returns>
-EXPORTAPI int FaceDetectV2(seeta::v6::FaceDetector* handler, const SeetaImageData& img, const int maxFaceCount, SeetaFaceInfo* buffer, int* size)
+EXPORTAPI int FaceDetectV2(seeta::v6::FaceDetector* handler, const SeetaImageData& img, const int maxFaceCount, SeetaFaceInfo* buffer, size_t* size)
 {
 	*size = 0;
 	if (handler == nullptr)
@@ -205,7 +205,7 @@ EXPORTAPI seeta::v6::FaceLandmarker* GetFaceLandmarkerHandler(const ModelSetting
 /// <param name="size"></param>
 /// <param name="type"></param>
 /// <returns></returns>
-EXPORTAPI int FaceMark(seeta::v6::FaceLandmarker* handler, const SeetaImageData& img, const SeetaRect faceRect, const int bufferSize, SeetaPointF* buffer, long* size)
+EXPORTAPI int FaceMark(seeta::v6::FaceLandmarker* handler, const SeetaImageData& img, const SeetaRect faceRect, const int bufferSize, SeetaPointF* buffer, size_t* size)
 {
 	if (handler == nullptr)
 	{
@@ -227,7 +227,7 @@ EXPORTAPI int FaceMark(seeta::v6::FaceLandmarker* handler, const SeetaImageData&
 	return -1;
 }
 
-EXPORTAPI int FaceMarkV2(seeta::v6::FaceLandmarker* handler, const SeetaImageData& img, const SeetaRect faceRect, const int bufferSize, seeta::v6::FaceLandmarker::PointWithMask* buffer, long* size)
+EXPORTAPI int FaceMarkV2(seeta::v6::FaceLandmarker* handler, const SeetaImageData& img, const SeetaRect faceRect, const int bufferSize, seeta::v6::FaceLandmarker::PointWithMask* buffer, size_t* size)
 {
 	if (handler == nullptr)
 	{
@@ -386,7 +386,7 @@ EXPORTAPI seeta::v6::FaceTracker* GetFaceTrackerHandler(const ModelSetting& mode
 /// <param name="img"></param>
 /// <param name="size"></param>
 /// <returns></returns>
-EXPORTAPI int FaceTrack(seeta::v6::FaceTracker* handler, const SeetaImageData& img, const int maxFaceCount, SeetaTrackingFaceInfo* buffer, int* size)
+EXPORTAPI int FaceTrack(seeta::v6::FaceTracker* handler, const SeetaImageData& img, const int maxFaceCount, SeetaTrackingFaceInfo* buffer, size_t* size)
 {
 	if (handler == nullptr)
 	{
@@ -419,7 +419,7 @@ EXPORTAPI int FaceTrack(seeta::v6::FaceTracker* handler, const SeetaImageData& i
 /// <param name="buffer"></param>
 /// <param name="size"></param>
 /// <returns></returns>
-EXPORTAPI int FaceTrackVideo(seeta::v6::FaceTracker* handler, const SeetaImageData& img, const int frameNo, const int maxFaceCount, SeetaTrackingFaceInfo* buffer, int* size)
+EXPORTAPI int FaceTrackVideo(seeta::v6::FaceTracker* handler, const SeetaImageData& img, const int frameNo, const int maxFaceCount, SeetaTrackingFaceInfo* buffer, size_t* size)
 {
 	if (handler == nullptr)
 	{
