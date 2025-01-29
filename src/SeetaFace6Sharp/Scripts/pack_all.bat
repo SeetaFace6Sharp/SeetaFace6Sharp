@@ -148,6 +148,12 @@ rd /s /q bin obj
 call pack.bat %configuration% %mainVersion% %output%
 cd ..\..
 
+echo ====================== pack SeetaFace6Sharp.runtime.linux.loongarch64-abi1 ======================
+cd .\Runtimes\SeetaFace6Sharp.runtime.linux.loongarch64-abi1
+rd /s /q bin obj
+call pack.bat %configuration% %mainVersion% %output%
+cd ..\..
+
 echo 开始打包Extensions...
 
 echo ====================== pack SeetaFace6Sharp.Extension.DependencyInjection ======================
