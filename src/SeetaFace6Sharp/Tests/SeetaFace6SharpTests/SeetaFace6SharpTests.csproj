@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>net8.0</TargetFramework>
@@ -19,9 +19,9 @@
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="SeetaFace6Sharp.model.all" Version="1.0.0" />
-		<PackageReference Include="SkiaSharp" Version="2.88.8" />
-		<PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="2.88.8" />
-		<PackageReference Include="SkiaSharp.NativeAssets.Win32" Version="2.88.8" />
+		<PackageReference Include="SkiaSharp" Version="3.116.1" />
+		<PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="3.116.1" />
+		<PackageReference Include="SkiaSharp.NativeAssets.Win32" Version="3.116.1" />
 	</ItemGroup>
 
 	<ItemGroup>

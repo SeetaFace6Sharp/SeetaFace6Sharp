@@ -33,7 +33,7 @@ namespace SeetaFace6Sharp.PerformanceTest
 
             FaceRecognizer faceRecognizer = new FaceRecognizer(new FaceRecognizeConfig());
 
-            double[] expTime = new double[5];
+            double[] expTime = new double[10];
             Stopwatch stopwatch = new Stopwatch();
             for (int i = 0; i < expTime.Length; i++)
             {
@@ -65,7 +65,7 @@ namespace SeetaFace6Sharp.PerformanceTest
 
             FaceRecognizer faceRecognizer = new FaceRecognizer(new FaceRecognizeConfig());
 
-            double[] expTime = new double[5];
+            double[] expTime = new double[10];
             Stopwatch stopwatch = new Stopwatch();
             for (int i = 0; i < expTime.Length; i++)
             {

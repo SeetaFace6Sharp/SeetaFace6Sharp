@@ -2,9 +2,9 @@
 
 	<!--Library Info-->
 	<PropertyGroup>
-		<TargetFramework>netstandard2.0</TargetFramework>
+		<TargetFrameworks>net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
 		<Authors>SeetaFace6Sharp</Authors>
-		<Version>1.0.7</Version>
+		<Version>1.0.9</Version>
 		<OutputType>Library</OutputType>
 		<LangVersion>latest</LangVersion>
 		<Platforms>AnyCPU;x64;x86;ARM;ARM64</Platforms>
@@ -28,7 +28,7 @@
 		<None Include="..\..\..\..\LICENSE" Pack="true" PackagePath="" />
 	</ItemGroup>
 	<ItemGroup>
-	  <PackageReference Include="SixLabors.ImageSharp" Version="2.1.9" />
+	  <PackageReference Include="SixLabors.ImageSharp" Version="3.1.6" />
 	</ItemGroup>
 
 	<PropertyGroup>

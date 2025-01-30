@@ -4,7 +4,7 @@
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<Authors>SeetaFace6Sharp</Authors>
-		<Version>1.0.7</Version>
+		<Version>1.0.9</Version>
 		<OutputType>Library</OutputType>
 		<LangVersion>latest</LangVersion>
 		<Platforms>AnyCPU;x64;x86;ARM;ARM64</Platforms>
@@ -15,7 +15,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="SkiaSharp" Version="2.88.8" />
+		<PackageReference Include="SkiaSharp" Version="[2.88.8,]" />
+		<PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="[2.88.8,]" />
+		<PackageReference Include="SkiaSharp.NativeAssets.Win32" Version="[2.88.8,]" />
 	</ItemGroup>
 
 	<!--Project Reference-->

@@ -23,7 +23,7 @@ namespace SeetaFace6Sharp
         }
 
         /// <summary>
-        /// <see cref="Bitmap"/> 转为 3*8bit BGR <see cref="byte"/> 数组。
+        /// <see cref="Image"/> 转为 3*8bit BGR <see cref="byte"/> 数组。
         /// </summary>
         /// <param name="source">待转换图像</param>
         /// <param name="width">图像宽度</param>
