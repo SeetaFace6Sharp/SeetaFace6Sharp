@@ -19,6 +19,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\..\Extensions\SeetaFace6Sharp.Extension.SkiaSharp\SeetaFace6Sharp.Extension.SkiaSharp.csproj" />
 		<ProjectReference Include="..\..\Runtimes\SeetaFace6Sharp.runtime.linux.debian.x64\SeetaFace6Sharp.runtime.linux.debian.x64.csproj" />
+		<ProjectReference Include="..\..\Runtimes\SeetaFace6Sharp.runtime.linux.loongarch64-abi1\SeetaFace6Sharp.runtime.linux.loongarch64-abi1.csproj" />
 		<ProjectReference Include="..\..\Runtimes\SeetaFace6Sharp.runtime.win.x64\SeetaFace6Sharp.runtime.win.x64.csproj" />
 		<ProjectReference Include="..\..\Runtimes\SeetaFace6Sharp.runtime.win.x86\SeetaFace6Sharp.runtime.win.x86.csproj" />
 		<ProjectReference Include="..\..\SeetaFace6Sharp\SeetaFace6Sharp.csproj" />

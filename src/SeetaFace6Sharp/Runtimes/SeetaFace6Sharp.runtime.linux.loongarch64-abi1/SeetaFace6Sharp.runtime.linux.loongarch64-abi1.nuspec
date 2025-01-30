@@ -11,21 +11,21 @@
 		<description>SeetaFace6Sharp Native libraries for loongarch64 ABI1.0</description>
 	</metadata>
 	<files>
-		<file src="..\..\Bridges\Linux\SeetaFace6Bridge\bin\Release\MIPS\libSeetaFace6Bridge.so" target="build\runtimes\linux-loongarch64\native\libSeetaFace6Bridge.so" />
+		<file src="..\..\Bridges\Linux\SeetaFace6Bridge\bin\Release\MIPS\libSeetaFace6Bridge.so" target="build\runtimes\linux-loongarch64\native\ABI1\libSeetaFace6Bridge.so" />
 
-		<file src="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libtennis.so" target="build\runtimes\linux-loongarch64\native\libtennis.so" />
-		<file src="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libSeetaAgePredictor600.so" target="build\runtimes\linux-loongarch64\native\libSeetaAgePredictor600.so" />
-		<file src="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libSeetaAuthorize.so" target="build\runtimes\linux-loongarch64\native\libSeetaAuthorize.so" />
-		<file src="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libSeetaEyeStateDetector200.so" target="build\runtimes\linux-loongarch64\native\libSeetaEyeStateDetector200.so" />
-		<file src="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libSeetaFaceAntiSpoofingX600.so" target="build\runtimes\linux-loongarch64\native\libSeetaFaceAntiSpoofingX600.so" />
-		<file src="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libSeetaFaceDetector600.so" target="build\runtimes\linux-loongarch64\native\libSeetaFaceDetector600.so" />
-		<file src="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libSeetaFaceLandmarker600.so" target="build\runtimes\linux-loongarch64\native\libSeetaFaceLandmarker600.so" />
-		<file src="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libSeetaFaceRecognizer610.so" target="build\runtimes\linux-loongarch64\native\libSeetaFaceRecognizer610.so" />
-		<file src="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libSeetaFaceTracking600.so" target="build\runtimes\linux-loongarch64\native\libSeetaFaceTracking600.so" />
-		<file src="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libSeetaGenderPredictor600.so" target="build\runtimes\linux-loongarch64\native\libSeetaGenderPredictor600.so" />
-		<file src="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libSeetaMaskDetector200.so" target="build\runtimes\linux-loongarch64\native\libSeetaMaskDetector200.so" />
-		<file src="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libSeetaPoseEstimation600.so" target="build\runtimes\linux-loongarch64\native\libSeetaPoseEstimation600.so" />
-		<file src="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libSeetaQualityAssessor300.so" target="build\runtimes\linux-loongarch64\native\libSeetaQualityAssessor300.so" />
+		<file src="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libtennis.so" target="build\runtimes\linux-loongarch64\native\ABI1\libtennis.so" />
+		<file src="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libSeetaAgePredictor600.so" target="build\runtimes\linux-loongarch64\native\ABI1\libSeetaAgePredictor600.so" />
+		<file src="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libSeetaAuthorize.so" target="build\runtimes\linux-loongarch64\native\ABI1\libSeetaAuthorize.so" />
+		<file src="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libSeetaEyeStateDetector200.so" target="build\runtimes\linux-loongarch64\native\ABI1\libSeetaEyeStateDetector200.so" />
+		<file src="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libSeetaFaceAntiSpoofingX600.so" target="build\runtimes\linux-loongarch64\native\ABI1\libSeetaFaceAntiSpoofingX600.so" />
+		<file src="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libSeetaFaceDetector600.so" target="build\runtimes\linux-loongarch64\native\ABI1\libSeetaFaceDetector600.so" />
+		<file src="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libSeetaFaceLandmarker600.so" target="build\runtimes\linux-loongarch64\native\ABI1\libSeetaFaceLandmarker600.so" />
+		<file src="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libSeetaFaceRecognizer610.so" target="build\runtimes\linux-loongarch64\native\ABI1\libSeetaFaceRecognizer610.so" />
+		<file src="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libSeetaFaceTracking600.so" target="build\runtimes\linux-loongarch64\native\ABI1\libSeetaFaceTracking600.so" />
+		<file src="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libSeetaGenderPredictor600.so" target="build\runtimes\linux-loongarch64\native\ABI1\libSeetaGenderPredictor600.so" />
+		<file src="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libSeetaMaskDetector200.so" target="build\runtimes\linux-loongarch64\native\ABI1\libSeetaMaskDetector200.so" />
+		<file src="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libSeetaPoseEstimation600.so" target="build\runtimes\linux-loongarch64\native\ABI1\libSeetaPoseEstimation600.so" />
+		<file src="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libSeetaQualityAssessor300.so" target="build\runtimes\linux-loongarch64\native\ABI1\libSeetaQualityAssessor300.so" />
 
 		<file src="SeetaFace6Sharp.runtime.linux.loongarch64-abi1.targets" target="build\SeetaFace6Sharp.runtime.linux.loongarch64-abi1.targets" />
 		<file src="..\..\..\..\assets\logos\Logo.png" target="Logo.png" />

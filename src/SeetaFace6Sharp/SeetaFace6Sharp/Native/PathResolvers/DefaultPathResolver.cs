@@ -57,8 +57,17 @@ namespace SeetaFace6Sharp.Native.PathResolvers
             if (GlobalConfig.DefaultDeviceType == DeviceType.GPU)
                 gpuMark = "gpu";
 
-            if (!TryCombine(out string libraryPath, DEFAULT_LIBRARY_PATH, archPath, "native", gpuMark))
-                throw new DirectoryNotFoundException("Can not found library path.");
+            string libraryPath = string.Empty;
+            if (archPath.Equals("linux-loongarch64", StringComparison.OrdinalIgnoreCase) && GlobalConfig.SpecialOSPlatform == SpecialOSPlatform.ABI1)
+            {
+                if (!TryCombine(out libraryPath, DEFAULT_LIBRARY_PATH, archPath, "native", GlobalConfig.SpecialOSPlatform.ToString(), gpuMark))
+                    throw new DirectoryNotFoundException("Can not found library path.");
+            }
+            else
+            {
+                if (!TryCombine(out libraryPath, DEFAULT_LIBRARY_PATH, archPath, "native", gpuMark))
+                    throw new DirectoryNotFoundException("Can not found library path.");
+            }
 
             _libraryPath = libraryPath;
             return _libraryPath;

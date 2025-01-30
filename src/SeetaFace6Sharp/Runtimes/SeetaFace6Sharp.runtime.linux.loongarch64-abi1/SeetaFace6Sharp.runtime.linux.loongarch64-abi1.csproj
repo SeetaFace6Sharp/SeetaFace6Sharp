@@ -6,21 +6,21 @@
 	
 	<!--项目引用方式-->
 	<ItemGroup>
-		<None Include="..\..\Bridges\Linux\SeetaFace6Bridge\bin\$(Configuration)\MIPS\libSeetaFace6Bridge.so" Link="runtimes\linux-loongarch64\native\libSeetaFace6Bridge.so" CopyToOutputDirectory="PreserveNewest" />
+		<None Include="..\..\Bridges\Linux\SeetaFace6Bridge\bin\$(Configuration)\MIPS\libSeetaFace6Bridge.so" Link="runtimes\linux-loongarch64\native\ABI1\libSeetaFace6Bridge.so" CopyToOutputDirectory="PreserveNewest" />
 
-		<None Include="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libtennis.so" Link="runtimes\linux-loongarch64\native\libtennis.so" CopyToOutputDirectory="PreserveNewest" />
-		<None Include="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libSeetaAgePredictor600.so" Link="runtimes\linux-loongarch64\native\libSeetaAgePredictor600.so" CopyToOutputDirectory="PreserveNewest" />
-		<None Include="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libSeetaAuthorize.so" Link="runtimes\linux-loongarch64\native\libSeetaAuthorize.so" CopyToOutputDirectory="PreserveNewest" />
-		<None Include="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libSeetaEyeStateDetector200.so" Link="runtimes\linux-loongarch64\native\libSeetaEyeStateDetector200.so" CopyToOutputDirectory="PreserveNewest" />
-		<None Include="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libSeetaFaceAntiSpoofingX600.so" Link="runtimes\linux-loongarch64\native\libSeetaFaceAntiSpoofingX600.so" CopyToOutputDirectory="PreserveNewest" />
-		<None Include="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libSeetaFaceDetector600.so" Link="runtimes\linux-loongarch64\native\libSeetaFaceDetector600.so" CopyToOutputDirectory="PreserveNewest" />
-		<None Include="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libSeetaFaceLandmarker600.so" Link="runtimes\linux-loongarch64\native\libSeetaFaceLandmarker600.so" CopyToOutputDirectory="PreserveNewest" />
-		<None Include="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libSeetaFaceRecognizer610.so" Link="runtimes\linux-loongarch64\native\libSeetaFaceRecognizer610.so" CopyToOutputDirectory="PreserveNewest" />
-		<None Include="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libSeetaFaceTracking600.so" Link="runtimes\linux-loongarch64\native\libSeetaFaceTracking600.so" CopyToOutputDirectory="PreserveNewest" />
-		<None Include="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libSeetaGenderPredictor600.so" Link="runtimes\linux-loongarch64\native\libSeetaGenderPredictor600.so" CopyToOutputDirectory="PreserveNewest" />
-		<None Include="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libSeetaMaskDetector200.so" Link="runtimes\linux-loongarch64\native\libSeetaMaskDetector200.so" CopyToOutputDirectory="PreserveNewest" />
-		<None Include="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libSeetaPoseEstimation600.so" Link="runtimes\linux-loongarch64\native\libSeetaPoseEstimation600.so" CopyToOutputDirectory="PreserveNewest" />
-		<None Include="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libSeetaQualityAssessor300.so" Link="runtimes\linux-loongarch64\native\libSeetaQualityAssessor300.so" CopyToOutputDirectory="PreserveNewest" />
+		<None Include="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libtennis.so" Link="runtimes\linux-loongarch64\native\ABI1\libtennis.so" CopyToOutputDirectory="PreserveNewest" />
+		<None Include="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libSeetaAgePredictor600.so" Link="runtimes\linux-loongarch64\native\ABI1\libSeetaAgePredictor600.so" CopyToOutputDirectory="PreserveNewest" />
+		<None Include="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libSeetaAuthorize.so" Link="runtimes\linux-loongarch64\native\ABI1\libSeetaAuthorize.so" CopyToOutputDirectory="PreserveNewest" />
+		<None Include="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libSeetaEyeStateDetector200.so" Link="runtimes\linux-loongarch64\native\ABI1\libSeetaEyeStateDetector200.so" CopyToOutputDirectory="PreserveNewest" />
+		<None Include="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libSeetaFaceAntiSpoofingX600.so" Link="runtimes\linux-loongarch64\native\ABI1\libSeetaFaceAntiSpoofingX600.so" CopyToOutputDirectory="PreserveNewest" />
+		<None Include="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libSeetaFaceDetector600.so" Link="runtimes\linux-loongarch64\native\ABI1\libSeetaFaceDetector600.so" CopyToOutputDirectory="PreserveNewest" />
+		<None Include="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libSeetaFaceLandmarker600.so" Link="runtimes\linux-loongarch64\native\ABI1\libSeetaFaceLandmarker600.so" CopyToOutputDirectory="PreserveNewest" />
+		<None Include="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libSeetaFaceRecognizer610.so" Link="runtimes\linux-loongarch64\native\ABI1\libSeetaFaceRecognizer610.so" CopyToOutputDirectory="PreserveNewest" />
+		<None Include="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libSeetaFaceTracking600.so" Link="runtimes\linux-loongarch64\native\ABI1\libSeetaFaceTracking600.so" CopyToOutputDirectory="PreserveNewest" />
+		<None Include="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libSeetaGenderPredictor600.so" Link="runtimes\linux-loongarch64\native\ABI1\libSeetaGenderPredictor600.so" CopyToOutputDirectory="PreserveNewest" />
+		<None Include="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libSeetaMaskDetector200.so" Link="runtimes\linux-loongarch64\native\ABI1\libSeetaMaskDetector200.so" CopyToOutputDirectory="PreserveNewest" />
+		<None Include="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libSeetaPoseEstimation600.so" Link="runtimes\linux-loongarch64\native\ABI1\libSeetaPoseEstimation600.so" CopyToOutputDirectory="PreserveNewest" />
+		<None Include="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libSeetaQualityAssessor300.so" Link="runtimes\linux-loongarch64\native\ABI1\libSeetaQualityAssessor300.so" CopyToOutputDirectory="PreserveNewest" />
 	</ItemGroup>
 
 </Project>

@@ -25,6 +25,7 @@ namespace SeetaFace6Sharp.ConsoleTest
             {
                 Console.WriteLine(msg);
             });
+            GlobalConfig.SpecialOSPlatform = SpecialOSPlatform.ABI1;
 
             while (true)
             {

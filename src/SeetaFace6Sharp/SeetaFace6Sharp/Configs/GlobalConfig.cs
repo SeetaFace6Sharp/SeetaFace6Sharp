@@ -145,6 +145,11 @@ namespace SeetaFace6Sharp
 
         #endregion
 
+        /// <summary>
+        /// 特殊的操作系统平台
+        /// </summary>
+        public static SpecialOSPlatform SpecialOSPlatform { get; set; }
+
         #region Threads
 
         private static int _maxThreadNumber = 8;
