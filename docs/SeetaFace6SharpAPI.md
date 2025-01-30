@@ -103,7 +103,26 @@ SeetaFace6Bridge中的函数`GetFaceDetectorHandler`函数代码如下：
      GlobalConfig.X86Instruction = X86Instruction.SSE2;
  }
  ```
- 需要注意的是，设置指令集支持，必需在初始化任何API之前，否者无效。
+ 需要注意的是，设置指令集支持，必需在初始化任何API之前，否者无效。  
+
+ #### 龙芯（LoongArch64）架构
+ 因为龙芯历史包袱原因，目前龙芯操作系统架构上面，区分为旧世界（ABI1.0）架构和新世界（ABI2.0）架构。  
+ 新旧世界参考资料：https://areweloongyet.com/docs/old-and-new-worlds/  
+ 区分新世界和旧世界，对于用户而言，基本没有影响，但是对于开发人员而言，就比较头疼了。如何在旧世界操作系统上面使用：  
+ 1. 安装旧世界nuget运行时包`SeetaFace6Sharp.runtime.linux.loongarch64-abi1`
+ 2. 指定特殊操作系统架构类型
+    ```
+    if (RuntimeInformation.ProcessArchitecture == Architecture.LoongArch64)
+    {
+        //指定特殊操作系统平台为ABI1
+        GlobalConfig.SpecialOSPlatform = SpecialOSPlatform.ABI1;
+    }
+    using SKBitmap bitmap = SKBitmap.Decode(@"images/Jay_3.jpg");
+    using FaceImage faceImage = bitmap.ToFaceImage();
+    
+    using FaceDetector faceDetector = new FaceDetector(new FaceDetectConfig());
+    ```
+  在新世界操作系统上面使用，仅安装nuget运行时包`SeetaFace6Sharp.runtime.linux.loongarch64`就OK了，无需做其它额外设置。  
 
  #### 路径解析器
  实际上，SeetaFace6Sharp就是对SeetaFace6Open的C#封装，让我们.NET Developer调用起来更方便而已。所以SeetaFace6Sharp必须依赖SeetaFace6的动态库。如果使用我们打包好的runtime nuget包，则默认将SeetaFace6的动态库放在程序集SeetaFace6Sharp根目录下面的runtime中，开发人员无需关注runtime调用路径等问题。  
