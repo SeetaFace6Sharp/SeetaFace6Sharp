@@ -122,6 +122,28 @@ SeetaFace6Bridge中的函数`GetFaceDetectorHandler`函数代码如下：
     
     using FaceDetector faceDetector = new FaceDetector(new FaceDetectConfig());
     ```
+    或者通过代码判断是否位于旧世界操作系统环境。  
+    ```
+    static bool IsABI1()
+    {
+        if (RuntimeInformation.ProcessArchitecture != Architecture.LoongArch64)
+        {
+            return false;
+        }
+        string osDesc = Environment.OSVersion.ToString();
+        if (osDesc.Contains("4.19"))
+        {
+            return true;
+        }
+        //Loongnix GNU/Linux 20 (DaoXiangHu)
+        string osDescription = RuntimeInformation.OSDescription;
+        if (osDescription.Contains("Loongnix") && osDescription.Contains("20"))
+        {
+            return true;
+        }
+        return false;
+    }
+    ```
   在新世界操作系统上面使用，仅安装nuget运行时包`SeetaFace6Sharp.runtime.linux.loongarch64`就OK了，无需做其它额外设置。  
 
  #### 路径解析器
