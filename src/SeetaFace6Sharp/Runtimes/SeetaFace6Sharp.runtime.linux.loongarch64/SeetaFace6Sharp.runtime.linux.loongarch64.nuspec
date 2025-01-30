@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+	<metadata>
+		<id>SeetaFace6Sharp.runtime.linux.loongarch64</id>
+		<version>0.0.0</version>
+		<authors>SeetaFace6Sharp, SeetaTech</authors>
+		<owners>SeetaFace6Sharp</owners>
+		<requireLicenseAcceptance>true</requireLicenseAcceptance>
+		<license type="file">SeetaFace_LICENSE</license>
+		<icon>Logo.png</icon>
+		<description>SeetaFace6Sharp Native libraries for loongarch64 ABI2.0</description>
+	</metadata>
+	<files>
+		<file src="..\..\Bridges\Linux\SeetaFace6Bridge\bin\Release\MIPS\libSeetaFace6Bridge.so" target="build\runtimes\linux-loongarch64\native\libSeetaFace6Bridge.so" />
+
+		<file src="..\..\..\SeetaFace\index\build\lib\loongarch64\libtennis.so" target="build\runtimes\linux-loongarch64\native\libtennis.so" />
+		<file src="..\..\..\SeetaFace\index\build\lib\loongarch64\libSeetaAgePredictor600.so" target="build\runtimes\linux-loongarch64\native\libSeetaAgePredictor600.so" />
+		<file src="..\..\..\SeetaFace\index\build\lib\loongarch64\libSeetaAuthorize.so" target="build\runtimes\linux-loongarch64\native\libSeetaAuthorize.so" />
+		<file src="..\..\..\SeetaFace\index\build\lib\loongarch64\libSeetaEyeStateDetector200.so" target="build\runtimes\linux-loongarch64\native\libSeetaEyeStateDetector200.so" />
+		<file src="..\..\..\SeetaFace\index\build\lib\loongarch64\libSeetaFaceAntiSpoofingX600.so" target="build\runtimes\linux-loongarch64\native\libSeetaFaceAntiSpoofingX600.so" />
+		<file src="..\..\..\SeetaFace\index\build\lib\loongarch64\libSeetaFaceDetector600.so" target="build\runtimes\linux-loongarch64\native\libSeetaFaceDetector600.so" />
+		<file src="..\..\..\SeetaFace\index\build\lib\loongarch64\libSeetaFaceLandmarker600.so" target="build\runtimes\linux-loongarch64\native\libSeetaFaceLandmarker600.so" />
+		<file src="..\..\..\SeetaFace\index\build\lib\loongarch64\libSeetaFaceRecognizer610.so" target="build\runtimes\linux-loongarch64\native\libSeetaFaceRecognizer610.so" />
+		<file src="..\..\..\SeetaFace\index\build\lib\loongarch64\libSeetaFaceTracking600.so" target="build\runtimes\linux-loongarch64\native\libSeetaFaceTracking600.so" />
+		<file src="..\..\..\SeetaFace\index\build\lib\loongarch64\libSeetaGenderPredictor600.so" target="build\runtimes\linux-loongarch64\native\libSeetaGenderPredictor600.so" />
+		<file src="..\..\..\SeetaFace\index\build\lib\loongarch64\libSeetaMaskDetector200.so" target="build\runtimes\linux-loongarch64\native\libSeetaMaskDetector200.so" />
+		<file src="..\..\..\SeetaFace\index\build\lib\loongarch64\libSeetaPoseEstimation600.so" target="build\runtimes\linux-loongarch64\native\libSeetaPoseEstimation600.so" />
+		<file src="..\..\..\SeetaFace\index\build\lib\loongarch64\libSeetaQualityAssessor300.so" target="build\runtimes\linux-loongarch64\native\libSeetaQualityAssessor300.so" />
+
+		<file src="SeetaFace6Sharp.runtime.linux.loongarch64.targets" target="build\SeetaFace6Sharp.runtime.linux.loongarch64.targets" />
+		<file src="..\..\..\..\assets\logos\Logo.png" target="Logo.png" />
+		<file src="..\..\..\..\SeetaFace_LICENSE" target="SeetaFace_LICENSE" />
+	</files>
+</package>

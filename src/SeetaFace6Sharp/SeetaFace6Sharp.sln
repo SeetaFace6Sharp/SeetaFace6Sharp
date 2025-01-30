@@ -11,11 +11,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SeetaFace6Sharp", "SeetaFac
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{C5B0E8EA-FC61-44D7-979B-4F18BF0F5041}"
 	ProjectSection(SolutionItems) = preProject
+		Scripts\copy_cpu_loongarch64_seetaface6binary.bat = Scripts\copy_cpu_loongarch64_seetaface6binary.bat
 		Scripts\copy_cpu_seetaface6binary.bat = Scripts\copy_cpu_seetaface6binary.bat
 		Scripts\copy_gpu_seetaface6binary.bat = Scripts\copy_gpu_seetaface6binary.bat
 		Scripts\pack_all.bat = Scripts\pack_all.bat
 		Scripts\pack_all_without_models.bat = Scripts\pack_all_without_models.bat
 		Scripts\pack_gpu_runtime.bat = Scripts\pack_gpu_runtime.bat
+		Scripts\pack_loongarch64_runtime.bat = Scripts\pack_loongarch64_runtime.bat
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Runtimes", "Runtimes", "{8FD6FB52-6A56-4DA4-8B17-434D4D4A7942}"
@@ -109,6 +111,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeetaFace6Sharp.ConsoleTest", "Tests\SeetaFace6Sharp.ConsoleTest\SeetaFace6Sharp.ConsoleTest.csproj", "{8D12CE24-B009-44AB-A622-B6B44329F4D0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeetaFace6Sharp.runtime.linux.loongarch64-abi1", "Runtimes\SeetaFace6Sharp.runtime.linux.loongarch64-abi1\SeetaFace6Sharp.runtime.linux.loongarch64-abi1.csproj", "{742E85FF-2429-4469-9C8A-551B486E1D74}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeetaFace6Sharp.runtime.linux.loongarch64", "Runtimes\SeetaFace6Sharp.runtime.linux.loongarch64\SeetaFace6Sharp.runtime.linux.loongarch64.csproj", "{82A6B8C0-9021-46CE-A24A-1A24954C5629}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1026,6 +1030,30 @@ Global
 		{742E85FF-2429-4469-9C8A-551B486E1D74}.Release|x64.Build.0 = Release|Any CPU
 		{742E85FF-2429-4469-9C8A-551B486E1D74}.Release|x86.ActiveCfg = Release|Any CPU
 		{742E85FF-2429-4469-9C8A-551B486E1D74}.Release|x86.Build.0 = Release|Any CPU
+		{82A6B8C0-9021-46CE-A24A-1A24954C5629}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82A6B8C0-9021-46CE-A24A-1A24954C5629}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82A6B8C0-9021-46CE-A24A-1A24954C5629}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{82A6B8C0-9021-46CE-A24A-1A24954C5629}.Debug|ARM.Build.0 = Debug|Any CPU
+		{82A6B8C0-9021-46CE-A24A-1A24954C5629}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{82A6B8C0-9021-46CE-A24A-1A24954C5629}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{82A6B8C0-9021-46CE-A24A-1A24954C5629}.Debug|LoongArch64-ABI1.ActiveCfg = Debug|Any CPU
+		{82A6B8C0-9021-46CE-A24A-1A24954C5629}.Debug|LoongArch64-ABI1.Build.0 = Debug|Any CPU
+		{82A6B8C0-9021-46CE-A24A-1A24954C5629}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{82A6B8C0-9021-46CE-A24A-1A24954C5629}.Debug|x64.Build.0 = Debug|Any CPU
+		{82A6B8C0-9021-46CE-A24A-1A24954C5629}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{82A6B8C0-9021-46CE-A24A-1A24954C5629}.Debug|x86.Build.0 = Debug|Any CPU
+		{82A6B8C0-9021-46CE-A24A-1A24954C5629}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82A6B8C0-9021-46CE-A24A-1A24954C5629}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82A6B8C0-9021-46CE-A24A-1A24954C5629}.Release|ARM.ActiveCfg = Release|Any CPU
+		{82A6B8C0-9021-46CE-A24A-1A24954C5629}.Release|ARM.Build.0 = Release|Any CPU
+		{82A6B8C0-9021-46CE-A24A-1A24954C5629}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{82A6B8C0-9021-46CE-A24A-1A24954C5629}.Release|ARM64.Build.0 = Release|Any CPU
+		{82A6B8C0-9021-46CE-A24A-1A24954C5629}.Release|LoongArch64-ABI1.ActiveCfg = Release|Any CPU
+		{82A6B8C0-9021-46CE-A24A-1A24954C5629}.Release|LoongArch64-ABI1.Build.0 = Release|Any CPU
+		{82A6B8C0-9021-46CE-A24A-1A24954C5629}.Release|x64.ActiveCfg = Release|Any CPU
+		{82A6B8C0-9021-46CE-A24A-1A24954C5629}.Release|x64.Build.0 = Release|Any CPU
+		{82A6B8C0-9021-46CE-A24A-1A24954C5629}.Release|x86.ActiveCfg = Release|Any CPU
+		{82A6B8C0-9021-46CE-A24A-1A24954C5629}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1070,6 +1098,7 @@ Global
 		{58C272DD-CA10-4E06-A03B-16AC4BB58C5E} = {CC95689A-4922-42BB-9D07-4394689218C7}
 		{8D12CE24-B009-44AB-A622-B6B44329F4D0} = {17B2A3E4-1737-4784-82A5-87A9F530978D}
 		{742E85FF-2429-4469-9C8A-551B486E1D74} = {8FD6FB52-6A56-4DA4-8B17-434D4D4A7942}
+		{82A6B8C0-9021-46CE-A24A-1A24954C5629} = {8FD6FB52-6A56-4DA4-8B17-434D4D4A7942}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {18A17726-F1E8-45C2-BE5C-BAD4C1617400}
