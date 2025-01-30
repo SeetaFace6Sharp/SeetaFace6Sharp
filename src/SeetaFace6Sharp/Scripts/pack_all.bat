@@ -1,7 +1,7 @@
 @echo off
 
 set configuration=Release
-set mainVersion=1.0.6
+set mainVersion=1.0.7
 set modelVersion=1.0.0
 set output=%~dp0publish_cpu
 

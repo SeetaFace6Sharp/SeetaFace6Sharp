@@ -4,7 +4,7 @@
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<Authors>SeetaFace6Sharp</Authors>
-		<Version>1.0.6</Version>
+		<Version>1.0.7</Version>
 		<OutputType>Library</OutputType>
 		<LangVersion>latest</LangVersion>
 		<Platforms>AnyCPU;x64;x86;ARM;ARM64</Platforms>
