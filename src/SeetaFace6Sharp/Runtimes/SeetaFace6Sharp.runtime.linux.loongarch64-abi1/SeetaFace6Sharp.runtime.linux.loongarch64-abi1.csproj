@@ -6,7 +6,7 @@
 	
 	<!--项目引用方式-->
 	<ItemGroup>
-		<None Include="..\..\Bridges\Linux\SeetaFace6Bridge\bin\$(Configuration)\MIPS\libSeetaFace6Bridge.so" Link="runtimes\linux-loongarch64\native\ABI1\libSeetaFace6Bridge.so" CopyToOutputDirectory="PreserveNewest" />
+		<None Include="..\..\Bridges\Linux\SeetaFace6Bridge\bin\$(Configuration)\LoongArch64-ABI1\libSeetaFace6Bridge.so" Link="runtimes\linux-loongarch64\native\ABI1\libSeetaFace6Bridge.so" CopyToOutputDirectory="PreserveNewest" />
 
 		<None Include="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libtennis.so" Link="runtimes\linux-loongarch64\native\ABI1\libtennis.so" CopyToOutputDirectory="PreserveNewest" />
 		<None Include="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libSeetaAgePredictor600.so" Link="runtimes\linux-loongarch64\native\ABI1\libSeetaAgePredictor600.so" CopyToOutputDirectory="PreserveNewest" />

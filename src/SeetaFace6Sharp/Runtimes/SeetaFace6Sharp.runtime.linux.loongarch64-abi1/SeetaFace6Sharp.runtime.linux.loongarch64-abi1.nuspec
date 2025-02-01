@@ -11,7 +11,7 @@
 		<description>SeetaFace6Sharp Native libraries for loongarch64 ABI1.0</description>
 	</metadata>
 	<files>
-		<file src="..\..\Bridges\Linux\SeetaFace6Bridge\bin\Release\MIPS\libSeetaFace6Bridge.so" target="build\runtimes\linux-loongarch64\native\ABI1\libSeetaFace6Bridge.so" />
+		<file src="..\..\Bridges\Linux\SeetaFace6Bridge\bin\Release\LoongArch64-ABI1\libSeetaFace6Bridge.so" target="build\runtimes\linux-loongarch64\native\ABI1\libSeetaFace6Bridge.so" />
 
 		<file src="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libtennis.so" target="build\runtimes\linux-loongarch64\native\ABI1\libtennis.so" />
 		<file src="..\..\..\SeetaFace\index\build\lib\loongarch64-abi1\libSeetaAgePredictor600.so" target="build\runtimes\linux-loongarch64\native\ABI1\libSeetaAgePredictor600.so" />

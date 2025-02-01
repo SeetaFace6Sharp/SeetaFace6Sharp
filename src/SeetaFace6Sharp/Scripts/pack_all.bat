@@ -1,7 +1,7 @@
 @echo off
 
 set configuration=Release
-set mainVersion=1.0.9
+set mainVersion=1.0.10
 set modelVersion=1.0.0
 set output=%~dp0publish_cpu
 
@@ -144,6 +144,12 @@ cd ..\..
 
 echo ====================== pack SeetaFace6Sharp.runtime.linux.arm64 ======================
 cd .\Runtimes\SeetaFace6Sharp.runtime.linux.arm64
+rd /s /q bin obj
+call pack.bat %configuration% %mainVersion% %output%
+cd ..\..
+
+echo ====================== pack SeetaFace6Sharp.runtime.linux.loongarch64 ======================
+cd .\Runtimes\SeetaFace6Sharp.runtime.linux.loongarch64
 rd /s /q bin obj
 call pack.bat %configuration% %mainVersion% %output%
 cd ..\..
